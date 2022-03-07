@@ -230,6 +230,44 @@
         }
       }
     },
+    "/page/url/{url}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its URL from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
     "\r/page/all/user/{userId}": {
       "get": {
         "tags": [
@@ -268,7 +306,7 @@
         }
       }
     },
-    "/page/{userId}": {
+    "/page": {
       "post": {
         "tags": [
           "Page"
@@ -276,12 +314,6 @@
         "summary": "Creates an user page",
         "description": "Creates an user page in database",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
           {
             "name": "page",
             "in": "body",
@@ -312,9 +344,7 @@
             "description": "Message of error"
           }
         }
-      }
-    },
-    "/page": {
+      },
       "put": {
         "tags": [
           "Page"
@@ -384,9 +414,9 @@
     "Page": {
       "type": "object",
       "properties": {
-        "_id": {
+        "userId": {
           "type": "string",
-          "example": "asd123asd-asd12asd"
+          "example": "asd12zxc2zq5q4w2eqe1czx"
         },
         "name": {
           "type": "string",
