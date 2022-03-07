@@ -1,0 +1,861 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "SocialBio Authentication Service",
+    "description": "Authentication service for the application in react"
+  },
+  "host": "http://www.localhost:5001",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [],
+  "paths": {
+    "/user/exists": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Signs the user out",
+        "description": "Signs the user out, ending his token",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "params",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Signs the user out",
+        "description": "Signs the user out, ending his token",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "params",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Creates a new user",
+        "description": "Creates a new user to database",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User to be created in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New user data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updates an existing user",
+        "description": "Updates an existing user in database",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Updates an existing user in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/page/{pageId}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its ID",
+        "description": "Gets a page by its ID from database",
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its ID from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "\r/page/all/user/{userId}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets all user pages by user ID",
+        "description": "Gets all pages from database by user ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets all pages from database by user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/page/{userId}": {
+      "post": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Creates an user page",
+        "description": "Creates an user page in database",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "body",
+            "description": "Creates an user page in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/page": {
+      "put": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Updates an user page",
+        "description": "Updates an user page in database",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "body",
+            "description": "Updates an user page in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@email.com"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "example": "https://www.url.com"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "name": {
+          "type": "string",
+          "example": "Name"
+        },
+        "url": {
+          "type": "string",
+          "example": "/my-url"
+        },
+        "pageImageUrl": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "isPublic": {
+          "type": "boolean",
+          "example": true
+        },
+        "views": {
+          "type": "number",
+          "example": 15
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "backgroundColor": {
+              "type": "string",
+              "example": "#fff"
+            },
+            "backgroundImage": {
+              "type": "string",
+              "example": "https://www.url.com"
+            },
+            "backgroundSize": {
+              "type": "string",
+              "example": "cover"
+            },
+            "backgroundPosition": {
+              "type": "string",
+              "example": "center"
+            },
+            "color": {
+              "type": "string",
+              "example": "#fff"
+            }
+          }
+        },
+        "topComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "middleComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "bottomComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 0
+        },
+        "errorDetails": {
+          "type": "string",
+          "example": "Details of the error (if any)"
+        },
+        "message": {
+          "type": "string",
+          "example": "Summary of the result"
+        }
+      }
+    }
+  }
+}
