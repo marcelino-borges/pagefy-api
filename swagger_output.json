@@ -71,26 +71,21 @@
         "tags": [
           "User"
         ],
-        "summary": "Signs the user out",
-        "description": "Signs the user out, ending his token",
+        "summary": "Gets an user by his email",
+        "description": "Gets an user from database by his email",
         "parameters": [
           {
-            "name": "id",
-            "in": "params",
-            "description": "User id",
+            "name": "userId",
+            "in": "query",
+            "description": "User ID",
             "required": true,
             "type": "string"
           },
           {
             "name": "email",
-            "in": "params",
+            "in": "query",
             "description": "User email",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
             "type": "string"
           }
         ],
@@ -192,7 +187,7 @@
         }
       }
     },
-    "/page/{pageId}": {
+    "/page/id/{pageId}": {
       "get": {
         "tags": [
           "Page"

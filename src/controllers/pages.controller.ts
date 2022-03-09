@@ -5,7 +5,6 @@ import { Response } from "express";
 import AppResult from "../errors/app-error";
 import * as pagesService from "../services/pages.service";
 import * as userService from "../services/user.service";
-import { IUser } from "../models/user.models";
 import { doesPageUrlExist } from "../services/pages.service";
 
 export const getPageById = async (req: Request, res: Response) => {
@@ -131,16 +130,20 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
     }
   */
   const userId: string = req.params.userId;
+  const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
 
-  if ((req as any).tokenEmail) {
-    const isTokenValid = await validateTokenByUserId(
-      userId,
-      (req as any).tokenEmail
-    );
-
-    if (isTokenValid) {
-      return res.status(isTokenValid.statusCode).json(isTokenValid);
-    }
+  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, userId);
+  if (!isAuthorized) {
+    return res
+      .status(401)
+      .json(
+        new AppResult(
+          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          401
+        )
+      );
   }
 
   if (!userId) {
@@ -191,16 +194,24 @@ export const createUserPage = async (req: Request, res: Response) => {
     }
   */
   const page: IUserPage = req.body;
+  const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
 
-  if ((req as any).tokenEmail) {
-    const isTokenValid = await validateTokenByUserId(
-      page.userId,
-      (req as any).tokenEmail
-    );
-
-    if (isTokenValid) {
-      return res.status(isTokenValid.statusCode).json(isTokenValid);
-    }
+  const isAuthorized = await isUserAuthorized(
+    tokenEmail,
+    tokenUid,
+    page.userId
+  );
+  if (!isAuthorized) {
+    return res
+      .status(401)
+      .json(
+        new AppResult(
+          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          401
+        )
+      );
   }
 
   if (!page) {
@@ -276,16 +287,24 @@ export const updateUserPage = async (req: Request, res: Response) => {
     }
   */
   const page: IUserPage = req.body;
+  const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
 
-  if ((req as any).tokenEmail) {
-    const isTokenValid = await validateTokenByUserId(
-      page.userId,
-      (req as any).tokenEmail
-    );
-
-    if (isTokenValid) {
-      return res.status(isTokenValid.statusCode).json(isTokenValid);
-    }
+  const isAuthorized = await isUserAuthorized(
+    tokenEmail,
+    tokenUid,
+    page.userId
+  );
+  if (!isAuthorized) {
+    return res
+      .status(401)
+      .json(
+        new AppResult(
+          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          401
+        )
+      );
   }
 
   if (!page) {
@@ -324,23 +343,16 @@ export const updateUserPage = async (req: Request, res: Response) => {
   }
 };
 
-const validateTokenByUserId = async (userId: string, tokenEmail: string) => {
-  const existingUser: IUser | null = await userService.getUserById(userId);
-
-  if (!existingUser) {
-    return new AppResult(
-      AppErrorsMessages.USER_ASSOCIATED_TO_PAGE_NOT_FOUND,
-      null,
-      400
-    );
+export const isUserAuthorized = async (
+  tokenEmail: string | undefined,
+  tokenUid: string | undefined,
+  userId: string | undefined
+) => {
+  if (tokenEmail && tokenUid && userId) {
+    const foundUser = await userService.getUserById(userId);
+    if (foundUser) {
+      if (foundUser.authId === tokenUid) return true;
+    }
   }
-
-  if (existingUser.email !== tokenEmail)
-    return new AppResult(
-      AppErrorsMessages.NOT_AUTHORIZED,
-      AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-      401
-    );
-
-  return null;
+  return false;
 };

@@ -21,6 +21,16 @@ export const getUserById = async (userId: string) => {
   return found;
 };
 
+export const getUserByAuthId = async (authId: string) => {
+  const found = await UserDB.findOne({ authId }).lean();
+
+  if (!found) {
+    return null;
+  }
+
+  return found;
+};
+
 export const createUser = async (user: IUser) => {
   const userCreated = (await UserDB.create(user)).toObject();
 

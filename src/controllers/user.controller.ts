@@ -69,16 +69,16 @@ export const doesUserExist = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
-    #swagger.summary = 'Signs the user out'
-    #swagger.description  = 'Signs the user out, ending his token'
-    #swagger.parameters['id'] = {
-      in: 'params',
-      description: 'User id',
+    #swagger.summary = 'Gets an user by his email'
+    #swagger.description  = 'Gets an user from database by his email'
+    #swagger.parameters['userId'] = {
+      in: 'query',
+      description: 'User ID',
       required: true,
       type: 'string'
     }
     #swagger.parameters['email'] = {
-      in: 'params',
+      in: 'query',
       description: 'User email',
       required: true,
       type: 'string'
@@ -99,8 +99,10 @@ export const getUser = async (req: Request, res: Response) => {
   const email: string = req.query.email as string;
   const userId: string = req.query.userId as string;
   const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenEmail as string;
 
-  if (!tokenEmail || tokenEmail !== email) {
+  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid);
+  if (!isAuthorized) {
     return res
       .status(401)
       .json(
@@ -171,17 +173,18 @@ export const createUser = async (req: Request, res: Response) => {
   */
   const user: IUser = req.body;
   const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
 
-  if (!tokenEmail || tokenEmail !== user.email) {
+  const isAuthorized = await isUserAuthorized(
+    tokenEmail,
+    tokenUid,
+    user.authId
+  );
+  log(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
+  if (!isAuthorized) {
     return res
       .status(401)
-      .json(
-        new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
-      );
+      .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
   }
 
   if (!user) {
@@ -247,17 +250,17 @@ export const updateUser = async (req: Request, res: Response) => {
   */
   const user: IUser = req.body;
   const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
 
-  if (!tokenEmail || tokenEmail !== user.email) {
+  const isAuthorized = await isUserAuthorized(
+    tokenEmail,
+    tokenUid,
+    user.authId
+  );
+  if (!isAuthorized) {
     return res
       .status(401)
-      .json(
-        new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
-      );
+      .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
   }
 
   if (!user) {
@@ -282,4 +285,15 @@ export const updateUser = async (req: Request, res: Response) => {
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
   }
+};
+
+export const isUserAuthorized = async (
+  tokenEmail: string | undefined,
+  tokenUid: string | undefined,
+  authId?: string | undefined
+) => {
+  if (tokenEmail && tokenUid && authId && String(authId) !== String(tokenUid)) {
+    return false;
+  }
+  return true;
 };

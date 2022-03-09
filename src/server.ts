@@ -6,8 +6,12 @@ import dotenvSafe from "dotenv-safe";
 import swaggerFile from "../swagger_output.json";
 import swaggerUi from "swagger-ui-express";
 import connectMongo from "./config/mongo";
-import session from "express-session";
-import { verifyToken } from "./middlewares/keycloak";
+import admin from "firebase-admin";
+import firebaseConfig from "./config/firebase";
+
+admin.initializeApp({
+  credential: admin.credential.cert(JSON.parse(firebaseConfig)),
+});
 
 dotenvSafe.config({
   allowEmptyValues: true,

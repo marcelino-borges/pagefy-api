@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as userController from "../controllers/user.controller";
 import * as pageController from "../controllers/pages.controller";
-import { verifyToken } from "../middlewares/keycloak";
+import { verifyToken } from "../middlewares/firebase";
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.put("/user", verifyToken, userController.updateUser);
  */
 
 // Public routes
-router.get("/page/:pageId", pageController.getPageById);
+router.get("/page/id/:pageId", pageController.getPageById);
 router.get("/page/url/:url", pageController.getPageByUrl);
 
 // Private routes
