@@ -64,13 +64,13 @@ export const updateUserPage = async (page: IUserPage) => {
 };
 
 export const deleteUserPage = async (pageId: string) => {
-  const created: IUserPage = await PagesDB.findOneAndDelete({
+  return PagesDB.findOneAndDelete({
     _id: pageId,
-  }).lean();
-
-  if (!created) {
-    return false;
-  }
-
-  return true;
+  })
+    .then(() => {
+      return true;
+    })
+    .catch((err: any) => {
+      return false;
+    });
 };

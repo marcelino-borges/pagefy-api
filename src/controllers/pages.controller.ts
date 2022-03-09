@@ -6,6 +6,7 @@ import AppResult from "../errors/app-error";
 import * as pagesService from "../services/pages.service";
 import * as userService from "../services/user.service";
 import { doesPageUrlExist } from "../services/pages.service";
+import { log } from "../utils/utils";
 
 export const getPageById = async (req: Request, res: Response) => {
   /* 
@@ -370,8 +371,12 @@ export const deleteUserPage = async (req: Request, res: Response) => {
   const tokenEmail: string = (req as any).tokenEmail as string;
   const tokenUid: string = (req as any).tokenUid as string;
 
-  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, undefined);
-  if (!isAuthorized || tokenEmail.length < 5 || tokenUid.length < 5) {
+  log("tokenEmail: " + tokenEmail);
+  log("tokenUid: " + tokenUid);
+  log("tokenEmail: " + tokenEmail.length);
+  log("tokenUid: " + tokenUid.length);
+  log("pageId: " + pageId);
+  if (tokenEmail.length < 5 || tokenUid.length < 5) {
     return res
       .status(401)
       .json(
@@ -395,7 +400,7 @@ export const deleteUserPage = async (req: Request, res: Response) => {
     if (!success) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_UPDATING, null, 400));
+        .json(new AppResult(AppErrorsMessages.PAGE_DELETING, null, 400));
     }
 
     return res

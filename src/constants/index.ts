@@ -27,6 +27,7 @@ export enum AppErrorsMessages {
   PAGE_INVALID = "Page invalid.",
   PAGE_CREATING = "Error creating page.",
   PAGE_UPDATING = "Error updating page.",
+  PAGE_DELETING = "Error deleting page.",
   PAGE_NOT_FOUND = "Page not found.",
   PAGE_URL_ALREADY_EXIST = "URL already exist.",
   URL_MISSING_IN_PARAMS = "URL missing in params.",
