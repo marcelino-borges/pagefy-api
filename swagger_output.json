@@ -223,6 +223,42 @@
             "description": "Message of error"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Deletes an user page",
+        "description": "Deletes an user page from database",
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Deletes an user page from database",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
       }
     },
     "/page/url/{url}": {
