@@ -33,5 +33,6 @@ router.get(
 );
 router.post("/page", verifyToken, pageController.createUserPage);
 router.put("/page", verifyToken, pageController.updateUserPage);
+router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 
 export default router;

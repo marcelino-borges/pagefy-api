@@ -1,4 +1,4 @@
-import { AppErrorsMessages } from "../constants";
+import { AppErrorsMessages, AppSuccessMessages } from "../constants";
 import { IUserPage } from "../models/pages.models";
 import { Request } from "express";
 import { Response } from "express";
@@ -336,6 +336,71 @@ export const updateUserPage = async (req: Request, res: Response) => {
     }
 
     return res.status(200).json(pageUpdated);
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const deleteUserPage = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Page']
+    #swagger.summary = 'Deletes an user page'
+    #swagger.description  = 'Deletes an user page from database'
+    #swagger.parameters['pageId'] = {
+      in: 'params',
+      description: 'Deletes an user page from database',
+      required: true,
+      schema: { $ref: "#/definitions/Page" },
+    }
+    #swagger.responses[200] = {
+      description: 'User data'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const pageId: string = req.params.pageId;
+  const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
+
+  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, undefined);
+  if (!isAuthorized || tokenEmail.length < 5 || tokenUid.length < 5) {
+    return res
+      .status(401)
+      .json(
+        new AppResult(
+          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          401
+        )
+      );
+  }
+
+  if (!pageId) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.PAGE_REQUIRED, null, 400));
+  }
+
+  try {
+    const success = await pagesService.deleteUserPage(pageId);
+
+    if (!success) {
+      return res
+        .status(400)
+        .json(new AppResult(AppErrorsMessages.PAGE_UPDATING, null, 400));
+    }
+
+    return res
+      .status(200)
+      .json(new AppResult(AppSuccessMessages.PAGE_DELETED, null, 200));
   } catch (e: any) {
     return res
       .status(500)

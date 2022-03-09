@@ -62,3 +62,15 @@ export const updateUserPage = async (page: IUserPage) => {
 
   return created;
 };
+
+export const deleteUserPage = async (pageId: string) => {
+  const created: IUserPage = await PagesDB.findOneAndDelete({
+    _id: pageId,
+  }).lean();
+
+  if (!created) {
+    return false;
+  }
+
+  return true;
+};

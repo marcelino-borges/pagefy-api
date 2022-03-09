@@ -44,5 +44,5 @@ export enum AppErrorsMessages {
 
 export enum AppSuccessMessages {
   SIGNOUT = "User successfully signed out.",
-  KEYCLOAK_REGISTER = "User successfully registered.",
+  PAGE_DELETED = "Page successfully deleted.",
 }
