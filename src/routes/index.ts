@@ -24,6 +24,7 @@ router.put("/user", verifyToken, userController.updateUser);
 // Public routes
 router.get("/page/id/:pageId", pageController.getPageById);
 router.get("/page/url/:url", pageController.getPageByUrl);
+router.get("/page/url/renderer/:url", pageController.getRendererPageByUrl);
 
 // Private routes
 router.get(

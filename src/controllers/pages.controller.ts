@@ -106,6 +106,66 @@ export const getPageByUrl = async (req: Request, res: Response) => {
   }
 };
 
+export const getRendererPageByUrl = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Page']
+    #swagger.summary = 'Gets a page by its URL'
+    #swagger.description  = 'Gets a page by its URL from database'
+    #swagger.parameters['url'] = {
+      in: 'params',
+      description: 'Gets a page by its URL from database',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Page" },
+      description: 'User data'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const url: string = req.params.url;
+
+  if (!url) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.URL_MISSING_IN_PARAMS, null, 400));
+  }
+
+  try {
+    const pageFound = await pagesService.getPageByUrl(url);
+
+    if (!pageFound) {
+      return res
+        .status(400)
+        .json(new AppResult(AppErrorsMessages.PAGE_NOT_FOUND, null, 400));
+    }
+
+    const incrementSuccess = await pagesService.incrementUserPageViewsByUrl(
+      url
+    );
+
+    if (!incrementSuccess) {
+      log(
+        "[Controller getRendererPageByUrl] " +
+          AppErrorsMessages.PAGE_VIEW_INCREMENT
+      );
+    }
+
+    return res.status(200).json(pageFound);
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
 export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']

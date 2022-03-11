@@ -50,17 +50,17 @@ export const createUserPage = async (page: IUserPage, userId: string) => {
 };
 
 export const updateUserPage = async (page: IUserPage) => {
-  const created: IUserPage = await PagesDB.findOneAndUpdate(
+  const updated: IUserPage = await PagesDB.findOneAndUpdate(
     { _id: page._id },
     page,
     { new: true }
   ).lean();
 
-  if (!created) {
+  if (!updated) {
     return null;
   }
 
-  return created;
+  return updated;
 };
 
 export const deleteUserPage = async (pageId: string) => {
@@ -73,4 +73,21 @@ export const deleteUserPage = async (pageId: string) => {
     .catch((err: any) => {
       return false;
     });
+};
+
+export const incrementUserPageViewsByUrl = async (pageUrl: string) => {
+  const found = await getPageByUrl(pageUrl);
+
+  if (!found) {
+    return false;
+  }
+
+  found.views = found.views + 1;
+  const updated = await updateUserPage(found);
+
+  if (!updated) {
+    return false;
+  }
+
+  return true;
 };

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import * as userService from "../services/user.service";
 import AppResult from "../errors/app-error";
 import { AppErrorsMessages } from "../constants";
