@@ -11,6 +11,7 @@ import firebaseConfig from "./config/firebase";
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(firebaseConfig)),
+  storageBucket: JSON.parse(firebaseConfig).storageBucket,
 });
 
 dotenvSafe.config({
@@ -22,14 +23,13 @@ const PORT = parseInt(process.env.PORT as string, 10);
 console.log("PORT on env: ", PORT);
 
 const app = express();
-
 app.use(cors());
+
 connectMongo();
 
 app.use(helmet());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/api/v1", routes);
 

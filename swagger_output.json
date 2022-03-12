@@ -299,6 +299,44 @@
         }
       }
     },
+    "/page/url/renderer/{url}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its URL from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
     "\r/page/all/user/{userId}": {
       "get": {
         "tags": [
@@ -399,6 +437,78 @@
             "schema": {
               "$ref": "#/definitions/Page"
             }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "\r/files": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Uploads an image.",
+        "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Image file to be uploaded (JPEG, PNG, GIF and WEBG)",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "ID of the user sending the file",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userFolderName",
+            "in": "formData",
+            "description": "Name of the folder inside user's folder in storage (default is 'general', when no pageId is provided)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageId",
+            "in": "formData",
+            "description": "ID of the page, if the image belongs to any page (if any, user gains a new folder, in his directory, with the ID of the page as name, and the image will go inside it - and userFolderName is not considered.)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "URL of the image stored"
           },
           "400": {
             "schema": {
@@ -915,6 +1025,23 @@
         "message": {
           "type": "string",
           "example": "Summary of the result"
+        }
+      }
+    },
+    "ImageUploadFormData": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9as9d9vjmav9m"
+        },
+        "userFolderName": {
+          "type": "string",
+          "example": "profile"
+        },
+        "pageId": {
+          "type": "string",
+          "example": "jica98vncu1-9010incv1"
         }
       }
     }

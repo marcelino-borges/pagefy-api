@@ -42,9 +42,21 @@ export enum AppErrorsMessages {
   PASSWORDS_NOT_MATCH = "Passwords don't match.",
   PASSWORDS_REQUIRED = "Passwords required.",
   SIGNOUT = "Failed to sign out.",
+  IMAGE_UPLOAD_GENERIC_ERROR = "Error sending the file.",
+  FILE_TYPE = "File type not allowed.",
+  FILE_REQUIRED = "File missing.",
+  FILE_UPLOAD_GENERAL_ERROR = "Error uploading file.",
 }
 
 export enum AppSuccessMessages {
   SIGNOUT = "User successfully signed out.",
   PAGE_DELETED = "Page successfully deleted.",
+  FILE_DELETE_SUCCESS = "File deleted successfully.",
 }
+
+export const ALLOWED_FILE_TYPES = [
+  "image/gif",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+];

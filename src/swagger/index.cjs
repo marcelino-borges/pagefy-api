@@ -64,6 +64,12 @@ const errorModel = {
   message: "Summary of the result",
 };
 
+const fileUploadFormData = {
+  userId: "9as9d9vjmav9m",
+  userFolderName: "profile",
+  pageId: "jica98vncu1-9010incv1",
+};
+
 const doc = {
   info: {
     version: "1.0.0",
@@ -83,6 +89,7 @@ const doc = {
     },
     Page: pageModel,
     Error: errorModel,
+    ImageUploadFormData: fileUploadFormData,
   },
 };
 
