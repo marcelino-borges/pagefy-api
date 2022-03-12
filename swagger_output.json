@@ -488,21 +488,49 @@
             "description": "ID of the page, if the image belongs to any page (if any, user gains a new folder, in his directory, with the ID of the page as name, and the image will go inside it - and userFolderName is not considered.)",
             "required": false,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "URL of the image stored"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/files": {
+      "delete": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Deletes an image.",
+        "description": "Deletes an image to the storage.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "body",
+            "description": "Image file to be deleted",
+            "required": true,
+            "type": "string"
           },
           {
-            "name": "obj",
+            "name": "userId",
             "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "schema": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                }
-              }
-            }
+            "description": "ID of the user trying to delete the file",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
