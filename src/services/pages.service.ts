@@ -1,5 +1,6 @@
-import PagesDB from "../models/pages.models";
+import PagesDB, { IUserComponent } from "../models/pages.models";
 import { IUserPage } from "./../models/pages.models";
+import { deleteFile } from "./files.service";
 
 export const getPageById = async (pageId: string) => {
   const found: IUserPage = await PagesDB.findOne({ _id: pageId }).lean();
@@ -64,15 +65,35 @@ export const updateUserPage = async (page: IUserPage) => {
 };
 
 export const deleteUserPage = async (pageId: string) => {
-  return PagesDB.findOneAndDelete({
-    _id: pageId,
-  })
-    .then(() => {
-      return true;
+  const pageFound = await PagesDB.findOne({ _id: pageId }).lean();
+
+  if (pageFound) {
+    if (pageFound.middleComponents && pageFound.middleComponents.length > 0) {
+      for (const component of pageFound.middleComponents) {
+        if (component.mediaUrl && component.mediaUrl.length > 0) {
+          deleteFile(component.mediaUrl);
+        }
+        if (
+          component.style &&
+          component.style.backgroundImage &&
+          component.style.backgroundImage.length > 0
+        ) {
+          deleteFile(component.style.backgroundImage);
+        }
+      }
+      pageFound.middleComponents.forEach((component: IUserComponent) => {});
+    }
+
+    return PagesDB.findOneAndDelete({
+      _id: pageId,
     })
-    .catch((err: any) => {
-      return false;
-    });
+      .then(() => {
+        return true;
+      })
+      .catch((err: any) => {
+        return false;
+      });
+  }
 };
 
 export const incrementUserPageViewsByUrl = async (pageUrl: string) => {

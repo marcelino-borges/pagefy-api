@@ -74,6 +74,14 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
 export const deleteFileFromStorage = async (req: Request, res: Response) => {
   const { url, userId } = req.body;
 
+  const userFound = await getUserById(userId);
+
+  if (!userFound) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+  }
+
   const bucket = process.env.FIREBASE_STORAGE_BUCKET_URL;
 
   if (!bucket) {
@@ -86,14 +94,6 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
           500
         )
       );
-  }
-
-  const userFound = await getUserById(userId);
-
-  if (!userFound) {
-    return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
   }
 
   const storage = getStorage().bucket();
@@ -115,4 +115,20 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
           )
         )
     );
+};
+
+export const deleteFile = async (url: string) => {
+  const bucket = process.env.FIREBASE_STORAGE_BUCKET_URL;
+
+  if (!bucket) return false;
+
+  const storage = getStorage().bucket();
+
+  const fileName = url.replace(`https://storage.googleapis.com/${bucket}/`, "");
+
+  return storage
+    .file(fileName)
+    .delete()
+    .then(() => true)
+    .catch(() => false);
 };
