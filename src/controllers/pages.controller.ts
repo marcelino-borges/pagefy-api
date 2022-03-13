@@ -264,6 +264,7 @@ export const createUserPage = async (req: Request, res: Response) => {
     page.userId
   );
   if (!isAuthorized) {
+    log("No auth");
     return res
       .status(401)
       .json(
@@ -431,11 +432,6 @@ export const deleteUserPage = async (req: Request, res: Response) => {
   const tokenEmail: string = (req as any).tokenEmail as string;
   const tokenUid: string = (req as any).tokenUid as string;
 
-  log("tokenEmail: " + tokenEmail);
-  log("tokenUid: " + tokenUid);
-  log("tokenEmail: " + tokenEmail.length);
-  log("tokenUid: " + tokenUid.length);
-  log("pageId: " + pageId);
   if (tokenEmail.length < 5 || tokenUid.length < 5) {
     return res
       .status(401)
@@ -480,6 +476,14 @@ export const isUserAuthorized = async (
 ) => {
   if (tokenEmail && tokenUid && userId) {
     const foundUser = await userService.getUserById(userId);
+    log(
+      "@@@@@@@@@@@@ foundUser: ",
+      JSON.stringify(foundUser) +
+        "\n\ntokenUid: " +
+        tokenUid +
+        "\n\npage.userId: " +
+        userId
+    );
     if (foundUser) {
       if (foundUser.authId === tokenUid) return true;
     }

@@ -6,7 +6,6 @@ import {
   deleteFileFromStorage,
   uploadFileToStorage,
 } from "../services/files.service";
-import { log } from "../utils/utils";
 
 export const uploadImage = async (req: Request, res: Response) => {
   /* 

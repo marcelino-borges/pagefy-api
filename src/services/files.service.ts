@@ -109,7 +109,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
         .status(400)
         .json(
           new AppResult(
-            AppErrorsMessages.FILE_UPLOAD_GENERAL_ERROR,
+            AppErrorsMessages.FILE_DELETE_GENERAL_ERROR,
             e.message,
             400
           )

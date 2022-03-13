@@ -46,6 +46,7 @@ export enum AppErrorsMessages {
   FILE_TYPE = "File type not allowed.",
   FILE_REQUIRED = "File missing.",
   FILE_UPLOAD_GENERAL_ERROR = "Error uploading file.",
+  FILE_DELETE_GENERAL_ERROR = "Error deleting file.",
 }
 
 export enum AppSuccessMessages {
