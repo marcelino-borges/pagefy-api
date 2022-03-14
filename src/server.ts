@@ -24,9 +24,10 @@ console.log("PORT on env: ", PORT);
 
 const app = express();
 app.use(
-  cors({
-    origin: ["https://social-bio.herokuapp.com/", "http://localhost:3000"],
-  })
+  cors()
+  //   {
+  //   origin: ["https://social-bio.herokuapp.com/", "http://localhost:3000"],
+  // }
 );
 
 connectMongo();
