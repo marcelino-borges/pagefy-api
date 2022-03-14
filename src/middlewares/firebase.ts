@@ -23,20 +23,6 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
       (req as any).tokenEmail = email;
       (req as any).tokenUid = uid;
 
-      getAuth()
-        .getUser(uid)
-        .then((userRecord) => {
-          // See the UserRecord reference doc for the contents of userRecord.
-          console.log(
-            `Successfully fetched user data: ${JSON.stringify(
-              userRecord.toJSON()
-            )}`
-          );
-        })
-        .catch((error) => {
-          console.log("Error fetching user data:", error);
-        });
-
       next();
     })
     .catch((error) => {

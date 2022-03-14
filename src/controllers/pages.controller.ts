@@ -476,14 +476,6 @@ export const isUserAuthorized = async (
 ) => {
   if (tokenEmail && tokenUid && userId) {
     const foundUser = await userService.getUserById(userId);
-    log(
-      "@@@@@@@@@@@@ foundUser: ",
-      JSON.stringify(foundUser) +
-        "\n\ntokenUid: " +
-        tokenUid +
-        "\n\npage.userId: " +
-        userId
-    );
     if (foundUser) {
       if (foundUser.authId === tokenUid) return true;
     }
