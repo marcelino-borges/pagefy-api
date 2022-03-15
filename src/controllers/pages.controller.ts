@@ -399,6 +399,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
 
     return res.status(200).json(pageUpdated);
   } catch (e: any) {
+    log("[PageController.updateUserPage] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
