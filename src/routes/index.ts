@@ -40,6 +40,11 @@ router.get(
   pageController.getAllUserPagesByUserId
 );
 router.post("/page", verifyToken, pageController.createUserPage);
+router.post(
+  "/page/component-clicks",
+  verifyToken,
+  pageController.incrementComponentClicks
+);
 router.put("/page", verifyToken, pageController.updateUserPage);
 router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 

@@ -470,6 +470,60 @@ export const deleteUserPage = async (req: Request, res: Response) => {
   }
 };
 
+export const incrementComponentClicks = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Page']
+    #swagger.summary = 'Gets a page by its URL'
+    #swagger.description  = 'Gets a page by its URL from database'
+    #swagger.parameters['url'] = {
+      in: 'params',
+      description: 'Gets a page by its URL from database',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/Page" },
+      description: 'User data'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const pageId: string = req.body.pageId;
+  const componentId: string = req.body.componentId;
+
+  if (!pageId || !componentId) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+  }
+
+  try {
+    const incrementSuccess = await pagesService.incrementComponentClicks(
+      pageId,
+      componentId
+    );
+
+    if (!incrementSuccess) {
+      log(
+        "[Controller incrementComponentClick] " +
+          AppErrorsMessages.PAGE_VIEW_INCREMENT
+      );
+    }
+
+    return res.status(200).json();
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
 export const isUserAuthorized = async (
   tokenEmail: string | undefined,
   tokenUid: string | undefined,

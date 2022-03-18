@@ -112,3 +112,76 @@ export const incrementUserPageViewsByUrl = async (pageUrl: string) => {
 
   return true;
 };
+
+export const incrementComponentClicks = async (
+  pageId: string,
+  componentId: string
+) => {
+  const foundPage = await getPageById(pageId);
+
+  if (!foundPage) {
+    return false;
+  }
+
+  let hasFoundComponent = false;
+
+  if (foundPage.topComponents && foundPage.topComponents.length > 0) {
+    foundPage.topComponents = foundPage.topComponents.map(
+      (component: IUserComponent) => {
+        if (component._id === componentId) {
+          hasFoundComponent = true;
+          return {
+            ...component,
+            clicks: component.clicks + 1,
+          };
+        }
+        return component;
+      }
+    );
+  }
+
+  if (
+    !hasFoundComponent &&
+    foundPage.middleComponents &&
+    foundPage.middleComponents.length > 0
+  ) {
+    foundPage.middleComponents = foundPage.middleComponents.map(
+      (component: IUserComponent) => {
+        if (component._id === componentId) {
+          hasFoundComponent = true;
+          return {
+            ...component,
+            clicks: component.clicks + 1,
+          };
+        }
+        return component;
+      }
+    );
+  }
+
+  if (
+    !hasFoundComponent &&
+    foundPage.bottomComponents &&
+    foundPage.bottomComponents.length > 0
+  ) {
+    foundPage.bottomComponents = foundPage.bottomComponents.map(
+      (component: IUserComponent) => {
+        if (component._id === componentId) {
+          return {
+            ...component,
+            clicks: component.clicks + 1,
+          };
+        }
+        return component;
+      }
+    );
+  }
+
+  const updated = await updateUserPage(foundPage);
+
+  if (!updated) {
+    return false;
+  }
+
+  return true;
+};

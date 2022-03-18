@@ -32,6 +32,7 @@ export enum AppErrorsMessages {
   PAGE_URL_ALREADY_EXIST = "URL already exist.",
   PAGE_VIEW_INCREMENT = "Error to increment page views",
   URL_MISSING_IN_PARAMS = "URL missing in params.",
+  MISSING_PROPS = "Props missing.",
   NOT_CREATED = "Not created.",
   NOT_UPDATED = "Not updated.",
   NOT_DELETED = "Not deleted.",
