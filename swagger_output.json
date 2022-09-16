@@ -16,6 +16,24 @@
   ],
   "produces": [],
   "paths": {
+    "/health-check": {
+      "get": {
+        "tags": [
+          "Health Check"
+        ],
+        "summary": "Gets a health check from the API (It always returns 200)",
+        "description": "Gets a health check from the API (It always returns 200)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Page"
+            },
+            "description": "User data"
+          }
+        }
+      }
+    },
     "/user/exists": {
       "get": {
         "tags": [
