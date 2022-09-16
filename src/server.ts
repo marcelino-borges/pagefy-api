@@ -18,6 +18,8 @@ admin.initializeApp({
   storageBucket: JSON.parse(firebaseConfig).storageBucket,
 });
 
+console.log("firebaseConfig: ", firebaseConfig);
+
 const PORT = parseInt(process.env.PORT as string, 10);
 
 console.log("PORT on env: ", PORT);
