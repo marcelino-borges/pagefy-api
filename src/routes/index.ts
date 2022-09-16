@@ -1,8 +1,9 @@
 import * as express from "express";
 import * as userController from "../controllers/user.controller";
 import * as pageController from "../controllers/pages.controller";
-import { verifyToken } from "../middlewares/firebase";
+import * as healthCheckController from "../controllers/health-monitor.controller";
 import * as filesController from "../controllers/files.controller";
+import { verifyToken } from "../middlewares/firebase";
 import initializeMulter, { memoryStorage } from "multer";
 
 const router = express.Router();
@@ -11,6 +12,13 @@ const multer = initializeMulter({
   storage: memoryStorage(),
   limits: { fileSize: 3 * 1024 * 1024 },
 });
+
+/*
+ * HEALTH CHECK
+ */
+
+// Public routes
+router.get("/health-check", healthCheckController.getHealthCheck);
 
 /*
  * USER
