@@ -9,13 +9,13 @@ import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
 
+dotenvSafe.config({
+  allowEmptyValues: true,
+});
+
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(firebaseConfig)),
   storageBucket: JSON.parse(firebaseConfig).storageBucket,
-});
-
-dotenvSafe.config({
-  allowEmptyValues: true,
 });
 
 const PORT = parseInt(process.env.PORT as string, 10);
