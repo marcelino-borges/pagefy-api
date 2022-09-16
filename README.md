@@ -1,5 +1,5 @@
-# SocialBio Registration - Microservice
+# SocialBio API
 
 ### NodeJS
 - Typescript
-- Execute `npm start` to run locally
+- Execute `npm run start-dev` to run locally

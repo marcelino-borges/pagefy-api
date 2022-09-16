@@ -1,20 +1,18 @@
 {
-  "name": "social-bio-auth",
+  "name": "socialbio-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
     "start": "ts-node src/server.ts",
     "start_dev": "npm run swagger-autogen && env-cmd -f ./.env nodemon -x ts-node src/server.ts",
-    "push_heroku": "git push heroku main",
-    "heroku_logs": "heroku logs --tail --app socialbio-register",
     "swagger-autogen": "node ./src/swagger/index.cjs"
   },
   "keywords": [],
   "author": "",
   "engines": {
-    "node": "14.x",
-    "npm": "6.x"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "license": "ISC",
   "dependencies": {

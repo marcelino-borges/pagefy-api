@@ -76,7 +76,7 @@ const doc = {
     title: "SocialBio Authentication Service",
     description: "Authentication service for the application in react",
   },
-  host: "http://www.localhost:5001",
+  host: "http://www.localhost:5002",
   basePath: "/",
   consumes: ["application/json"],
   definitions: {

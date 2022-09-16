@@ -5,7 +5,7 @@
     "title": "SocialBio Authentication Service",
     "description": "Authentication service for the application in react"
   },
-  "host": "http://www.localhost:5001",
+  "host": "http://www.localhost:5002",
   "basePath": "/",
   "tags": [],
   "schemes": [
@@ -428,6 +428,59 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/page/component-clicks": {
+      "post": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "description": "Gets a page by its URL from database",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pageId": {
+                  "example": "any"
+                },
+                "componentId": {
+                  "example": "any"
+                }
+              }
             }
           }
         ],
