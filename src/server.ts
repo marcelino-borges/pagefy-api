@@ -8,6 +8,7 @@ import swaggerUi from "swagger-ui-express";
 import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
+import { log } from "./utils/utils";
 
 dotenvSafe.config({
   allowEmptyValues: true,
@@ -18,7 +19,8 @@ admin.initializeApp({
   storageBucket: JSON.parse(firebaseConfig).storageBucket,
 });
 
-console.log("firebaseConfig: ", firebaseConfig);
+log("firebaseConfig: ", firebaseConfig);
+log("MONGO_CONNECTION_STRING: ", process.env.MONGO_CONNECTION_STRING);
 
 const PORT = parseInt(process.env.PORT as string, 10);
 

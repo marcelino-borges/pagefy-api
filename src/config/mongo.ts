@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import { log } from "../utils/utils";
 
 const connect = async () => {
   if (!process.env.MONGO_CONNECTION_STRING) return;
 
   console.log("Connecting to mongo...");
 
-  console.log(
+  log(
     "process.env.MONGO_CONNECTION_STRING:",
     process.env.MONGO_CONNECTION_STRING
   );

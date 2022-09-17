@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "build": "NODE_ENV=dev && npm install && tsc",
-    "start": "node ./dist/src/server.js",
+    "build": "npm install && tsc",
+    "start": "env-cmd -f ./.env nodemon -x ts-node src/server.ts",
     "start_dev": "npm run swagger-autogen && env-cmd -f ./.env nodemon -x ts-node src/server.ts",
     "swagger-autogen": "node ./src/swagger/index.cjs"
   },
