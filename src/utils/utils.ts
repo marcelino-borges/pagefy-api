@@ -1,18 +1,12 @@
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IUser } from "../models/user.models";
-import * as userService from "../services/user.service";
-
 export const log = (...msgs: any) => {
-  console.log(
-    "\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-  );
+  console.log("\n>>>>");
   msgs.forEach((msg: any) => {
-    console.log(">> ", msg);
+    const lines = String(msg).split("\n");
+
+    if (lines?.length > 0) lines.forEach((line) => console.log(">> ", line));
+    else console.log(">> ", msg);
   });
-  console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-  );
+  console.log(">>>>\n");
 };
 
 export const replaceAllSpacesByUnderlines = (

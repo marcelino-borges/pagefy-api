@@ -14,31 +14,42 @@ dotenvSafe.config({
   allowEmptyValues: true,
 });
 
-admin.initializeApp({
-  credential: admin.credential.cert(JSON.parse(firebaseConfig)),
-  storageBucket: JSON.parse(firebaseConfig).storageBucket,
-});
+const canReadEnv = String(process.env.MONGO_CONNECTION_STRING).includes(
+  "mongodb+srv://"
+);
 
-log("firebaseConfig: ", firebaseConfig);
-log("MONGO_CONNECTION_STRING: ", process.env.MONGO_CONNECTION_STRING);
+if (canReadEnv) {
+  log(".ENV verified!");
 
-const PORT = parseInt(process.env.PORT as string, 10);
+  admin.initializeApp({
+    credential: admin.credential.cert(JSON.parse(firebaseConfig)),
+    storageBucket: JSON.parse(firebaseConfig).storageBucket,
+  });
 
-console.log("PORT on env: ", PORT);
+  const PORT = parseInt(process.env.PORT as string, 10);
 
-const app = express();
-app.use(cors());
+  const app = express();
+  app.use(cors());
 
-connectMongo()
-  .then(() => {
-    app.use(helmet());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(express.json());
-    app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-    app.use("/api/v1", routes);
+  connectMongo()
+    .then(() => {
+      app.use(helmet());
+      app.use(express.urlencoded({ extended: false }));
+      app.use(express.json());
+      app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+      app.use("/api/v1", routes);
 
-    app.listen(PORT, () => {
-      console.log(`Listening on port ${PORT}`);
-    });
-  })
-  .catch((e) => log("Error trying to connect to MongoDB."));
+      const server = app.listen(PORT, () => {
+        log(`API listening on port ${PORT}`);
+      });
+
+      const TIMEOUT = parseInt(process.env.SERVER_TIMEOUT || "3000", 10);
+
+      server.timeout = TIMEOUT;
+    })
+    .catch((e) =>
+      log("Error trying to connect to MongoDB. API not running.", "Details:", e)
+    );
+} else {
+  log(".ENV not available. API not running.");
+}

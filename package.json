@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm install",
     "start": "env-cmd -f ./.env nodemon -x ts-node src/server.ts",
-    "start_dev": "npm run swagger-autogen && env-cmd -f ./.env nodemon -x ts-node src/server.ts",
+    "start_with_swagger_upd": "npm run swagger-autogen && env-cmd -f ./.env nodemon -x ts-node src/server.ts",
     "swagger-autogen": "node ./src/swagger/index.cjs"
   },
   "keywords": [],

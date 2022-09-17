@@ -4,12 +4,7 @@ import { log } from "../utils/utils";
 const connect = async () => {
   if (!process.env.MONGO_CONNECTION_STRING) return;
 
-  console.log("Connecting to mongo...");
-
-  log(
-    "process.env.MONGO_CONNECTION_STRING:",
-    process.env.MONGO_CONNECTION_STRING
-  );
+  log("Connecting to mongo...");
 
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
@@ -23,8 +18,8 @@ const connect = async () => {
     const db = mongoose.connection;
 
     db.on("error", console.error.bind(console, "connection error:"));
-    db.once("open", function () {
-      console.log("MongoDB connected!");
+    db.on("open", function () {
+      log("MongoDB connected!");
     });
   } catch (e) {
     throw e;
