@@ -29,14 +29,16 @@ console.log("PORT on env: ", PORT);
 const app = express();
 app.use(cors());
 
-connectMongo();
+connectMongo()
+  .then(() => {
+    app.use(helmet());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+    app.use("/api/v1", routes);
 
-app.use(helmet());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.use("/api/v1", routes);
-
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Listening on port ${PORT}`);
+    });
+  })
+  .catch((e) => log("Error trying to connect to MongoDB."));
