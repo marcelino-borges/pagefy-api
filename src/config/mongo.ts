@@ -10,20 +10,25 @@ const connect = async () => {
     "process.env.MONGO_CONNECTION_STRING:",
     process.env.MONGO_CONNECTION_STRING
   );
-  await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    ignoreUndefined: true,
-  });
 
-  const db = mongoose.connection;
+  try {
+    await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+      ignoreUndefined: true,
+    });
 
-  db.on("error", console.error.bind(console, "connection error:"));
-  db.once("open", function () {
-    console.log("MongoDB connected!");
-  });
+    const db = mongoose.connection;
+
+    db.on("error", console.error.bind(console, "connection error:"));
+    db.once("open", function () {
+      console.log("MongoDB connected!");
+    });
+  } catch (e) {
+    throw e;
+  }
 };
 
 export default connect;
