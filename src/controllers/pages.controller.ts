@@ -6,7 +6,7 @@ import AppResult from "../errors/app-error";
 import * as pagesService from "../services/pages.service";
 import * as userService from "../services/user.service";
 import { doesPageUrlExist } from "../services/pages.service";
-import { log } from "../utils/utils";
+import { log } from "../utils";
 
 export const getPageById = async (req: Request, res: Response) => {
   /* 

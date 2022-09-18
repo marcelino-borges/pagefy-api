@@ -1,5 +1,5 @@
 import { getStorage } from "firebase-admin/storage";
-import { log } from "../utils/utils";
+import { log } from "../utils";
 import { Request, Response } from "express";
 import AppResult from "./../errors/app-error";
 import { AppErrorsMessages, AppSuccessMessages } from "../constants";

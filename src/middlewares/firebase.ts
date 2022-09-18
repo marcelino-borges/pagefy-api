@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import { getAuth, DecodedIdToken } from "firebase-admin/auth";
-import { log } from "../utils/utils";
+import { log } from "../utils";
 import { getUserByAuthId } from "../services/user.service";
 
 export const verifyToken = async (req: Request, res: Response, next: any) => {

@@ -4,7 +4,7 @@ import * as userService from "../services/user.service";
 import AppResult from "../errors/app-error";
 import { AppErrorsMessages } from "../constants";
 import { IUser } from "../models/user.models";
-import { log } from "../utils/utils";
+import { log } from "../utils";
 
 export const doesUserExist = async (req: Request, res: Response) => {
   /* 

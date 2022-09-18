@@ -73,10 +73,10 @@ const fileUploadFormData = {
 const doc = {
   info: {
     version: "1.0.0",
-    title: "SocialBio Authentication Service",
-    description: "Authentication service for the application in react",
+    title: "SocialBio API",
+    description: "Service consumed by SocialBio frontend.",
   },
-  host: "http://www.localhost:5002",
+  host: "https://socialbio-api.onrender.com",
   basePath: "/",
   consumes: ["application/json"],
   definitions: {

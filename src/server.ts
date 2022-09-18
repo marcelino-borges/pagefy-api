@@ -1,14 +1,15 @@
 import helmet from "helmet";
 import cors from "cors";
 import express from "express";
-import routes from "./routes";
+import mainRoutes from "./routes";
+import healthCheckRoute from "./routes/health-check.route";
 import dotenvSafe from "dotenv-safe";
 import swaggerFile from "../swagger_output.json";
 import swaggerUi from "swagger-ui-express";
 import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
-import { log } from "./utils/utils";
+import { log } from "./utils";
 
 dotenvSafe.config({
   allowEmptyValues: true,
@@ -36,8 +37,9 @@ if (canReadEnv) {
       app.use(helmet());
       app.use(express.urlencoded({ extended: false }));
       app.use(express.json());
+      app.use("/", healthCheckRoute);
       app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-      app.use("/api/v1", routes);
+      app.use("/api/v1", mainRoutes);
 
       const server = app.listen(PORT, () => {
         log(`API listening on port ${PORT}`);
