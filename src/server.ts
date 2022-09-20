@@ -49,6 +49,7 @@ if (canReadEnv) {
 
   connectMongo()
     .then(() => {
+      app.use(cors());
       app.use(helmet());
       app.use(express.urlencoded({ extended: false }));
       app.use(express.json());
@@ -62,8 +63,8 @@ if (canReadEnv) {
         swaggerUi.serve,
         swaggerUi.setup(swaggerFile)
       );
-      app.options("/api/v1", privateCors);
-      app.use("/api/v1", privateCors, mainRoutes);
+      app.options("/api/v1");
+      app.use("/api/v1", mainRoutes);
 
       const server = app.listen(PORT, () => {
         log(`API listening on port ${PORT}`);
