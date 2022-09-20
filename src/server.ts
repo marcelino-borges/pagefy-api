@@ -9,6 +9,7 @@ import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
 import { log } from "./utils";
+import { ALLOWED_ORIGINS } from "./constants";
 
 dotenvSafe.config({
   allowEmptyValues: true,
@@ -32,14 +33,15 @@ if (canReadEnv) {
 
   const publicCors = cors();
   const privateCors = cors({
-    origin: [
-      "http://socialbio.me",
-      "https://socialbio.me",
-      "http://socialbio-api.onrender.com",
-      "https://socialbio-api.onrender.com",
-      "http://socialbio-frontend.onrender.com",
-      "https://socialbio-frontend.onrender.com",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) {
+        var msg =
+          "The CORS policy for this site does not " +
+          "allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
   });
 
   connectMongo()

@@ -62,3 +62,12 @@ export const ALLOWED_FILE_TYPES = [
   "image/png",
   "image/webp",
 ];
+
+export const ALLOWED_ORIGINS = [
+  "http://socialbio.me",
+  "https://socialbio.me",
+  "http://socialbio-api.onrender.com",
+  "https://socialbio-api.onrender.com",
+  "http://socialbio-frontend.onrender.com",
+  "https://socialbio-frontend.onrender.com",
+];
