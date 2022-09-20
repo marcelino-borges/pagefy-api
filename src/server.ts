@@ -2,7 +2,6 @@ import helmet from "helmet";
 import cors from "cors";
 import express from "express";
 import mainRoutes from "./routes";
-import healthCheckRoute from "./routes/health-check.route";
 import dotenvSafe from "dotenv-safe";
 import swaggerFile from "../swagger_output.json";
 import swaggerUi from "swagger-ui-express";
@@ -30,16 +29,33 @@ if (canReadEnv) {
   const PORT = parseInt(process.env.PORT as string, 10);
 
   const app = express();
-  app.use(cors());
+
+  const publicCors = cors();
+  const privateCors = cors({
+    origin: [
+      "http://socialbio.me",
+      "https://socialbio.me",
+      "http://socialbio-api.onrender.com",
+      "https://socialbio-api.onrender.com",
+    ],
+  });
 
   connectMongo()
     .then(() => {
       app.use(helmet());
       app.use(express.urlencoded({ extended: false }));
       app.use(express.json());
-      app.use("/", healthCheckRoute);
-      app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
-      app.use("/api/v1", mainRoutes);
+      // Health check
+      app.use("/health-check", publicCors, (_, res) =>
+        res.status(200).json({ message: "API running." })
+      );
+      app.use(
+        "/swagger",
+        swaggerUi.serve,
+        privateCors,
+        swaggerUi.setup(swaggerFile)
+      );
+      app.use("/api/v1", privateCors, mainRoutes);
 
       const server = app.listen(PORT, () => {
         log(`API listening on port ${PORT}`);

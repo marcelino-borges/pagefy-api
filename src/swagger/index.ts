@@ -8,7 +8,7 @@ import {
   componentModel,
 } from "./models";
 
-const swaggerAutogen = require("swagger-autogen")();
+import swaggerAutogen from "swagger-autogen";
 
 export const runSwaggerAutogen = async (apiVersion: string) => {
   const SWAGGER_OUTPUT_PATH = "./swagger_output.json";
@@ -20,7 +20,7 @@ export const runSwaggerAutogen = async (apiVersion: string) => {
       version: apiVersion,
       title: apiDescription.description,
     },
-    host: "http://socialbio-api.onrender.com:5002",
+    host: "http://socialbio-api.onrender.com",
     basePath: "/",
     consumes: ["application/json"],
     definitions: {
@@ -33,5 +33,5 @@ export const runSwaggerAutogen = async (apiVersion: string) => {
     },
   };
 
-  swaggerAutogen(SWAGGER_OUTPUT_PATH, ROUTES_PATH, doc);
+  swaggerAutogen()(SWAGGER_OUTPUT_PATH, ROUTES_PATH, doc);
 };

@@ -72,7 +72,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/swagger/index.ss" /* Include every ts file in source folder */
+    "src/swagger/index.ts" /* Include every ts file in source folder */,
+    "src/swagger/swagger-autogen.d.ts"
   ],
   "exclude": ["node_modules" /* exclude everything in  node_modules */]
 }
