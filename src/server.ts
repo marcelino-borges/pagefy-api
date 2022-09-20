@@ -60,6 +60,7 @@ if (canReadEnv) {
         privateCors,
         swaggerUi.setup(swaggerFile)
       );
+      app.options("/api/v1", privateCors);
       app.use("/api/v1", privateCors, mainRoutes);
 
       const server = app.listen(PORT, () => {
