@@ -32,18 +32,20 @@ if (canReadEnv) {
   const app = express();
 
   const publicCors = cors();
-  const privateCors = cors({
-    origin: (origin, callback) => {
-      if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) {
-        log("Blocked access from origin: " + origin);
-        var msg =
-          "The CORS policy for this site does not " +
-          "allow access from the specified Origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-  });
+  const privateCors = cors();
+
+  // cors({
+  //   origin: (origin, callback) => {
+  //     if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) {
+  //       log("Blocked access from origin: " + origin);
+  //       var msg =
+  //         "The CORS policy for this site does not " +
+  //         "allow access from the specified Origin.";
+  //       return callback(new Error(msg), false);
+  //     }
+  //     return callback(null, true);
+  //   },
+  // });
 
   connectMongo()
     .then(() => {
@@ -56,8 +58,8 @@ if (canReadEnv) {
       );
       app.use(
         "/swagger",
-        swaggerUi.serve,
         privateCors,
+        swaggerUi.serve,
         swaggerUi.setup(swaggerFile)
       );
       app.options("/api/v1", privateCors);
