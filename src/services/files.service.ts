@@ -48,6 +48,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   });
 
   stream.on("error", (e: any) => {
+    log("error >", e);
     return res
       .status(400)
       .json(
@@ -60,6 +61,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   });
 
   stream.on("finish", async () => {
+    log("finish >");
     (
       req as any
     ).file.firebaseUrl = `https://storage.googleapis.com/${bucket}/${fileName}`;

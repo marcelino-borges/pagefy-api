@@ -2,10 +2,10 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "SocialBio API",
-    "description": "Service consumed by SocialBio frontend."
+    "title": "REST API",
+    "description": ""
   },
-  "host": "https://socialbio-api.onrender.com",
+  "host": "http://socialbio-api.onrender.com",
   "basePath": "/",
   "schemes": [
     "http"
@@ -1172,7 +1172,7 @@
       "properties": {
         "statusCode": {
           "type": "number",
-          "example": 0
+          "example": 200
         },
         "errorDetails": {
           "type": "string",
@@ -1198,6 +1198,163 @@
         "pageId": {
           "type": "string",
           "example": "jica98vncu1-9010incv1"
+        }
+      }
+    },
+    "Style": {
+      "type": "object",
+      "properties": {
+        "backgroundColor": {
+          "type": "string",
+          "example": "#fff"
+        },
+        "backgroundImage": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "backgroundSize": {
+          "type": "string",
+          "example": "cover"
+        },
+        "backgroundPosition": {
+          "type": "string",
+          "example": "center"
+        },
+        "color": {
+          "type": "string",
+          "example": "#fff"
+        }
+      }
+    },
+    "Component": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "text": {
+          "type": "string",
+          "example": "Text"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "backgroundColor": {
+              "type": "string",
+              "example": "#fff"
+            },
+            "backgroundImage": {
+              "type": "string",
+              "example": "https://www.url.com"
+            },
+            "backgroundSize": {
+              "type": "string",
+              "example": "cover"
+            },
+            "backgroundPosition": {
+              "type": "string",
+              "example": "center"
+            },
+            "color": {
+              "type": "string",
+              "example": "#fff"
+            }
+          }
+        },
+        "visible": {
+          "type": "boolean",
+          "example": true
+        },
+        "clicks": {
+          "type": "number",
+          "example": 15
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "rows": {
+                  "type": "number",
+                  "example": 15
+                },
+                "columns": {
+                  "type": "number",
+                  "example": 15
+                }
+              }
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "type": {
+          "type": "number",
+          "example": 15
+        },
+        "mediaUrl": {
+          "type": "string",
+          "example": "http://www.youtube.com"
+        },
+        "iconDetails": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "rows": {
+                  "type": "number",
+                  "example": 15
+                },
+                "columns": {
+                  "type": "number",
+                  "example": 15
+                }
+              }
+            }
+          }
+        },
+        "visibleDate": {
+          "type": "string",
+          "example": "2022-01-01T22:11:25:000Z"
+        },
+        "launchDate": {
+          "type": "string",
+          "example": "2022-01-01T22:11:25:000Z"
+        },
+        "animation": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "bounceIn"
+                },
+                "startDelay": {
+                  "type": "number",
+                  "example": 15
+                },
+                "duration": {
+                  "type": "number",
+                  "example": 15
+                },
+                "infinite": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
         }
       }
     }

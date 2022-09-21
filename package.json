@@ -7,7 +7,7 @@
     "build": "npm install",
     "start": "env-cmd -f ./.env nodemon -x ts-node src/server.ts",
     "start_dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env nodemon -x ts-node src/server.ts",
-    "swagger-autogen": "node ./src/swagger/workaround.cjs",
+    "swagger-autogen": "ts-node ./src/config/swagger.ts",
     "update-pkg-version": "ts-node ./src/config/package-json.ts"
   },
   "keywords": [],
