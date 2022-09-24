@@ -28,6 +28,7 @@ if (canReadEnv) {
   });
 
   const PORT = parseInt(process.env.PORT as string, 10);
+  const HOST = String(process.env.HOST);
 
   const app = express();
 
@@ -66,8 +67,8 @@ if (canReadEnv) {
       app.options("/api/v1");
       app.use("/api/v1", mainRoutes);
 
-      const server = app.listen(PORT, () => {
-        log(`API listening on port ${PORT}`);
+      const server = app.listen(PORT, HOST, () => {
+        log(`API listening on port ${HOST}:${PORT}`);
       });
 
       const TIMEOUT = parseInt(process.env.SERVER_TIMEOUT || "3000", 10);
