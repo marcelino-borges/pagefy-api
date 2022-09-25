@@ -8,7 +8,7 @@ import swaggerUi from "swagger-ui-express";
 import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
-import { log } from "./utils";
+import log from "./utils/logs";
 import { ALLOWED_ORIGINS } from "./constants";
 
 dotenvSafe.config({
@@ -20,7 +20,7 @@ const canReadEnv = String(process.env.MONGO_CONNECTION_STRING).includes(
 );
 
 if (canReadEnv) {
-  log(".ENV verified!");
+  log.success(".ENV verified!");
 
   admin.initializeApp({
     credential: admin.credential.cert(JSON.parse(firebaseConfig)),
@@ -68,7 +68,7 @@ if (canReadEnv) {
       app.use("/api/v1", mainRoutes);
 
       const server = app.listen(PORT, HOST, () => {
-        log(`API listening on port ${HOST}:${PORT}`);
+        log.success(`API listening on port ${HOST}:${PORT}`);
       });
 
       const TIMEOUT = parseInt(process.env.SERVER_TIMEOUT || "3000", 10);
@@ -76,8 +76,12 @@ if (canReadEnv) {
       server.timeout = TIMEOUT;
     })
     .catch((e) =>
-      log("Error trying to connect to MongoDB. API not running.", "Details:", e)
+      log.error(
+        "Error trying to connect to MongoDB. API not running.",
+        "Details:",
+        e
+      )
     );
 } else {
-  log(".ENV not available. API not running.");
+  log.error(".ENV not available. API not running.");
 }

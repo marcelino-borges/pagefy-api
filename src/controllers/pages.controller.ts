@@ -6,7 +6,7 @@ import AppResult from "../errors/app-error";
 import * as pagesService from "../services/pages.service";
 import * as userService from "../services/user.service";
 import { doesPageUrlExist } from "../services/pages.service";
-import { log } from "../utils";
+import log from "../utils/logs";
 
 export const getPageById = async (req: Request, res: Response) => {
   /* 
@@ -152,7 +152,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
     );
 
     if (!incrementSuccess) {
-      log(
+      log.success(
         "[Controller getRendererPageByUrl] " +
           AppErrorsMessages.PAGE_VIEW_INCREMENT
       );
@@ -264,7 +264,7 @@ export const createUserPage = async (req: Request, res: Response) => {
     page.userId
   );
   if (!isAuthorized) {
-    log("No auth");
+    log.error("No auth");
     return res
       .status(401)
       .json(
@@ -399,7 +399,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
 
     return res.status(200).json(pageUpdated);
   } catch (e: any) {
-    log("[PageController.updateUserPage] EXCEPTION: ", e);
+    log.error("[PageController.updateUserPage] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
@@ -510,7 +510,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
     );
 
     if (!incrementSuccess) {
-      log(
+      log.success(
         "[Controller incrementComponentClick] " +
           AppErrorsMessages.PAGE_VIEW_INCREMENT
       );

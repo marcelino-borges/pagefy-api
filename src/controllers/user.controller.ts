@@ -4,7 +4,7 @@ import * as userService from "../services/user.service";
 import AppResult from "../errors/app-error";
 import { AppErrorsMessages } from "../constants";
 import { IUser } from "../models/user.models";
-import { log } from "../utils";
+import log from "../utils/logs";
 
 export const doesUserExist = async (req: Request, res: Response) => {
   /* 
@@ -60,7 +60,7 @@ export const doesUserExist = async (req: Request, res: Response) => {
 
     return res.status(200).json(!!userFound);
   } catch (e: any) {
-    log("[UserController.doesUserExist] EXCEPTION: ", e);
+    log.error("[UserController.doesUserExist] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
@@ -141,7 +141,7 @@ export const getUser = async (req: Request, res: Response) => {
     }
     return res.status(200).json(userFound);
   } catch (e: any) {
-    log("[UserController.getUser] EXCEPTION: ", e);
+    log.error("[UserController.getUser] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
@@ -181,7 +181,7 @@ export const createUser = async (req: Request, res: Response) => {
     tokenUid,
     user.authId
   );
-  log(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
+  log.error(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
   if (!isAuthorized) {
     return res
       .status(401)
@@ -218,7 +218,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     return res.status(200).json(userCreated);
   } catch (e: any) {
-    log("[UserController.createUser] EXCEPTION: ", e);
+    log.error("[UserController.createUser] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
@@ -281,7 +281,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     return res.status(200).json(userUpdated);
   } catch (e: any) {
-    log("[UserController.updateUser] EXCEPTION: ", e);
+    log.error("[UserController.updateUser] EXCEPTION: ", e);
     return res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));

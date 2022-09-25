@@ -1,10 +1,10 @@
 import { getStorage } from "firebase-admin/storage";
-import { log } from "../utils";
 import { Request, Response } from "express";
 import AppResult from "./../errors/app-error";
 import { AppErrorsMessages, AppSuccessMessages } from "../constants";
 import moment from "moment";
 import { getUserById } from "../services/user.service";
+import log from "../utils/logs";
 
 export const uploadFileToStorage = async (req: Request, res: Response) => {
   const image: any = req.file;
@@ -48,7 +48,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   });
 
   stream.on("error", (e: any) => {
-    log("error >", e);
+    log.error("Error uploading file:", e);
     return res
       .status(400)
       .json(
@@ -61,7 +61,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   });
 
   stream.on("finish", async () => {
-    log("finish >");
+    log.success("File upload successful.");
     (
       req as any
     ).file.firebaseUrl = `https://storage.googleapis.com/${bucket}/${fileName}`;

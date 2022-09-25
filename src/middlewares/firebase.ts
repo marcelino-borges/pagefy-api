@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import { getAuth, DecodedIdToken } from "firebase-admin/auth";
-import { log } from "../utils";
+import log from "../utils/logs";
 import { getUserByAuthId } from "../services/user.service";
 
 export const verifyToken = async (req: Request, res: Response, next: any) => {
@@ -26,7 +26,7 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
       next();
     })
     .catch((error) => {
-      log("[verifyToken] EXCEPTION: " + JSON.stringify(error));
+      log.error("[verifyToken] EXCEPTION: " + JSON.stringify(error));
       return res
         .status(401)
         .json(
