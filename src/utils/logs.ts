@@ -1,4 +1,4 @@
-const ERROR_EMOJI = "⛔️";
+const ERROR_EMOJI = "⛔";
 const WARNING_EMOJI = "⚠️";
 const INFO_EMOJI = "▶️";
 const SUCCESS_EMOJI = "✅";

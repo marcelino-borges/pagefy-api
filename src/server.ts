@@ -38,7 +38,7 @@ if (canReadEnv) {
   // cors({
   //   origin: (origin, callback) => {
   //     if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) {
-  //       log("Blocked access from origin: " + origin);
+  //       log.info("Blocked access from origin: " + origin);
   //       var msg =
   //         "The CORS policy for this site does not " +
   //         "allow access from the specified Origin.";

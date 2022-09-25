@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import { log } from "../utils";
+import log from "../utils/logs";
 import { getLatestVersionFromChangelog } from "./changelog";
 
 const PACKAGE_JSON_PATH = "./package.json";
@@ -15,7 +15,7 @@ const updatePackageJsonVersionFromChangelog = async () => {
   pkg.version = apiVersion;
 
   await fs.writeFile(PACKAGE_JSON_PATH, JSON.stringify(pkg)).catch((err) => {
-    log("Error updating version on package.json:", err);
+    log.error("Error updating version on package.json:", err);
   });
 };
 
