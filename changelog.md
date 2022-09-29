@@ -16,6 +16,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.2.0] - 2022-09-29
+
+- Fix: added preflight free cors
+- Refactoring: simplified upload file path
+
 ### [1.1.0] - 2022-09-18
 
 - Implemented new logging system using emojis different log functions for info, error, warning and success.

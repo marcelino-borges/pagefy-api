@@ -8,7 +8,7 @@ import log from "../utils/logs";
 
 export const uploadFileToStorage = async (req: Request, res: Response) => {
   const image: any = req.file;
-  const { userId, userFolderName, pageId } = req.body;
+  const { userId, userFolderName } = req.body;
 
   const userFound = await getUserById(userId);
 
@@ -33,12 +33,10 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   }
 
   const storage = getStorage().bucket();
+  const fileExtension = image.originalname.split(".")[1];
+  const timeStamp = moment().format("YYYYMMDDHHmmssSSS");
 
-  const fileName = `users/${userId}/${
-    pageId ? "pages" : userFolderName || "general"
-  }/${pageId ? pageId + "/" : ""}${userId}_${moment().format(
-    "YYYYMMDDHHmmssSSS"
-  )}.${image.originalname.split(".")[1]}`;
+  const fileName = `users/${userId}/${userFolderName}/${userId}_${timeStamp}.${fileExtension}`;
 
   const fileToSave = storage.file(fileName);
   const stream = fileToSave.createWriteStream({
