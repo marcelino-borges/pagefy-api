@@ -55,7 +55,7 @@ if (canReadEnv) {
       app.use(express.urlencoded({ extended: false }));
       app.use(express.json());
       // Health check
-      app.options("*", cors());
+      app.options("/", cors());
       app.use("/health-check", publicCors, (_, res) =>
         res.status(200).json({ message: "API running." })
       );
