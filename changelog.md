@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.3.0] - 2022-10-01
+
+- Feature: Implemented email contact to serve support page
+
 ### [1.2.0] - 2022-09-29
 
 - Fix: added preflight free cors

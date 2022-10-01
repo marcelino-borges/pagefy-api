@@ -48,6 +48,7 @@ export enum AppErrorsMessages {
   FILE_REQUIRED = "File missing.",
   FILE_UPLOAD_GENERAL_ERROR = "Error uploading file.",
   FILE_DELETE_GENERAL_ERROR = "Error deleting file.",
+  FIELDS_REQUIRED_EMAIL_CONTACT = "Invalid input for email contact.",
 }
 
 export enum AppSuccessMessages {
@@ -71,3 +72,10 @@ export const ALLOWED_ORIGINS = [
   "http://socialbio-frontend.onrender.com",
   "https://socialbio-frontend.onrender.com",
 ];
+
+export const NOREPLY_EMAIL_SENDER = {
+  user: process.env.NOREPLY_EMAIL,
+  password: process.env.NOREPLY_EMAIL_PASSWORD,
+};
+
+export const SYSTEM_RECIPIENT_EMAIL = process.env.SYSTEM_RECIPIENT_EMAIL;

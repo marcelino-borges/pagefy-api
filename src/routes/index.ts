@@ -2,6 +2,7 @@ import * as express from "express";
 import * as userController from "../controllers/user.controller";
 import * as pageController from "../controllers/pages.controller";
 import * as filesController from "../controllers/files.controller";
+import * as emailController from "../controllers/email.controller";
 import { verifyToken } from "../middlewares/firebase";
 import initializeMulter, { memoryStorage } from "multer";
 
@@ -47,11 +48,19 @@ router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 /*
  * IMAGES UPLOAD
  */
+
 router.post(
   "/files",
   multer.single("image") /*, verifyToken*/,
   filesController.uploadImage
 );
 router.delete("/files" /*, verifyToken*/, filesController.deleteImage);
+
+/*
+ * SEND EMAIL
+ */
+
+// Public routes
+router.post("/contact", emailController.sendUserContact);
 
 export default router;

@@ -680,6 +680,63 @@
           }
         }
       }
+    },
+    "/contact": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Uploads an image.",
+        "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Image file to be uploaded (JPEG, PNG, GIF and WEBG)",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "ID of the user sending the file",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userFolderName",
+            "in": "formData",
+            "description": "Name of the folder inside user's folder in storage (default is 'general', when no pageId is provided)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageId",
+            "in": "formData",
+            "description": "ID of the page, if the image belongs to any page (if any, user gains a new folder, in his directory, with the ID of the page as name, and the image will go inside it - and userFolderName is not considered.)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "URL of the image stored"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

@@ -1,7 +1,6 @@
 import { AppErrorsMessages, AppSuccessMessages } from "../constants";
 import { IUserPage } from "../models/pages.models";
-import { Request } from "express";
-import { Response } from "express";
+import { Request, Response } from "express";
 import AppResult from "../errors/app-error";
 import * as pagesService from "../services/pages.service";
 import * as userService from "../services/user.service";
