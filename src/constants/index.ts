@@ -24,6 +24,8 @@ export enum AppErrorsMessages {
   USER_ASSOCIATED_TO_PAGE_NOT_FOUND = "User associated to page doesn't exist.",
   USERID_OR_EMAIL_REQUIRED = "UserID or user email are required.",
   USER_HAS_NO_PAGES = "User has no pages.",
+  USER_NOT_DELETED_FROM_MONGO = "User not deleted from mongo.",
+  USER_NOT_DELETED_FROM_FIREBASE = "User not deleted from Firebase.",
   PAGE_REQUIRED = "Page required.",
   PAGE_ID_MISSING = "Page ID missing.",
   PAGE_INVALID = "Page invalid.",

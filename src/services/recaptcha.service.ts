@@ -2,7 +2,6 @@ import axios from "axios";
 import { API_VERIFY_RECAPTCHA, RECAPTCHA_SECRET_KEY } from "../constants";
 import { IRecaptchaResult } from "../models/recaptcha.models";
 import qs from "qs";
-import log from "./../utils/logs";
 
 export const verifyRecaptcha = async (
   token: string

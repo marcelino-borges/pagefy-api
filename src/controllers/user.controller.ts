@@ -288,6 +288,64 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteUser = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['User']
+    #swagger.summary = 'Deletes an existing user'
+    #swagger.description  = 'Deletes an existing user in database'
+    #swagger.parameters['userEmail'] = {
+      in: 'query',
+      description: 'User email',
+      required: true,
+      schema: string,
+    }
+    #swagger.parameters['authId'] = {
+      in: 'query',
+      description: 'Firebase Auth UID',
+      required: true,
+      schema: string,
+    }
+    #swagger.responses[204] = {
+      description: 'User updated'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const userEmail: string = req.query.userEmail as string;
+  const authId: string = req.query.authId as string;
+  const tokenEmail: string = (req as any).tokenEmail as string;
+  const tokenUid: string = (req as any).tokenUid as string;
+
+  if (!userEmail || !authId) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.INVALID_REQUEST, null, 400));
+  }
+
+  try {
+    const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, authId);
+
+    if (!isAuthorized) {
+      return res
+        .status(401)
+        .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
+    }
+
+    return userService.deleteUser(req, res);
+  } catch (e: any) {
+    log.error("[UserController.deleteUser] EXCEPTION: ", e);
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
 export const isUserAuthorized = async (
   tokenEmail: string | undefined,
   tokenUid: string | undefined,

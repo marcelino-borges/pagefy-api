@@ -14,11 +14,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## Versions
+
+### [1.5.0] - 2022-10-03
+
+- Feature: Implemented endpoint to delete an user
+
 ### [1.4.1] - 2022-10-02
 
 - Fix: recaptcha token verification
-
-## Versions
 
 ### [1.4.0] - 2022-10-02
 

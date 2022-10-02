@@ -26,6 +26,7 @@ router.get("/user/exists", userController.doesUserExist);
 router.get("/user", verifyToken, userController.getUser);
 router.post("/user", verifyToken, userController.createUser);
 router.put("/user", verifyToken, userController.updateUser);
+router.delete("/user", verifyToken, userController.deleteUser);
 
 /*
  * PAGES
