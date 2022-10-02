@@ -86,4 +86,4 @@ export const SYSTEM_RECIPIENT_EMAIL = process.env.SYSTEM_RECIPIENT_EMAIL;
 export const API_VERIFY_RECAPTCHA =
   "https://www.google.com/recaptcha/api/siteverify";
 
-export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
+export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || "";

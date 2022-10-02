@@ -39,13 +39,7 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
       token
     );
 
-    if (!result) {
-      return res
-        .status(500)
-        .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, null, 500));
-    }
-
-    if (!result.success) {
+    if (!result || !result.success) {
       return res
         .status(401)
         .json(

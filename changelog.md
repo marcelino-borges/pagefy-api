@@ -14,6 +14,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+### [1.4.1] - 2022-10-02
+
+- Fix: recaptcha token verification
+
 ## Versions
 
 ### [1.4.0] - 2022-10-02

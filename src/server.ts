@@ -9,7 +9,6 @@ import connectMongo from "./config/mongo";
 import admin from "firebase-admin";
 import firebaseConfig from "./config/firebase";
 import log from "./utils/logs";
-import { ALLOWED_ORIGINS } from "./constants";
 
 dotenvSafe.config({
   allowEmptyValues: true,
