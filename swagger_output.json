@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.2.0",
+    "version": "1.4.0",
     "title": "REST API",
     "description": ""
   },
@@ -684,50 +684,99 @@
     "/contact": {
       "post": {
         "tags": [
-          "Files"
+          "Email"
         ],
-        "summary": "Uploads an image.",
-        "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
+        "summary": "Sends a user email message for system",
+        "description": "Sends a user email message for system",
         "parameters": [
           {
-            "name": "file",
-            "in": "formData",
-            "description": "Image file to be uploaded (JPEG, PNG, GIF and WEBG)",
+            "name": "recaptcha-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "User name",
             "required": true,
-            "type": "file"
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           },
           {
-            "name": "userId",
-            "in": "formData",
-            "description": "ID of the user sending the file",
+            "name": "email",
+            "in": "body",
+            "description": "User email",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           },
           {
-            "name": "userFolderName",
-            "in": "formData",
-            "description": "Name of the folder inside user's folder in storage (default is 'general', when no pageId is provided)",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "pageId",
-            "in": "formData",
-            "description": "ID of the page, if the image belongs to any page (if any, user gains a new folder, in his directory, with the ID of the page as name, and the image will go inside it - and userFolderName is not considered.)",
-            "required": false,
-            "type": "string"
+            "name": "message",
+            "in": "body",
+            "description": "Message body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
           }
         ],
         "responses": {
           "200": {
             "type": "string",
-            "description": "URL of the image stored"
+            "description": "Message sent"
           },
           "400": {
             "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        }
+      }
+    },
+    "/verify-recaptcha": {
+      "post": {
+        "tags": [
+          "ReCAPTCHA"
+        ],
+        "summary": "Verifies if a given reCAPCTCHA token is validated by Google",
+        "description": "Verifies if a given reCAPCTCHA token is validated by Google",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Token returned from the client recaptcha",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "When a token is validated"
+          },
+          "401": {
+            "description": "When a token is not validated"
           },
           "500": {
             "description": "Message of error",
