@@ -5,6 +5,8 @@ export enum AppErrorsMessages {
   INVALID_REFRESH_TOKEN = "Invalid refresh token.",
   NOT_AUTHORIZED = "Not authorized.",
   NO_TOKEN_PROVIDED = "No token provided.",
+  NO_RECAPTCHA_PROVIDED = "No reCAPTCHA provided.",
+  RECAPTCHA_NOT_VALIDATED = "ReCAPTCHA not validated.",
   INVALID_TOKEN = "Invalid token.",
   FAIL_AUTH_TOKEN = "Invalid token.",
   FAIL_GET_TOKEN = "Failed to get token.",
@@ -55,6 +57,7 @@ export enum AppSuccessMessages {
   SIGNOUT = "User successfully signed out.",
   PAGE_DELETED = "Page successfully deleted.",
   FILE_DELETE_SUCCESS = "File deleted successfully.",
+  RECAPTCHA_VALIDATED = "ReCAPTCHA validated.",
 }
 
 export const ALLOWED_FILE_TYPES = [
@@ -79,3 +82,8 @@ export const NOREPLY_EMAIL_SENDER = {
 };
 
 export const SYSTEM_RECIPIENT_EMAIL = process.env.SYSTEM_RECIPIENT_EMAIL;
+
+export const API_VERIFY_RECAPTCHA =
+  "https://www.google.com/recaptcha/api/siteverify";
+
+export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;

@@ -3,8 +3,10 @@ import * as userController from "../controllers/user.controller";
 import * as pageController from "../controllers/pages.controller";
 import * as filesController from "../controllers/files.controller";
 import * as emailController from "../controllers/email.controller";
-import { verifyToken } from "../middlewares/firebase";
+import * as recaptchaController from "../controllers/recaptcha.controller";
+import { verifyToken } from "../middlewares/firebase.middleware";
 import initializeMulter, { memoryStorage } from "multer";
+import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
 
 const router = express.Router();
 
@@ -61,6 +63,13 @@ router.delete("/files" /*, verifyToken*/, filesController.deleteImage);
  */
 
 // Public routes
-router.post("/contact", emailController.sendUserContact);
+router.post("/contact", verifyRecaptcha, emailController.sendUserContact);
+
+/*
+ * VERIFY RECAPTCHA
+ */
+
+// Public routes
+router.post("/verify-recaptcha", recaptchaController.verifyRecaptcha);
 
 export default router;

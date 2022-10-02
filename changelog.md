@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.4.0] - 2022-10-02
+
+- Feature: Implemented recaptcha endpoint and middleware validation
+
 ### [1.3.0] - 2022-10-01
 
 - Feature: Implemented email contact to serve support page
