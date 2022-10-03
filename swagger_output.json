@@ -226,19 +226,14 @@
             "type": "string"
           },
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "schema": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "userEmail",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
