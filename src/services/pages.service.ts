@@ -185,3 +185,9 @@ export const incrementComponentClicks = async (
 
   return true;
 };
+
+export const deleteAllUserPages = async (userId: string): Promise<number> => {
+  const deletedCount = (await PagesDB.deleteMany({ userId })).deletedCount;
+
+  return deletedCount || 0;
+};

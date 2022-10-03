@@ -117,6 +117,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
     );
 };
 
+// TODO: Check if can be used into `deleteFileFromStorage()`
 export const deleteFile = async (url: string) => {
   const bucket = process.env.FIREBASE_STORAGE_BUCKET_URL;
 

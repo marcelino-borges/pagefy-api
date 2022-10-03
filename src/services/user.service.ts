@@ -4,6 +4,7 @@ import { IUser } from "./../models/user.models";
 import AppResult from "./../errors/app-error";
 import { AppErrorsMessages } from "../constants";
 import { getAuth } from "firebase-admin/auth";
+import { deleteAllUserPages } from "./pages.service";
 
 export const getUserByEmail = async (email: string) => {
   const found = await UserDB.findOne({ email }).lean();
@@ -68,10 +69,10 @@ export const updateUser = async (user: IUser) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  const userEmail: string = req.query.userEmail as string;
+  const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
 
-  if (!userEmail || !authId) {
+  if (!userId || !authId) {
     return res
       .status(400)
       .json(new AppResult(AppErrorsMessages.INVALID_REQUEST, null, 400));
@@ -83,25 +84,18 @@ export const deleteUser = async (req: Request, res: Response) => {
     .deleteUser(authId)
     .then(async () => {
       // After successfuly deleting firebase auth user
-      const deletedCount = (
+      const usersDeletedCount = (
         await UserDB.deleteOne({
-          email: userEmail,
+          _id: userId,
         })
       ).deletedCount; // deleteOne() removes at most one, but the count can be 0, if couln't delete the user
 
-      if (deletedCount === 1) {
-        return res.status(204);
-      } else {
-        return res
-          .status(400)
-          .json(
-            new AppResult(
-              AppErrorsMessages.USER_NOT_DELETED_FROM_MONGO,
-              null,
-              400
-            )
-          );
-      }
+      const pagesDeletedCount = await deleteAllUserPages(userId);
+      return res.status(204).json({
+        usersDeletedCount,
+        pagesDeletedCount,
+        filesDeletedCount: 0, //TODO
+      });
     })
     .catch((error: any) => {
       return res
