@@ -81,7 +81,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
   const firebaseAuth = getAuth();
 
-  firebaseAuth
+  return firebaseAuth
     .deleteUser(authId)
     .then(async () => {
       // After successfuly deleting firebase auth user
