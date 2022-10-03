@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.5.0",
+    "version": "1.5.1",
     "title": "REST API",
     "description": ""
   },

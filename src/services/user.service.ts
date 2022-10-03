@@ -5,6 +5,7 @@ import AppResult from "./../errors/app-error";
 import { AppErrorsMessages } from "../constants";
 import { getAuth } from "firebase-admin/auth";
 import { deleteAllUserPages } from "./pages.service";
+import { deleteAllUserFiles } from "./files.service";
 
 export const getUserByEmail = async (email: string) => {
   const found = await UserDB.findOne({ email }).lean();
@@ -91,10 +92,13 @@ export const deleteUser = async (req: Request, res: Response) => {
       ).deletedCount; // deleteOne() removes at most one, but the count can be 0, if couln't delete the user
 
       const pagesDeletedCount = await deleteAllUserPages(userId);
+
+      const filesDeletedCount: number = await deleteAllUserFiles(userId);
+
       return res.status(204).json({
         usersDeletedCount,
         pagesDeletedCount,
-        filesDeletedCount: 0, //TODO
+        filesDeletedCount,
       });
     })
     .catch((error: any) => {

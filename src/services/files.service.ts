@@ -133,3 +133,20 @@ export const deleteFile = async (url: string) => {
     .then(() => true)
     .catch(() => false);
 };
+
+export const deleteAllUserFiles = async (userId: string): Promise<number> => {
+  const bucket = process.env.FIREBASE_STORAGE_BUCKET_URL;
+
+  if (!bucket) return 0;
+  const userBucketName = `users/${userId}`;
+
+  const userStorage = getStorage().bucket(userBucketName);
+  const [files] = await userStorage.getFiles();
+
+  const filesCount = files.length;
+
+  return userStorage
+    .delete()
+    .then(() => filesCount)
+    .catch(() => 0);
+};
