@@ -317,12 +317,12 @@ export const deleteUser = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const userEmail: string = req.query.userEmail as string;
+  const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
   const tokenEmail: string = (req as any).tokenEmail as string;
   const tokenUid: string = (req as any).tokenUid as string;
 
-  if (!userEmail || !authId) {
+  if (!userId || !authId) {
     return res
       .status(400)
       .json(new AppResult(AppErrorsMessages.INVALID_REQUEST, null, 400));
@@ -337,7 +337,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
     }
 
-    return userService.deleteUser(req, res);
+    return await userService.deleteUser(req, res);
   } catch (e: any) {
     log.error("[UserController.deleteUser] EXCEPTION: ", e);
     return res
