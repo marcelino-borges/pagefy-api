@@ -53,6 +53,7 @@ export enum AppErrorsMessages {
   FILE_UPLOAD_GENERAL_ERROR = "Error uploading file.",
   FILE_DELETE_GENERAL_ERROR = "Error deleting file.",
   FIELDS_REQUIRED_EMAIL_CONTACT = "Invalid input for email contact.",
+  IMAGES_NOT_FOUND = "Images not found.",
 }
 
 export enum AppSuccessMessages {
@@ -89,3 +90,13 @@ export const API_VERIFY_RECAPTCHA =
   "https://www.google.com/recaptcha/api/siteverify";
 
 export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || "";
+
+export const STORAGE_BUCKETS = {
+  baseUrl: "https://storage.googleapis.com",
+  socialbioProject: process.env.FIREBASE_STORAGE_BUCKET_URL || "",
+  userUploadedImages: "uploaded-images",
+  buttonsTemplates: "system/images/templates/buttons",
+  backgroundsTemplates: "system/images/templates/backgrounds",
+  userProfileTemplates: "system/images/templates/user-profile",
+  pagesImgsTemplates: "system/images/templates/pages-imgs",
+};

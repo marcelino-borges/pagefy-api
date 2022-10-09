@@ -2,10 +2,9 @@ import { Request } from "express";
 import { Response } from "express";
 import AppResult from "../errors/app-error";
 import { ALLOWED_FILE_TYPES, AppErrorsMessages } from "../constants";
-import {
-  deleteFileFromStorage,
-  uploadFileToStorage,
-} from "../services/files.service";
+import * as filesService from "../services/files.service";
+import log from "../utils/logs";
+import { IImageDetails } from "../models/files.models";
 
 export const uploadImage = async (req: Request, res: Response) => {
   /* 
@@ -63,7 +62,7 @@ export const uploadImage = async (req: Request, res: Response) => {
         .status(400)
         .json(new AppResult(AppErrorsMessages.FILE_REQUIRED, null, 400));
     }
-    return uploadFileToStorage(req, res);
+    return filesService.uploadFileToStorage(req, res);
   } catch (e: any) {
     return res
       .status(500)
@@ -102,7 +101,208 @@ export const deleteImage = async (req: Request, res: Response) => {
     }
   */
   try {
-    return deleteFileFromStorage(req, res);
+    return filesService.deleteFileFromStorage(req, res);
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getAllUserImages = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Files']
+    #swagger.summary = 'Gets all user images.'
+    #swagger.description  = 'Gets all user images.'
+    #swagger.parameters['userId'] = {
+      in: 'params',
+      description: 'ID of the user trying to get his/her files',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      type: 'string',
+      description: 'URL of the image stored'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  try {
+    const userId: string = req.params.userId;
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, undefined, 400));
+    }
+
+    const images: IImageDetails[] | null = await filesService.getAllUserImages(
+      userId
+    );
+
+    if (images) {
+      return res.status(200).json(images);
+    }
+
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getAllButtonsTemplates = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Files']
+    #swagger.summary = 'Gets all buttons templates.'
+    #swagger.description  = 'Gets all buttons templates.'
+    #swagger.responses[200] = {
+      type: 'string',
+      description: 'URL of the image stored'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  try {
+    const images: IImageDetails[] | null =
+      await filesService.getAllButtonsTemplates();
+
+    if (images) {
+      return res.status(200).json(images);
+    }
+
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getAllBackgroundsTemplates = async (
+  req: Request,
+  res: Response
+) => {
+  /* 
+    #swagger.tags = ['Files']
+    #swagger.summary = 'Gets all background templates.'
+    #swagger.description  = 'Gets all background templates.'
+    #swagger.responses[200] = {
+      type: 'string',
+      description: 'URL of the image stored'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  try {
+    const images: IImageDetails[] | null =
+      await filesService.getAllBackgroundsTemplates();
+
+    if (images) {
+      return res.status(200).json(images);
+    }
+
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getAllUserProfileTemplates = async (
+  req: Request,
+  res: Response
+) => {
+  /* 
+    #swagger.tags = ['Files']
+    #swagger.summary = 'Gets all user profile templates.'
+    #swagger.description  = 'Gets all user profile templates.'
+    #swagger.responses[200] = {
+      type: 'string',
+      description: 'URL of the image stored'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  try {
+    const images: IImageDetails[] | null =
+      await filesService.getAllUserProfileTemplates();
+
+    if (images) {
+      return res.status(200).json(images);
+    }
+
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+  } catch (e: any) {
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getAllPagesImgsTemplates = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Files']
+    #swagger.summary = 'Gets all pages images templates.'
+    #swagger.description  = 'Gets all pages images templates.'
+    #swagger.responses[200] = {
+      type: 'string',
+      description: 'URL of the image stored'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  try {
+    const images: IImageDetails[] | null =
+      await filesService.getAllPagesImgsTemplates();
+
+    if (images) {
+      return res.status(200).json(images);
+    }
+
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)

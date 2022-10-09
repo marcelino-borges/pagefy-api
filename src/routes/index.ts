@@ -7,6 +7,7 @@ import * as recaptchaController from "../controllers/recaptcha.controller";
 import { verifyToken } from "../middlewares/firebase.middleware";
 import initializeMulter, { memoryStorage } from "multer";
 import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
+import { resourceLimits } from "worker_threads";
 
 const router = express.Router();
 
@@ -49,7 +50,7 @@ router.put("/page", verifyToken, pageController.updateUserPage);
 router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 
 /*
- * IMAGES UPLOAD
+ * IMAGES
  */
 
 router.post(
@@ -58,6 +59,26 @@ router.post(
   filesController.uploadImage
 );
 router.delete("/files" /*, verifyToken*/, filesController.deleteImage);
+router.get(
+  "/files/user/:userId" /*, verifyToken*/,
+  filesController.getAllUserImages
+);
+router.get(
+  "/files/templates/buttons" /*, verifyToken*/,
+  filesController.getAllButtonsTemplates
+);
+router.get(
+  "/files/templates/backgrounds" /*, verifyToken*/,
+  filesController.getAllBackgroundsTemplates
+);
+router.get(
+  "/files/templates/user-profile" /*, verifyToken*/,
+  filesController.getAllUserProfileTemplates
+);
+router.get(
+  "/files/templates/pages-imgs" /*, verifyToken*/,
+  filesController.getAllPagesImgsTemplates
+);
 
 /*
  * SEND EMAIL

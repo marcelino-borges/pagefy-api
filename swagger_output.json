@@ -226,7 +226,7 @@
             "type": "string"
           },
           {
-            "name": "userEmail",
+            "name": "userId",
             "in": "query",
             "type": "string"
           },
@@ -715,6 +715,154 @@
               "$ref": "#/definitions/Error"
             },
             "description": "Message of error"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/user/{userId}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all user images.",
+        "description": "Gets all user images.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "ID of the user trying to get his/her files"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/buttons": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all buttons templates.",
+        "description": "Gets all buttons templates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/backgrounds": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all background templates.",
+        "description": "Gets all background templates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/user-profile": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all user profile templates.",
+        "description": "Gets all user profile templates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/pages-imgs": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all pages images templates.",
+        "description": "Gets all pages images templates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
             "description": "Message of error",
