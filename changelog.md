@@ -16,7 +16,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
-### [1.6.0] - 2022-10-03
+### [1.7.0] - 2022-10-10
+
+- Feature: Image details now has a flag for system owned images
+
+### [1.6.0] - 2022-10-09
 
 - Feature: Implemented endpoints to get:
   - All user images

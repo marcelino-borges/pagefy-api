@@ -54,6 +54,7 @@ export enum AppErrorsMessages {
   FILE_DELETE_GENERAL_ERROR = "Error deleting file.",
   FIELDS_REQUIRED_EMAIL_CONTACT = "Invalid input for email contact.",
   IMAGES_NOT_FOUND = "Images not found.",
+  THUMBNAIL_NOT_DELETED = "Thumbnail not deleted.",
 }
 
 export enum AppSuccessMessages {
@@ -61,6 +62,7 @@ export enum AppSuccessMessages {
   PAGE_DELETED = "Page successfully deleted.",
   FILE_DELETE_SUCCESS = "File deleted successfully.",
   RECAPTCHA_VALIDATED = "ReCAPTCHA validated.",
+  THUMBNAIL_DELETED = "Thumbnail deleted.",
 }
 
 export const ALLOWED_FILE_TYPES = [

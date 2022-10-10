@@ -101,14 +101,44 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
   const storage = getStorage().bucket();
 
   const fileName = url.replace(
-    `https://storage.googleapis.com/${STORAGE_BUCKETS.socialbioProject}/`,
+    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
+    ""
+  );
+
+  let thumbFileName = getImageThumbnail(url, 200);
+  thumbFileName = thumbFileName.replace(
+    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
     ""
   );
 
   return storage
     .file(fileName)
     .delete()
-    .then(() => res.status(200).json(AppSuccessMessages.FILE_DELETE_SUCCESS))
+    .then(() =>
+      storage
+        .file(thumbFileName)
+        .delete()
+        .then(() => {
+          return res
+            .status(200)
+            .json(
+              new AppResult(
+                AppSuccessMessages.FILE_DELETE_SUCCESS,
+                AppSuccessMessages.THUMBNAIL_DELETED
+              )
+            );
+        })
+        .catch(() => {
+          return res
+            .status(200)
+            .json(
+              new AppResult(
+                AppSuccessMessages.FILE_DELETE_SUCCESS,
+                AppErrorsMessages.THUMBNAIL_NOT_DELETED
+              )
+            );
+        })
+    )
     .catch((e: any) =>
       res
         .status(400)
@@ -186,6 +216,7 @@ export const getAllImagesOnBucket = async (
         urlArray.push({
           original: originalUrl,
           thumbnail: thumbnailUrl,
+          isSystemOwned: originalUrl.includes("system/"),
         });
       }
     }
