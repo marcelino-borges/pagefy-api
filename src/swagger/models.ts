@@ -51,6 +51,10 @@ export const pageModel = {
   topComponents: [componentModel],
   middleComponents: [componentModel],
   bottomComponents: [componentModel],
+  customScripts: {
+    header: "let a = 1;",
+    endBody: "let a = 1;",
+  },
 };
 
 export const errorModel = {

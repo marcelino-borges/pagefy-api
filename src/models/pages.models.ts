@@ -12,6 +12,10 @@ export interface IUserPage {
   topComponents?: IUserComponent[];
   middleComponents?: IUserComponent[];
   bottomComponents?: IUserComponent[];
+  customScripts?: {
+    header?: string;
+    endBody?: string;
+  };
 }
 
 export interface IUserComponent {
@@ -133,6 +137,10 @@ const pageSchema = new Schema<IUserPage>(
     topComponents: { type: [componentSchema] },
     middleComponents: { type: [componentSchema] },
     bottomComponents: { type: [componentSchema] },
+    customScripts: {
+      header: { type: String },
+      endBody: { type: String },
+    },
   },
   {
     timestamps: true,

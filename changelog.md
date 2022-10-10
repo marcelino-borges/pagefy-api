@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.8.0] - 2022-10-10
+
+- Feature: Added custom scripts to page models
+
 ### [1.7.0] - 2022-10-10
 
 - Feature: Image details now has a flag for system owned images
