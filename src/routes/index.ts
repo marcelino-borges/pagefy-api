@@ -22,6 +22,7 @@ const multer = initializeMulter({
 
 // Public routes
 router.get("/user/exists", userController.doesUserExist);
+router.get("/user/:userId/plan", userController.getUserPlan);
 
 // Private routes
 router.get("/user", verifyToken, userController.getUser);

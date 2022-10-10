@@ -148,6 +148,59 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserPlan = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['User']
+    #swagger.summary = 'Gets an user's plan
+    #swagger.description  = 'Gets an user's plan'
+    #swagger.parameters['userId'] = {
+      in: 'params',
+      description: 'User ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      schema: { $ref: "#/definitions/User" },
+      description: 'User data'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const userId: string = req.params.userId as string;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, null, 400));
+  }
+
+  try {
+    let userFound;
+
+    if (userId && userId.length > 0) {
+      userFound = await userService.getUserById(userId);
+    }
+
+    if (!userFound) {
+      return res
+        .status(400)
+        .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+    }
+    return res.status(200).json(userFound.plan);
+  } catch (e: any) {
+    log.error("[UserController.getUserPlan] EXCEPTION: ", e);
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
 export const createUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
@@ -293,9 +346,9 @@ export const deleteUser = async (req: Request, res: Response) => {
     #swagger.tags = ['User']
     #swagger.summary = 'Deletes an existing user'
     #swagger.description  = 'Deletes an existing user in database'
-    #swagger.parameters['userEmail'] = {
+    #swagger.parameters['userId'] = {
       in: 'query',
-      description: 'User email',
+      description: 'User ID',
       required: true,
       schema: string,
     }

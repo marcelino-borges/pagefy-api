@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.6.0",
+    "version": "1.9.0",
     "title": "REST API",
     "description": ""
   },
@@ -65,6 +65,56 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
+          }
+        }
+      }
+    },
+    "/user/{userId}/plan": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Gets an user",
+        "description": "Gets an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Updates an existing user in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "description": "User updated"
+          },
+          "204": {
+            "description": "User updated"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
           }
         }
       }
@@ -1460,6 +1510,19 @@
                   }
                 }
               }
+            }
+          }
+        },
+        "customScripts": {
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string",
+              "example": "let a = 1;"
+            },
+            "endBody": {
+              "type": "string",
+              "example": "let a = 1;"
             }
           }
         }
