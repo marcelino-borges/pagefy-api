@@ -7,8 +7,12 @@ export const getLatestVersionFromChangelog = async (): Promise<any> => {
   return await fs
     .readFile(CHANGELOG_PATH, "utf8")
     .then((changelog) => {
-      const lastVersionIndex = changelog.indexOf("## Versions");
-      return changelog.slice(lastVersionIndex + 20, lastVersionIndex + 25);
+      const lastVersionIndex = changelog
+        .split("## Versions")[1]
+        .split("\r\n")[2]
+        .split("[")[1]
+        .split("]")[0];
+      return lastVersionIndex;
     })
     .catch((err: any) => {
       log.error(

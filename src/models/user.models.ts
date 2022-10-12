@@ -3,24 +3,26 @@ import { Schema, model } from "mongoose";
 export interface IUser {
   _id?: string;
   authId?: string;
+  paymentId?: string;
   profileImageUrl?: string;
   firstName: string;
   lastName: string;
   email: string;
   agreePrivacy: boolean;
   receiveCommunications: boolean;
-  plan: IPlan;
+  plan: PlansTypes;
 }
 
-export enum IPlan {
+export enum PlansTypes {
   FREE = 0,
-  P1 = 1,
-  P2 = 2,
+  VIP = 1,
+  PLATINUM = 2,
 }
 
 const authSchema = new Schema<IUser>(
   {
     authId: { type: String },
+    paymentId: { type: String },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, required: true },

@@ -1,7 +1,7 @@
 {
   "name": "socialbio-api",
   "version": "1.9.0",
-  "description": "SocialBio API TESTE",
+  "description": "SocialBio API",
   "main": "src/server.js",
   "scripts": {
     "build": "npm install",
