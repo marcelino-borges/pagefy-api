@@ -146,16 +146,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
         .json(new AppResult(AppErrorsMessages.PAGE_NOT_FOUND, null, 400));
     }
 
-    const incrementSuccess = await pagesService.incrementUserPageViewsByUrl(
-      url
-    );
-
-    if (!incrementSuccess) {
-      log.success(
-        "[Controller getRendererPageByUrl] " +
-          AppErrorsMessages.PAGE_VIEW_INCREMENT
-      );
-    }
+    pagesService.incrementUserPageViewsByUrl(url);
 
     return res.status(200).json(pageFound);
   } catch (e: any) {

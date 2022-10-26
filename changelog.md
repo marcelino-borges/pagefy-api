@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.9.1] - 2022-10-10
+
+- Fix: Verifying url and userId on delete file endpoint
+
 ### [1.9.0] - 2022-10-10
 
 - Feature: Public endpoint to return user's plan

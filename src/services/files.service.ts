@@ -78,6 +78,18 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
 export const deleteFileFromStorage = async (req: Request, res: Response) => {
   const { url, userId } = req.body;
 
+  if (!url || userId) {
+    return res
+      .status(400)
+      .json(
+        new AppResult(
+          AppErrorsMessages.MISSING_PROPS,
+          AppErrorsMessages.MISSING_PROPS,
+          400
+        )
+      );
+  }
+
   const userFound = await getUserById(userId);
 
   if (!userFound) {
