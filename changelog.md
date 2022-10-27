@@ -16,6 +16,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.9.3] - 2022-10-27
+
+- Fix: check on userId with inverted logic for the delete image service
+
+### [1.9.2] - 2022-10-26
+
+- Fix: Verifying url and userId on delete file endpoint
+
 ### [1.9.1] - 2022-10-10
 
 - Fix: Verifying url and userId on delete file endpoint

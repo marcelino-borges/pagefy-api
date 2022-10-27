@@ -1,6 +1,6 @@
 {
   "name": "socialbio-api",
-  "version": "1.9.1",
+  "version": "1.9.3",
   "description": "SocialBio API",
   "main": "src/server.js",
   "scripts": {
