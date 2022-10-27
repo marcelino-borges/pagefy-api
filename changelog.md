@@ -16,9 +16,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.11.0] - 2022-10-28
+
+- Feature: Added Map component to enum
+
 ### [1.10.0] - 2022-10-27
 
--Feature: Added new button type: TextOverImage
+- Feature: Added new button type: TextOverImage
 
 ### [1.9.3] - 2022-10-27
 

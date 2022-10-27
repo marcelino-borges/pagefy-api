@@ -67,6 +67,7 @@ export const enum ButtonType {
   Video = 4,
   Launch = 5,
   TextOverImage = 6,
+  Map = 7,
 }
 
 const componentSchema = new Schema<IUserComponent>(
