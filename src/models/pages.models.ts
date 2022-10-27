@@ -26,7 +26,7 @@ export interface IUserComponent {
   visible: boolean;
   clicks: number;
   layout: IComponentLayout;
-  type: ComponentType;
+  type: ButtonType;
   mediaUrl?: string;
   iconDetails?: IIconDetails;
   visibleDate?: string;
@@ -59,13 +59,14 @@ export interface IComponentStyle {
   color?: string;
 }
 
-export const enum ComponentType {
+export const enum ButtonType {
   Text = 0,
   Image = 1,
   TextImage = 2,
   Icon = 3,
   Video = 4,
   Launch = 5,
+  TextOverImage = 6,
 }
 
 const componentSchema = new Schema<IUserComponent>(
