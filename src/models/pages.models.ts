@@ -26,7 +26,7 @@ export interface IUserComponent {
   visible: boolean;
   clicks: number;
   layout: IComponentLayout;
-  type: ButtonType;
+  type: ComponentType;
   mediaUrl?: string;
   iconDetails?: IIconDetails;
   visibleDate?: string;
@@ -60,7 +60,7 @@ export interface IComponentStyle {
   color?: string;
 }
 
-export const enum ButtonType {
+export const enum ComponentType {
   Text = 0,
   Image = 1,
   TextImage = 2,
@@ -70,6 +70,7 @@ export const enum ButtonType {
   TextOverImage = 6,
   Map = 7,
   Spotify = 8,
+  ProgressBar = 9,
 }
 
 const componentSchema = new Schema<IUserComponent>(

@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### [1.12.0] - 2022-10-28
 
 - Feature: Added CurrentPercentage to the component's interface and Mongo model
+- Feature: Added ProgressBar to the ComponentType enum
 
 ### [1.11.0] - 2022-10-28
 
