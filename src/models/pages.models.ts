@@ -32,7 +32,7 @@ export interface IUserComponent {
   visibleDate?: string;
   launchDate?: string;
   animation?: IComponentAnimation;
-  currentPercentage?: number;
+  progressValue?: number;
 }
 
 export interface IComponentAnimation {
@@ -113,7 +113,7 @@ const componentSchema = new Schema<IUserComponent>(
         infinite: { type: Boolean, required: true },
       },
     },
-    currentPercentage: { type: Number },
+    progressValue: { type: Number },
   },
   {
     timestamps: true,
