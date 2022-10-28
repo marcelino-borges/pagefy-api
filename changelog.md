@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.12.0] - 2022-10-28
+
+- Feature: Added CurrentPercentage to the component's interface and Mongo model
+
 ### [1.11.0] - 2022-10-28
 
 - Feature: Added Map component to enum
