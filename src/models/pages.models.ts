@@ -72,6 +72,7 @@ export const enum ComponentType {
   Map = 7,
   Spotify = 8,
   ProgressBar = 9,
+  Counter = 10,
 }
 
 export interface ICounter {
