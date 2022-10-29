@@ -33,6 +33,7 @@ export interface IUserComponent {
   launchDate?: string;
   animation?: IComponentAnimation;
   progressValue?: number;
+  counters?: ICounter[];
 }
 
 export interface IComponentAnimation {
@@ -71,6 +72,11 @@ export const enum ComponentType {
   Map = 7,
   Spotify = 8,
   ProgressBar = 9,
+}
+
+export interface ICounter {
+  number: number;
+  label: string;
 }
 
 const componentSchema = new Schema<IUserComponent>(
@@ -114,6 +120,14 @@ const componentSchema = new Schema<IUserComponent>(
       },
     },
     progressValue: { type: Number },
+    counters: {
+      type: [
+        {
+          number: { type: Number, required: true },
+          label: { type: String, required: true },
+        },
+      ],
+    },
   },
   {
     timestamps: true,

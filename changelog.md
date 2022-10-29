@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.13.0] - 2022-10-29
+
+- Feature: Added counters for the user page
+
 ### [1.12.0] - 2022-10-28
 
 - Feature: Added CurrentPercentage to the component's interface and Mongo model
