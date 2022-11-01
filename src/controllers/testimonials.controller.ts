@@ -45,7 +45,7 @@ export const createTestimonial = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const { userId, testimonial, pictureUrl, rating } = req.body;
+  const { userId, testimonial, pictureUrl, rating, videoUrl } = req.body;
 
   if (!userId || !testimonial || !pictureUrl || !rating) {
     return res
@@ -62,6 +62,7 @@ export const createTestimonial = async (req: Request, res: Response) => {
         testimonial,
         pictureUrl,
         rating,
+        videoUrl,
       });
     }
 
