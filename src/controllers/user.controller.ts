@@ -261,9 +261,14 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   try {
+    let defaultPlan = 0;
+
+    if (process.env.DEFAULT_USER_PLAN)
+      defaultPlan = parseInt(process.env.DEFAULT_USER_PLAN);
+
     const userPlanOverride: IUser = {
       ...user,
-      plan: process.env.DEFAULT_USER_PLAN as PlansTypes.PLATINUM,
+      plan: defaultPlan as PlansTypes.PLATINUM,
     };
     const userCreated = await userService.createUser(userPlanOverride);
 
