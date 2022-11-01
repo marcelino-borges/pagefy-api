@@ -4,6 +4,7 @@ import * as pageController from "../controllers/pages.controller";
 import * as filesController from "../controllers/files.controller";
 import * as emailController from "../controllers/email.controller";
 import * as recaptchaController from "../controllers/recaptcha.controller";
+import * as testimonialsController from "../controllers/testimonials.controller";
 import { verifyToken } from "../middlewares/firebase.middleware";
 import initializeMulter, { memoryStorage } from "multer";
 import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
@@ -94,5 +95,18 @@ router.post("/contact", verifyRecaptcha, emailController.sendUserContact);
 
 // Public routes
 router.post("/verify-recaptcha", recaptchaController.verifyRecaptcha);
+
+/*
+ * VERIFY RECAPTCHA
+ */
+router.get(
+  "/testimonials/last/user/:userId",
+  testimonialsController.getUserLastTestimonial
+);
+router.get(
+  "/testimonials/all/user/:userId",
+  testimonialsController.getUserTestimonials
+);
+router.post("/testimonials", testimonialsController.createTestimonial);
 
 export default router;
