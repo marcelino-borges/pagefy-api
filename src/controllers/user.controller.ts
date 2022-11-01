@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import * as userService from "../services/user.service";
 import AppResult from "../errors/app-error";
 import { AppErrorsMessages } from "../constants";
-import { IUser } from "../models/user.models";
+import { IUser, PlansTypes } from "../models/user.models";
 import log from "../utils/logs";
 
 export const doesUserExist = async (req: Request, res: Response) => {
@@ -261,7 +261,11 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const userCreated = await userService.createUser(user);
+    const userPlanOverride: IUser = {
+      ...user,
+      plan: process.env.DEFAULT_USER_PLAN as PlansTypes.PLATINUM,
+    };
+    const userCreated = await userService.createUser(userPlanOverride);
 
     if (!userCreated) {
       return res
