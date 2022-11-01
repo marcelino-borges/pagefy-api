@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.14.0",
+    "version": "1.15.0",
     "title": "REST API",
     "description": ""
   },
@@ -10,6 +10,16 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "bearerFormat": "JWT",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Provide a JWT bearer token",
+      "value": "Bearer XXXXXXXXXXXXXXXXXX"
+    }
+  },
   "consumes": [
     "application/json"
   ],
@@ -79,7 +89,7 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "params",
+            "in": "query",
             "required": true,
             "type": "string",
             "description": "User ID"
@@ -92,6 +102,13 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "description": "Firebase Auth UID",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -116,7 +133,12 @@
             },
             "description": "Message of error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/user": {
@@ -169,7 +191,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -215,7 +242,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -261,7 +293,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -278,11 +315,15 @@
           {
             "name": "userId",
             "in": "query",
+            "description": "User ID",
+            "required": true,
             "type": "string"
           },
           {
             "name": "authId",
             "in": "query",
+            "description": "Firebase Auth UID",
+            "required": true,
             "type": "string"
           }
         ],
@@ -305,7 +346,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/page/id/{pageId}": {
@@ -393,7 +439,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/page/url/{url}": {
@@ -521,7 +572,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/page": {
@@ -569,7 +625,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -615,7 +676,12 @@
               "$ref": "#/definitions/Error"
             }
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/page/component-clicks": {
@@ -987,7 +1053,12 @@
             },
             "description": "Message of error"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/verify-recaptcha": {

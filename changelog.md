@@ -16,6 +16,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.15.0] - 2022-11-01
+
+- Feature: Implemented testimonials get and create
+- Feature: Bearer authorization in Swagger
+
 ### [1.14.0] - 2022-11-01
 
 - Feature: default type of plan for a new user now comes from an ENV var (default set to 2 - Platinum)

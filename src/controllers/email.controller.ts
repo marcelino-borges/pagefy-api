@@ -13,6 +13,9 @@ export const sendUserContact = async (req: Request, res: Response) => {
     #swagger.tags = ['Email']
     #swagger.summary = 'Sends a user email message for system's email'
     #swagger.description  = 'Sends a user email message for system's email'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['name'] = {
       in: 'body',
       description: 'User name',

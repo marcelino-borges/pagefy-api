@@ -161,6 +161,9 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets all user pages by user ID'
     #swagger.description  = 'Gets all pages from database by user ID'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['userId'] = {
       in: 'params',
       description: 'Gets all pages from database by user ID',
@@ -225,6 +228,9 @@ export const createUserPage = async (req: Request, res: Response) => {
     #swagger.tags = ['Page']
     #swagger.summary = 'Creates an user page'
     #swagger.description  = 'Creates an user page in database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['page'] = {
       in: 'body',
       description: 'Creates an user page in database',
@@ -319,6 +325,9 @@ export const updateUserPage = async (req: Request, res: Response) => {
     #swagger.tags = ['Page']
     #swagger.summary = 'Updates an user page'
     #swagger.description  = 'Updates an user page in database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['page'] = {
       in: 'body',
       description: 'Updates an user page in database',
@@ -401,6 +410,9 @@ export const deleteUserPage = async (req: Request, res: Response) => {
     #swagger.tags = ['Page']
     #swagger.summary = 'Deletes an user page'
     #swagger.description  = 'Deletes an user page from database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['pageId'] = {
       in: 'params',
       description: 'Deletes an user page from database',

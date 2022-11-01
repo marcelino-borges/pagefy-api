@@ -55,6 +55,7 @@ export enum AppErrorsMessages {
   FIELDS_REQUIRED_EMAIL_CONTACT = "Invalid input for email contact.",
   IMAGES_NOT_FOUND = "Images not found.",
   THUMBNAIL_NOT_DELETED = "Thumbnail not deleted.",
+  ERROR_CREATE_TESTIMONIAL = "Error creating the testimonial.",
 }
 
 export enum AppSuccessMessages {

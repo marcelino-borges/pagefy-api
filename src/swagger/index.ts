@@ -31,6 +31,16 @@ export const runSwaggerAutogen = async (apiVersion: string) => {
       Style: styleModel,
       Component: componentModel,
     },
+    securityDefinitions: {
+      bearerAuth: {
+        type: "apiKey",
+        bearerFormat: "JWT",
+        in: "header",
+        name: "Authorization",
+        description: "Provide a JWT bearer token",
+        value: "Bearer XXXXXXXXXXXXXXXXXX",
+      },
+    },
   };
 
   swaggerAutogen()(SWAGGER_OUTPUT_PATH, ROUTES_PATH, doc);

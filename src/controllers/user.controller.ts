@@ -71,6 +71,9 @@ export const getUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Gets an user by his email'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.description  = 'Gets an user from database by his email'
     #swagger.parameters['userId'] = {
       in: 'query',
@@ -206,6 +209,9 @@ export const createUser = async (req: Request, res: Response) => {
     #swagger.tags = ['User']
     #swagger.summary = 'Creates a new user'
     #swagger.description  = 'Creates a new user to database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['user'] = {
       in: 'body',
       description: 'User to be created in database',
@@ -292,6 +298,9 @@ export const updateUser = async (req: Request, res: Response) => {
     #swagger.tags = ['User']
     #swagger.summary = 'Updates an existing user'
     #swagger.description  = 'Updates an existing user in database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['user'] = {
       in: 'body',
       description: 'Updates an existing user in database',
@@ -355,17 +364,20 @@ export const deleteUser = async (req: Request, res: Response) => {
     #swagger.tags = ['User']
     #swagger.summary = 'Deletes an existing user'
     #swagger.description  = 'Deletes an existing user in database'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
     #swagger.parameters['userId'] = {
       in: 'query',
       description: 'User ID',
       required: true,
-      schema: string,
+      type: 'string',
     }
     #swagger.parameters['authId'] = {
       in: 'query',
       description: 'Firebase Auth UID',
       required: true,
-      schema: string,
+      type: 'string',
     }
     #swagger.responses[204] = {
       description: 'User updated'
