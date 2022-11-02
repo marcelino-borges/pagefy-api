@@ -97,7 +97,7 @@ router.post("/contact", verifyRecaptcha, emailController.sendUserContact);
 router.post("/verify-recaptcha", recaptchaController.verifyRecaptcha);
 
 /*
- * VERIFY RECAPTCHA
+ * TESTIMONIALS
  */
 router.get(
   "/testimonials/last/user/:userId",
@@ -108,5 +108,11 @@ router.get(
   testimonialsController.getUserTestimonials
 );
 router.post("/testimonials", testimonialsController.createTestimonial);
+router.post("/testimonials", testimonialsController.createTestimonial);
+router.put("/testimonials", testimonialsController.updateUserTestimonial);
+router.delete(
+  "/testimonials/:testimonialId",
+  testimonialsController.deleteUserTestimonial
+);
 
 export default router;

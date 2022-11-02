@@ -69,6 +69,17 @@ export const fileUploadFormDataModel = {
   pageId: "jica98vncu1-9010incv1",
 };
 
+export const userTestimonialModel = {
+  _id: "asd123asd-asd12asd",
+  userId: "asd123asd-asd12asd",
+  testimonial: "",
+  pictureUrl: "",
+  videoUrl: "",
+  rating: 0,
+  createdAt: "2022-11-02T20:26:06.397Z",
+  updatedAt: "2022-11-02T20:26:06.397Z",
+};
+
 export const userModel = {
   _id: "asd123asd-asd12asd",
   firstName: "John",

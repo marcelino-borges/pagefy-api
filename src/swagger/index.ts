@@ -6,6 +6,7 @@ import {
   fileUploadFormDataModel,
   styleModel,
   componentModel,
+  userTestimonialModel,
 } from "./models";
 
 import swaggerAutogen from "swagger-autogen";
@@ -30,6 +31,7 @@ export const runSwaggerAutogen = async (apiVersion: string) => {
       ImageUploadFormData: fileUploadFormDataModel,
       Style: styleModel,
       Component: componentModel,
+      Testimonial: userTestimonialModel,
     },
     securityDefinitions: {
       bearerAuth: {

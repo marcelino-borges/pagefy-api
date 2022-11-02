@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.15.1",
+    "version": "1.16.0",
     "title": "REST API",
     "description": ""
   },
@@ -1249,6 +1249,80 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "testimonialId"
+        ],
+        "summary": "Delete a testimonial from an user",
+        "description": "Delete a testimonial from an user",
+        "parameters": [
+          {
+            "name": "testimonialId",
+            "in": "body",
+            "description": "Testimonial ID",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/{testimonialId}": {
+      "delete": {
+        "tags": [
+          "testimonialId"
+        ],
+        "summary": "Delete a testimonial from an user",
+        "description": "Delete a testimonial from an user",
+        "parameters": [
+          {
+            "name": "testimonialId",
+            "in": "body",
+            "required": true,
+            "description": "Testimonial ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
       }
     }
   },
@@ -1938,6 +2012,43 @@
               }
             }
           }
+        }
+      }
+    },
+    "Testimonial": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "userId": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "testimonial": {
+          "type": "string",
+          "example": ""
+        },
+        "pictureUrl": {
+          "type": "string",
+          "example": ""
+        },
+        "videoUrl": {
+          "type": "string",
+          "example": ""
+        },
+        "rating": {
+          "type": "number",
+          "example": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2022-11-02T20:26:06.397Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-11-02T20:26:06.397Z"
         }
       }
     }

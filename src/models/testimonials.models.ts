@@ -4,9 +4,9 @@ export interface ITestimonial {
   _id?: string;
   userId: string;
   testimonial: string;
-  pictureUrl?: string;
-  videoUrl: string;
   rating: number;
+  pictureUrl?: string;
+  videoUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -18,9 +18,9 @@ const testimonialSchema = new Schema<ITestimonial>(
       ref: "Users",
     },
     testimonial: { type: String, required: true },
+    rating: { type: Number, required: true },
     pictureUrl: { type: String },
     videoUrl: { type: String },
-    rating: { type: Number, required: true },
     createdAt: { type: Date },
     updateddAt: { type: Date },
   },

@@ -56,6 +56,8 @@ export enum AppErrorsMessages {
   IMAGES_NOT_FOUND = "Images not found.",
   THUMBNAIL_NOT_DELETED = "Thumbnail not deleted.",
   ERROR_CREATE_TESTIMONIAL = "Error creating the testimonial.",
+  ERROR_UPDATE_TESTIMONIAL = "Error updating the testimonial.",
+  ERROR_DELETE_TESTIMONIAL = "Error deleting the testimonial.",
 }
 
 export enum AppSuccessMessages {

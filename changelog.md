@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.16.0] - 2022-11-02
+
+- Feature: Update and delete testimonial
+
 ### [1.15.1] - 2022-11-02
 
 - Fix: Get all user testimonials sorting invert

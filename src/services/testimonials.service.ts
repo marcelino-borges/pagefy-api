@@ -37,3 +37,33 @@ export const getUserLastTestimonial = async (userId: string) => {
 
   return testimonial[testimonial.length - 1];
 };
+
+export const updateUserTestimonial = async (
+  testimonial: ITestimonial
+): Promise<ITestimonial | null> => {
+  const updatedTestimonial = await TestimonialDB.findOneAndUpdate(
+    { _id: testimonial._id },
+    { ...testimonial },
+    { new: true }
+  ).lean();
+
+  if (!updatedTestimonial) {
+    return null;
+  }
+
+  return updatedTestimonial;
+};
+
+export const deleteUserTestimonial = async (
+  testimonialId: string
+): Promise<ITestimonial | null> => {
+  const deletedTestimonial = await TestimonialDB.findOneAndDelete({
+    _id: testimonialId,
+  }).lean();
+
+  if (!deletedTestimonial) {
+    return null;
+  }
+
+  return deletedTestimonial;
+};
