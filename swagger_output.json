@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.15.0",
+    "version": "1.15.1",
     "title": "REST API",
     "description": ""
   },
@@ -1090,6 +1090,157 @@
           },
           "401": {
             "description": "When a token is not validated"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/last/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get the last testimonial from an user",
+        "description": "Get the last testimonial from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/all/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get all testimonials from an user",
+        "description": "Get all testimonials from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials": {
+      "post": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Creates a new testimonial",
+        "description": "Creates a new testimonial",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "name": "testimonial",
+            "in": "body",
+            "description": "User testimonial",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "pictureUrl",
+            "in": "body",
+            "description": "User picture url",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "User rating",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           },
           "500": {
             "description": "Message of error",

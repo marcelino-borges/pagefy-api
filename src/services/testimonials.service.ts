@@ -17,7 +17,7 @@ export const getUserTestimonials = async (
 ): Promise<ITestimonial[] | null> => {
   const testimonials = await TestimonialDB.find({ userId })
     .sort({
-      createdAt: 1,
+      createdAt: -1,
     })
     .lean();
 

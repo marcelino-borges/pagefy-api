@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.15.1] - 2022-11-02
+
+- Fix: Get all user testimonials sorting invert
+
 ### [1.15.0] - 2022-11-01
 
 - Feature: Implemented testimonials get and create
