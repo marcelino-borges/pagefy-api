@@ -73,6 +73,10 @@ export const queryTestimonials = async (query: {
   locale: string;
 }): Promise<ITestimonial[] | null> => {
   const testimonials = await TestimonialDB.find({ locale: query.locale })
+    .populate(
+      "user",
+      "-authId -paymentId -agreePrivacy -receiveCommunications -plan"
+    )
     .sort({ updatedAt: "asc" })
     .limit(query.count);
 
