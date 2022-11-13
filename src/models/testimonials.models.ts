@@ -1,8 +1,9 @@
 import { model, Schema } from "mongoose";
+import { IUser } from "./user.models";
 
 export interface ITestimonial {
   _id?: string;
-  user: string;
+  user: Partial<IUser> | string;
   testimonial: string;
   rating: number;
   pictureUrl?: string;
