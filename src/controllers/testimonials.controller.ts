@@ -213,17 +213,21 @@ export const queryTestimonials = async (req: Request, res: Response) => {
   const count: number | undefined = req.query.count
     ? Number(req.query.count)
     : 100;
+  const locale: string | undefined = req.query.locale
+    ? String(req.query.locale)
+    : "en";
 
   try {
     const testimonialFound = await TestimonialService.queryTestimonials({
-      count: count,
+      count,
+      locale,
     });
 
     if (!testimonialFound) {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_GET_ALL_TESTIMONIAL, null, 400)
         );
     }
     return res.status(200).json(testimonialFound);

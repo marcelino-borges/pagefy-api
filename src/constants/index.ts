@@ -58,6 +58,7 @@ export enum AppErrorsMessages {
   ERROR_CREATE_TESTIMONIAL = "Error creating the testimonial.",
   ERROR_UPDATE_TESTIMONIAL = "Error updating the testimonial.",
   ERROR_DELETE_TESTIMONIAL = "Error deleting the testimonial.",
+  ERROR_GET_ALL_TESTIMONIAL = "Error get all testimonials.",
 }
 
 export enum AppSuccessMessages {

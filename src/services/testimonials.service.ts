@@ -70,8 +70,9 @@ export const deleteUserTestimonial = async (
 
 export const queryTestimonials = async (query: {
   count: number;
+  locale: string;
 }): Promise<ITestimonial[] | null> => {
-  const testimonials = await TestimonialDB.find()
+  const testimonials = await TestimonialDB.find({ locale: query.locale })
     .sort({ updatedAt: "asc" })
     .limit(query.count);
 
