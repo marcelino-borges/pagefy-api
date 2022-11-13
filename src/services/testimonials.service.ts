@@ -67,3 +67,17 @@ export const deleteUserTestimonial = async (
 
   return deletedTestimonial;
 };
+
+export const queryTestimonials = async (query: {
+  count: number;
+}): Promise<ITestimonial[] | null> => {
+  const testimonials = await TestimonialDB.find()
+    .sort({ updatedAt: "asc" })
+    .limit(query.count);
+
+  if (!testimonials) {
+    return null;
+  }
+
+  return testimonials;
+};

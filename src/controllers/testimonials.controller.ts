@@ -187,6 +187,54 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
   }
 };
 
+export const queryTestimonials = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['Testimonial']
+    #swagger.summary = 'Query testimonials'
+    #swagger.description  = 'Get testimonials'
+    #swagger.parameters['count'] = {
+      in: 'query',
+      description: 'Count of testimonials to retrieve',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      description: 'User data'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const count: number | undefined = req.query.count
+    ? Number(req.query.count)
+    : 100;
+
+  try {
+    const testimonialFound = await TestimonialService.queryTestimonials({
+      count: count,
+    });
+
+    if (!testimonialFound) {
+      return res
+        .status(400)
+        .json(
+          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400)
+        );
+    }
+    return res.status(200).json(testimonialFound);
+  } catch (e: any) {
+    log.error("[UserController.getUser] EXCEPTION: ", e);
+    return res
+      .status(500)
+      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
 export const updateUserTestimonial = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['testimonialId']

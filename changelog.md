@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.17.0] - 2022-11-13
+
+- Feature: Implemented GET testimonials (optional `count` in query)
+
 ### [1.16.0] - 2022-11-02
 
 - Feature: Update and delete testimonial

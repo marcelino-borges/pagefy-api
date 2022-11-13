@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.16.0",
+    "version": "1.17.0",
     "title": "REST API",
     "description": ""
   },
@@ -1100,83 +1100,40 @@
         }
       }
     },
-    "/testimonials/last/user/{userId}": {
-      "get": {
-        "tags": [
-          "Testimonial"
-        ],
-        "summary": "Get the last testimonial from an user",
-        "description": "Get the last testimonial from an user",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "body",
-            "required": true,
-            "description": "User ID",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User data"
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/testimonials/all/user/{userId}": {
-      "get": {
-        "tags": [
-          "Testimonial"
-        ],
-        "summary": "Get all testimonials from an user",
-        "description": "Get all testimonials from an user",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "body",
-            "required": true,
-            "description": "User ID",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User data"
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
     "/testimonials": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Query testimonials",
+        "description": "Get testimonials",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count of testimonials to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Testimonial"
@@ -1184,6 +1141,11 @@
         "summary": "Creates a new testimonial",
         "description": "Creates a new testimonial",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "userId",
             "in": "body",
@@ -1242,6 +1204,9 @@
               "$ref": "#/definitions/Error"
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Message of error",
             "schema": {
@@ -1257,6 +1222,11 @@
         "summary": "Delete a testimonial from an user",
         "description": "Delete a testimonial from an user",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "testimonialId",
             "in": "body",
@@ -1277,6 +1247,113 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/last/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get the last testimonial from an user",
+        "description": "Get the last testimonial from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/all/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get all testimonials from an user",
+        "description": "Get all testimonials from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",
@@ -1297,6 +1374,17 @@
         "parameters": [
           {
             "name": "testimonialId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "testimonialId",
             "in": "body",
             "required": true,
             "description": "Testimonial ID",
@@ -1315,6 +1403,9 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",

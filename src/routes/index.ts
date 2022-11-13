@@ -99,19 +99,34 @@ router.post("/verify-recaptcha", recaptchaController.verifyRecaptcha);
 /*
  * TESTIMONIALS
  */
+
+// Public routes
+router.get("/testimonials", testimonialsController.queryTestimonials);
+
+// Private routes
 router.get(
   "/testimonials/last/user/:userId",
+  verifyToken,
   testimonialsController.getUserLastTestimonial
 );
 router.get(
   "/testimonials/all/user/:userId",
+  verifyToken,
   testimonialsController.getUserTestimonials
 );
-router.post("/testimonials", testimonialsController.createTestimonial);
-router.post("/testimonials", testimonialsController.createTestimonial);
-router.put("/testimonials", testimonialsController.updateUserTestimonial);
+router.post(
+  "/testimonials",
+  verifyToken,
+  testimonialsController.createTestimonial
+);
+router.put(
+  "/testimonials",
+  verifyToken,
+  testimonialsController.updateUserTestimonial
+);
 router.delete(
   "/testimonials/:testimonialId",
+  verifyToken,
   testimonialsController.deleteUserTestimonial
 );
 
