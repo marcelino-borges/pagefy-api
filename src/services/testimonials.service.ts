@@ -16,8 +16,12 @@ export const getUserTestimonials = async (
   userId: string
 ): Promise<ITestimonial[] | null> => {
   const testimonials = await TestimonialDB.find({ user: userId })
+    .populate(
+      "user",
+      "-authId -paymentId -agreePrivacy -receiveCommunications -plan"
+    )
     .sort({
-      createdAt: -1,
+      createdAt: "desc",
     })
     .lean();
 
@@ -35,7 +39,7 @@ export const getUserLastTestimonial = async (userId: string) => {
     return null;
   }
 
-  return testimonial[testimonial.length - 1];
+  return testimonial[0];
 };
 
 export const updateUserTestimonial = async (
