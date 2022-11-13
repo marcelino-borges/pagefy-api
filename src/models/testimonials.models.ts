@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 export interface ITestimonial {
   _id?: string;
-  userId: string;
+  user: string;
   testimonial: string;
   rating: number;
   pictureUrl?: string;
@@ -14,7 +14,7 @@ export interface ITestimonial {
 
 const testimonialSchema = new Schema<ITestimonial>(
   {
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "Users",
     },

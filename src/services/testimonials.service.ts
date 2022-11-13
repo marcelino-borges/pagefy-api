@@ -15,7 +15,7 @@ export const createTestimonial = async (testimonial: ITestimonial) => {
 export const getUserTestimonials = async (
   userId: string
 ): Promise<ITestimonial[] | null> => {
-  const testimonials = await TestimonialDB.find({ userId })
+  const testimonials = await TestimonialDB.find({ user: userId })
     .sort({
       createdAt: -1,
     })

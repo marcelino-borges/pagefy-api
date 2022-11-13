@@ -59,7 +59,7 @@ export const createTestimonial = async (req: Request, res: Response) => {
 
     if (userId && userId.length > 0) {
       testimonialCreated = await TestimonialService.createTestimonial({
-        userId,
+        user: userId,
         testimonial,
         pictureUrl,
         rating,
