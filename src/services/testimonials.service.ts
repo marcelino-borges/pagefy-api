@@ -76,7 +76,7 @@ export const queryTestimonials = async (query: {
   count: number;
   locale: string;
 }): Promise<ITestimonial[] | null> => {
-  const testimonials = await TestimonialDB.find({ locale: query.locale })
+  const testimonials = await TestimonialDB.find({ language: query.locale })
     .populate(
       "user",
       "-authId -paymentId -agreePrivacy -receiveCommunications -plan"

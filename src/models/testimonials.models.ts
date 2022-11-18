@@ -8,7 +8,7 @@ export interface ITestimonial {
   rating: number;
   pictureUrl?: string;
   videoUrl?: string;
-  locale?: string;
+  language?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -22,7 +22,7 @@ const testimonialSchema = new Schema<ITestimonial>(
     testimonial: { type: String, required: true },
     rating: { type: Number, required: true },
     pictureUrl: { type: String },
-    locale: { type: String },
+    language: { type: String },
     videoUrl: { type: String },
     createdAt: { type: Date },
     updateddAt: { type: Date },
