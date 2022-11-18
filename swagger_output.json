@@ -1116,7 +1116,7 @@
             "type": "string"
           },
           {
-            "name": "locale",
+            "name": "language",
             "in": "query",
             "type": "string"
           }
@@ -1285,10 +1285,10 @@
             "type": "string"
           },
           {
-            "name": "user",
+            "name": "userId",
             "in": "body",
-            "description": "User ID",
             "required": true,
+            "description": "User ID",
             "schema": {
               "type": "object",
               "properties": {}
@@ -1337,10 +1337,10 @@
             "type": "string"
           },
           {
-            "name": "user",
+            "name": "userId",
             "in": "body",
-            "description": "User ID",
             "required": true,
+            "description": "User ID",
             "schema": {
               "type": "object",
               "properties": {}
@@ -1429,200 +1429,6 @@
         "summary": "Get all FAQs",
         "description": "Get all FAQs",
         "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Deleted FAQ"
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "FAQ"
-        ],
-        "summary": "Creates a new FAQ",
-        "description": "Creates a new FAQ",
-        "parameters": [
-          {
-            "name": "question",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "schema": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                }
-              }
-            },
-            "description": "Question of the FAQ",
-            "required": true
-          },
-          {
-            "name": "answer",
-            "in": "body",
-            "description": "Answer of the FAQ",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "locale",
-            "in": "body",
-            "description": "Locale of the FAQ (example: en, pt)",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Created FAQ"
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "FAQ"
-        ],
-        "summary": "Update FAQ",
-        "description": "Update FAQ",
-        "parameters": [
-          {
-            "name": "_id",
-            "in": "body",
-            "description": "FAQ ID",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "question",
-            "in": "body",
-            "description": "Question of the FAQ",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "answer",
-            "in": "body",
-            "description": "Answer of the FAQ",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "locale",
-            "in": "body",
-            "description": "Locale of the FAQ (example: en, pt)",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "userId",
-            "in": "body",
-            "description": "User ID",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "createdAt",
-            "in": "body",
-            "description": "Date the FAQ was created",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "updatedAt",
-            "in": "body",
-            "description": "Date the FAQ was updated",
-            "required": false,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "FAQ updated"
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/faqs/{id}": {
-      "delete": {
-        "tags": [
-          "FAQ"
-        ],
-        "summary": "Delete FAQ",
-        "description": "Delete FAQ",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "params",
-            "required": true,
-            "type": "string",
-            "description": "FAQ ID"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Deleted FAQ"
