@@ -5,10 +5,10 @@ import * as filesController from "../controllers/files.controller";
 import * as emailController from "../controllers/email.controller";
 import * as recaptchaController from "../controllers/recaptcha.controller";
 import * as testimonialsController from "../controllers/testimonials.controller";
+import * as faqController from "../controllers/faq.controller";
 import { verifyToken } from "../middlewares/firebase.middleware";
 import initializeMulter, { memoryStorage } from "multer";
 import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
-import { resourceLimits } from "worker_threads";
 
 const router = express.Router();
 
@@ -129,5 +129,15 @@ router.delete(
   verifyToken,
   testimonialsController.deleteUserTestimonial
 );
+
+/*
+ * FAQs
+ */
+
+// Public routes
+router.get("/faqs", faqController.getAllFaqs);
+router.post("/faqs", faqController.createFaq);
+router.patch("/faqs", faqController.updateFaq);
+router.delete("/faqs/:id", faqController.deleteFaq);
 
 export default router;
