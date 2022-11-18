@@ -20,6 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 - Fix: Changed prop from `userId` to `user` in testimonials controller
 - Feature: Implemented Faq CRUD
+- Fix: changed `locale` to `language` in ITestimonial
 
 ### [1.17.1] - 2022-11-13
 
