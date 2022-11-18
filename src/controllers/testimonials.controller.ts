@@ -88,7 +88,7 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get all testimonials from an user'
     #swagger.description  = 'Get all testimonials from an user'
-    #swagger.parameters['user'] = {
+    #swagger.parameters['userId'] = {
       in: 'body',
       description: 'User ID',
       required: true,
@@ -106,9 +106,9 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const { user } = req.params;
+  const { userId } = req.params;
 
-  if (!user) {
+  if (!userId) {
     return res
       .status(400)
       .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
@@ -116,7 +116,7 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
 
   try {
     const testimonialsFound = await TestimonialService.getUserTestimonials(
-      user
+      userId
     );
 
     if (!testimonialsFound) {
@@ -140,7 +140,7 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get the last testimonial from an user'
     #swagger.description  = 'Get the last testimonial from an user'
-    #swagger.parameters['user'] = {
+    #swagger.parameters['userId'] = {
       in: 'body',
       description: 'User ID',
       required: true,
@@ -158,9 +158,9 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const { user } = req.params;
+  const { userId } = req.params;
 
-  if (!user) {
+  if (!userId) {
     return res
       .status(400)
       .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
@@ -168,7 +168,7 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
 
   try {
     const testimonialFound = await TestimonialService.getUserLastTestimonial(
-      user
+      userId
     );
 
     if (!testimonialFound) {
