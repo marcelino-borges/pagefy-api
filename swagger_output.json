@@ -1428,7 +1428,13 @@
         ],
         "summary": "Get all FAQs",
         "description": "Get all FAQs",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "language",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Deleted FAQ"
