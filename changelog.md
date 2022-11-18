@@ -16,6 +16,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.18.0] - 2022-11-18
+
+- Fix: Changed prop from `userId` to `user` in testimonials controller
+- Feature: Implemented Faq CRUD
+
 ### [1.17.1] - 2022-11-13
 
 - Refactor: changed field `userId` to `user` in Testimonial collection/model
