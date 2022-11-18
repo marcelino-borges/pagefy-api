@@ -9,7 +9,7 @@
     "start_dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env.dev nodemon -x ts-node src/server.ts",
     "swagger-autogen": "ts-node ./src/config/swagger.ts",
     "update-pkg-version": "ts-node ./src/config/package-json.ts && prettier --write ./package.json",
-    "push-main": "git checkout main && git merge develop && git push origin main && git checkout develop"
+    "deploy-main": "git checkout main && git merge develop && git push origin main && git checkout develop"
   },
   "keywords": [],
   "author": "Marcelino Borges",

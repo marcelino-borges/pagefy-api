@@ -136,8 +136,8 @@ router.delete(
 
 // Public routes
 router.get("/faqs", faqController.getAllFaqs);
-router.post("/faqs", faqController.createFaq);
-router.patch("/faqs", faqController.updateFaq);
-router.delete("/faqs/:id", faqController.deleteFaq);
+// router.post("/faqs", faqController.createFaq);
+// router.patch("/faqs", faqController.updateFaq);
+// router.delete("/faqs/:id", faqController.deleteFaq);
 
 export default router;
