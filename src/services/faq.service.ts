@@ -36,8 +36,10 @@ export const deleteFaq = async (faqId: string): Promise<IFaq | null> => {
   return deletedFaq;
 };
 
-export const getAllFaqs = async (): Promise<IFaq[] | null> => {
-  const faqs = await FaqDB.find().lean();
+export const getAllFaqs = async (query: {
+  language?: string;
+}): Promise<IFaq[] | null> => {
+  const faqs = await FaqDB.find({ language: query.language }).lean();
 
   if (!faqs) {
     return null;

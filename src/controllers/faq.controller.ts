@@ -216,9 +216,10 @@ export const getAllFaqs = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
+  const language = req.query.language ? (req.query.language as string) : "en";
 
   try {
-    const faqsFound = await FaqService.getAllFaqs();
+    const faqsFound = await FaqService.getAllFaqs({ language });
 
     if (!faqsFound) {
       return res
