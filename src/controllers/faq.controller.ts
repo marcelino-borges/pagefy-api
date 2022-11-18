@@ -22,9 +22,9 @@ export const createFaq = async (req: Request, res: Response) => {
       required: true,
       type: 'string'
     }
-    #swagger.parameters['locale'] = {
+    #swagger.parameters['language'] = {
       in: 'body',
-      description: 'Locale of the FAQ (example: en, pt)',
+      description: 'Language of the FAQ (example: en, pt)',
       required: true,
       type: 'string'
     }
@@ -40,9 +40,9 @@ export const createFaq = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const { question, answer, locale } = req.body;
+  const { question, answer, language } = req.body;
 
-  if (!question || !answer || !locale) {
+  if (!question || !answer || !language) {
     return res
       .status(400)
       .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
@@ -51,7 +51,7 @@ export const createFaq = async (req: Request, res: Response) => {
   try {
     let faqCreated;
 
-    faqCreated = await FaqService.createFaq({ question, answer, locale });
+    faqCreated = await FaqService.createFaq({ question, answer, language });
 
     if (!faqCreated) {
       return res
@@ -90,9 +90,9 @@ export const updateFaq = async (req: Request, res: Response) => {
       required: false,
       type: 'string'
     }
-    #swagger.parameters['locale'] = {
+    #swagger.parameters['language'] = {
       in: 'body',
-      description: 'Locale of the FAQ (example: en, pt)',
+      description: 'language of the FAQ (example: en, pt)',
       required: false,
       type: 'string'
     }
