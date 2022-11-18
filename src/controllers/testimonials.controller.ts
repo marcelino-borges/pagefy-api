@@ -213,14 +213,14 @@ export const queryTestimonials = async (req: Request, res: Response) => {
   const count: number | undefined = req.query.count
     ? Number(req.query.count)
     : 100;
-  const locale: string | undefined = req.query.locale
-    ? String(req.query.locale)
+  const language: string | undefined = req.query.language
+    ? String(req.query.language)
     : "en";
 
   try {
     const testimonialFound = await TestimonialService.queryTestimonials({
       count,
-      locale,
+      language,
     });
 
     if (!testimonialFound) {
