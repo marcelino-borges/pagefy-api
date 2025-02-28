@@ -1,6 +1,6 @@
 export const replaceAllSpacesByUnderlines = (
   text: string,
-  lowerCase: boolean = true
+  lowerCase: boolean = true,
 ) => {
   let result = text.replace(new RegExp(" ", "g"), "_");
   if (lowerCase) result.toLowerCase();
@@ -9,7 +9,7 @@ export const replaceAllSpacesByUnderlines = (
 
 export const getImageThumbnail = (
   imagePathAndName: string,
-  thumbSize: number
+  thumbSize: number,
 ) => {
   const splitPath = imagePathAndName.split("/");
   const [fileName, fileExtension] = splitPath[splitPath.length - 1].split(".");

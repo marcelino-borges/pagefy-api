@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+
 import {
   AppErrorsMessages,
   NOREPLY_EMAIL_SENDER,
   SYSTEM_RECIPIENT_EMAIL,
 } from "../constants";
+import AppResult from "../errors/app-error";
 import * as emailService from "../services/email.service";
 import { IUserContact } from "./../models/email.models";
-import AppResult from "../errors/app-error";
 
 export const sendUserContact = async (req: Request, res: Response) => {
   /* 
@@ -57,8 +58,8 @@ export const sendUserContact = async (req: Request, res: Response) => {
           new AppResult(
             AppErrorsMessages.FIELDS_REQUIRED_EMAIL_CONTACT,
             null,
-            400
-          )
+            400,
+          ),
         );
     }
 

@@ -1,15 +1,15 @@
+import swaggerAutogen from "swagger-autogen";
+
 import { getPackageJson } from "../config/package-json";
 import {
-  userModel,
-  pageModel,
+  componentModel,
   errorModel,
   fileUploadFormDataModel,
+  pageModel,
   styleModel,
-  componentModel,
+  userModel,
   userTestimonialModel,
 } from "./models";
-
-import swaggerAutogen from "swagger-autogen";
 
 export const runSwaggerAutogen = async (apiVersion: string) => {
   const SWAGGER_OUTPUT_PATH = "./swagger_output.json";

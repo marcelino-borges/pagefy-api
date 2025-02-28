@@ -1,4 +1,5 @@
-import { model, Schema } from "mongoose";
+import { Schema, model } from "mongoose";
+
 import { IUser } from "./user.models";
 
 export interface ITestimonial {
@@ -29,7 +30,7 @@ const testimonialSchema = new Schema<ITestimonial>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default model<ITestimonial>("Testimonials", testimonialSchema);

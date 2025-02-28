@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+
 import log from "../utils/logs";
 import { getLatestVersionFromChangelog } from "./changelog";
 

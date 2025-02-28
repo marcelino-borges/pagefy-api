@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+
 import log from "../utils/logs";
 
 export const getLatestVersionFromChangelog = async (): Promise<any> => {
@@ -17,7 +18,7 @@ export const getLatestVersionFromChangelog = async (): Promise<any> => {
     .catch((err: any) => {
       log.error(
         "Error reading changelog file when trying to get the latest version:\n" +
-          err
+          err,
       );
       return "0.0.0";
     });

@@ -1,13 +1,14 @@
-import helmet from "helmet";
 import cors from "cors";
-import express from "express";
-import mainRoutes from "./routes";
 import dotenvSafe from "dotenv-safe";
-import swaggerFile from "../swagger_output.json";
-import swaggerUi from "swagger-ui-express";
-import connectMongo from "./config/mongo";
+import express from "express";
 import admin from "firebase-admin";
+import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
+
+import swaggerFile from "../swagger_output.json";
 import firebaseConfig from "./config/firebase";
+import connectMongo from "./config/mongo";
+import mainRoutes from "./routes";
 import log from "./utils/logs";
 
 dotenvSafe.config({
@@ -15,7 +16,7 @@ dotenvSafe.config({
 });
 
 const canReadEnv = String(process.env.MONGO_CONNECTION_STRING).includes(
-  "mongodb+srv://"
+  "mongodb+srv://",
 );
 
 if (canReadEnv) {
@@ -54,13 +55,13 @@ if (canReadEnv) {
       // Health check
       app.options("*", publicCors);
       app.use("/health-check", publicCors, (_, res) =>
-        res.status(200).json({ message: "API running." })
+        res.status(200).json({ message: "API running." }),
       );
       app.use(
         "/swagger",
         publicCors,
         swaggerUi.serve,
-        swaggerUi.setup(swaggerFile)
+        swaggerUi.setup(swaggerFile),
       );
       app.options("/api/v1");
       app.use("/api/v1", mainRoutes);
@@ -77,8 +78,8 @@ if (canReadEnv) {
       log.error(
         "Error trying to connect to MongoDB. API not running.",
         "Details:",
-        e
-      )
+        e,
+      ),
     );
 } else {
   log.error(".ENV not available. API not running.");

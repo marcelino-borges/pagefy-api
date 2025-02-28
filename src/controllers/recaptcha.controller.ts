@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { AppErrorsMessages, AppSuccessMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import * as recaptchaService from "../services/recaptcha.service";
@@ -35,9 +36,8 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
   }
 
   try {
-    const result: IRecaptchaResult = await recaptchaService.verifyRecaptcha(
-      token
-    );
+    const result: IRecaptchaResult =
+      await recaptchaService.verifyRecaptcha(token);
 
     if (!result || !result.success) {
       return res
@@ -46,8 +46,8 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
           new AppResult(
             AppErrorsMessages.RECAPTCHA_NOT_VALIDATED,
             result["error-codes"],
-            401
-          )
+            401,
+          ),
         );
     }
 

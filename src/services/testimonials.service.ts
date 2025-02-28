@@ -13,12 +13,12 @@ export const createTestimonial = async (testimonial: ITestimonial) => {
 };
 
 export const getUserTestimonials = async (
-  userId: string
+  userId: string,
 ): Promise<ITestimonial[] | null> => {
   const testimonials = await TestimonialDB.find({ user: userId })
     .populate(
       "user",
-      "-authId -paymentId -agreePrivacy -receiveCommunications -plan"
+      "-authId -paymentId -agreePrivacy -receiveCommunications -plan",
     )
     .sort({
       createdAt: "desc",
@@ -43,12 +43,12 @@ export const getUserLastTestimonial = async (userId: string) => {
 };
 
 export const updateUserTestimonial = async (
-  testimonial: ITestimonial
+  testimonial: ITestimonial,
 ): Promise<ITestimonial | null> => {
   const updatedTestimonial = await TestimonialDB.findOneAndUpdate(
     { _id: testimonial._id },
     { ...testimonial },
-    { new: true }
+    { new: true },
   ).lean();
 
   if (!updatedTestimonial) {
@@ -59,7 +59,7 @@ export const updateUserTestimonial = async (
 };
 
 export const deleteUserTestimonial = async (
-  testimonialId: string
+  testimonialId: string,
 ): Promise<ITestimonial | null> => {
   const deletedTestimonial = await TestimonialDB.findOneAndDelete({
     _id: testimonialId,
@@ -79,7 +79,7 @@ export const queryTestimonials = async (query: {
   const testimonials = await TestimonialDB.find({ language: query.language })
     .populate(
       "user",
-      "-authId -paymentId -agreePrivacy -receiveCommunications -plan"
+      "-authId -paymentId -agreePrivacy -receiveCommunications -plan",
     )
     .sort({ updatedAt: "asc" })
     .limit(query.count);

@@ -14,7 +14,7 @@ export const updateFaq = async (faq: Partial<IFaq>): Promise<IFaq | null> => {
   const updatedFaq = await FaqDB.findOneAndUpdate(
     { _id: faq._id },
     { ...faq },
-    { new: true }
+    { new: true },
   ).lean();
 
   if (!updatedFaq) {

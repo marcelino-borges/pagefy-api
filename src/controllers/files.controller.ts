@@ -1,10 +1,11 @@
 import { Request } from "express";
 import { Response } from "express";
-import AppResult from "../errors/app-error";
+
 import { ALLOWED_FILE_TYPES, AppErrorsMessages } from "../constants";
+import AppResult from "../errors/app-error";
+import { IImageDetails } from "../models/files.models";
 import * as filesService from "../services/files.service";
 import log from "../utils/logs";
-import { IImageDetails } from "../models/files.models";
 
 export const uploadImage = async (req: Request, res: Response) => {
   /* 
@@ -142,9 +143,8 @@ export const getAllUserImages = async (req: Request, res: Response) => {
         .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, undefined, 400));
     }
 
-    const images: IImageDetails[] | null = await filesService.getAllUserImages(
-      userId
-    );
+    const images: IImageDetails[] | null =
+      await filesService.getAllUserImages(userId);
 
     if (images) {
       return res.status(200).json(images);
@@ -198,7 +198,7 @@ export const getAllButtonsTemplates = async (req: Request, res: Response) => {
 
 export const getAllBackgroundsTemplates = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   /* 
     #swagger.tags = ['Files']
@@ -237,7 +237,7 @@ export const getAllBackgroundsTemplates = async (
 
 export const getAllUserProfileTemplates = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   /* 
     #swagger.tags = ['Files']

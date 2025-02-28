@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import log from "../utils/logs";
 
 const connect = async () => {

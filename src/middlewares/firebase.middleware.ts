@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
+import { DecodedIdToken, getAuth } from "firebase-admin/auth";
+
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
-import { getAuth, DecodedIdToken } from "firebase-admin/auth";
-import log from "../utils/logs";
 import { getUserByAuthId } from "../services/user.service";
+import log from "../utils/logs";
 
 export const verifyToken = async (req: Request, res: Response, next: any) => {
   const bearer = req.headers["authorization"] as string;
@@ -30,7 +31,7 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
       return res
         .status(401)
         .json(
-          new AppResult(AppErrorsMessages.NOT_AUTHORIZED, error.message, 401)
+          new AppResult(AppErrorsMessages.NOT_AUTHORIZED, error.message, 401),
         );
     });
 };

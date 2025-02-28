@@ -1,10 +1,11 @@
 import axios from "axios";
-import { API_VERIFY_RECAPTCHA, RECAPTCHA_SECRET_KEY } from "../constants";
-import { IRecaptchaResult } from "../models/recaptcha.models";
 import qs from "qs";
 
+import { API_VERIFY_RECAPTCHA, RECAPTCHA_SECRET_KEY } from "../constants";
+import { IRecaptchaResult } from "../models/recaptcha.models";
+
 export const verifyRecaptcha = async (
-  token: string
+  token: string,
 ): Promise<IRecaptchaResult> => {
   var data = qs.stringify({
     secret: RECAPTCHA_SECRET_KEY,

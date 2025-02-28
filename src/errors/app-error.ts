@@ -6,7 +6,7 @@ class AppResult {
   constructor(
     message: string,
     errorDetails: any = null,
-    statusCode: number = 400
+    statusCode: number = 400,
   ) {
     this.message = message;
     this.errorDetails = errorDetails;

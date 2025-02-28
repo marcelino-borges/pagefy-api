@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import { IFaq } from "../models/faq.models";

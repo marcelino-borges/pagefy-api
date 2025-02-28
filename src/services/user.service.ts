@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import UserDB from "../models/user.models";
-import { IUser } from "./../models/user.models";
-import AppResult from "./../errors/app-error";
-import { AppErrorsMessages } from "../constants";
 import { getAuth } from "firebase-admin/auth";
-import { deleteAllUserPages } from "./pages.service";
+
+import { AppErrorsMessages } from "../constants";
+import UserDB from "../models/user.models";
+import AppResult from "./../errors/app-error";
+import { IUser } from "./../models/user.models";
 import { deleteAllUserFiles } from "./files.service";
+import { deleteAllUserPages } from "./pages.service";
 
 export const getUserByEmail = async (email: string) => {
   const found = await UserDB.findOne({ email }).lean();
@@ -59,7 +60,7 @@ export const updateUser = async (user: IUser) => {
     { ...user, email: existingUser.email },
     {
       new: true,
-    }
+    },
   );
 
   if (!userUpdated) {
@@ -108,8 +109,8 @@ export const deleteUser = async (req: Request, res: Response) => {
           new AppResult(
             AppErrorsMessages.USER_NOT_DELETED_FROM_FIREBASE,
             error,
-            400
-          )
+            400,
+          ),
         );
     });
 };

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { IUserContact } from "./../models/email.models";
 import nodemailer from "nodemailer";
-import { NOREPLY_EMAIL_SENDER, SYSTEM_RECIPIENT_EMAIL } from "../constants";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+
+import { NOREPLY_EMAIL_SENDER, SYSTEM_RECIPIENT_EMAIL } from "../constants";
 import AppResult from "../errors/app-error";
+import { IUserContact } from "./../models/email.models";
 
 export const sendUserContact = async (req: Request, res: Response) => {
   const { name, email, message }: IUserContact = req.body;

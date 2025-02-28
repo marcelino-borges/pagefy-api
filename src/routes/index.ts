@@ -1,13 +1,14 @@
 import * as express from "express";
-import * as userController from "../controllers/user.controller";
-import * as pageController from "../controllers/pages.controller";
-import * as filesController from "../controllers/files.controller";
+import initializeMulter, { memoryStorage } from "multer";
+
 import * as emailController from "../controllers/email.controller";
+import * as faqController from "../controllers/faq.controller";
+import * as filesController from "../controllers/files.controller";
+import * as pageController from "../controllers/pages.controller";
 import * as recaptchaController from "../controllers/recaptcha.controller";
 import * as testimonialsController from "../controllers/testimonials.controller";
-import * as faqController from "../controllers/faq.controller";
+import * as userController from "../controllers/user.controller";
 import { verifyToken } from "../middlewares/firebase.middleware";
-import initializeMulter, { memoryStorage } from "multer";
 import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
 
 const router = express.Router();
@@ -44,7 +45,7 @@ router.get("/page/url/renderer/:url", pageController.getRendererPageByUrl);
 router.get(
   "/page/all/user/:userId",
   verifyToken,
-  pageController.getAllUserPagesByUserId
+  pageController.getAllUserPagesByUserId,
 );
 router.post("/page", verifyToken, pageController.createUserPage);
 router.post("/page/component-clicks", pageController.incrementComponentClicks);
@@ -58,28 +59,28 @@ router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 router.post(
   "/files",
   multer.single("image") /*, verifyToken*/,
-  filesController.uploadImage
+  filesController.uploadImage,
 );
 router.delete("/files" /*, verifyToken*/, filesController.deleteImage);
 router.get(
   "/files/user/:userId" /*, verifyToken*/,
-  filesController.getAllUserImages
+  filesController.getAllUserImages,
 );
 router.get(
   "/files/templates/buttons" /*, verifyToken*/,
-  filesController.getAllButtonsTemplates
+  filesController.getAllButtonsTemplates,
 );
 router.get(
   "/files/templates/backgrounds" /*, verifyToken*/,
-  filesController.getAllBackgroundsTemplates
+  filesController.getAllBackgroundsTemplates,
 );
 router.get(
   "/files/templates/user-profile" /*, verifyToken*/,
-  filesController.getAllUserProfileTemplates
+  filesController.getAllUserProfileTemplates,
 );
 router.get(
   "/files/templates/pages-imgs" /*, verifyToken*/,
-  filesController.getAllPagesImgsTemplates
+  filesController.getAllPagesImgsTemplates,
 );
 
 /*
@@ -107,27 +108,27 @@ router.get("/testimonials", testimonialsController.queryTestimonials);
 router.get(
   "/testimonials/last/user/:userId",
   verifyToken,
-  testimonialsController.getUserLastTestimonial
+  testimonialsController.getUserLastTestimonial,
 );
 router.get(
   "/testimonials/all/user/:userId",
   verifyToken,
-  testimonialsController.getUserTestimonials
+  testimonialsController.getUserTestimonials,
 );
 router.post(
   "/testimonials",
   verifyToken,
-  testimonialsController.createTestimonial
+  testimonialsController.createTestimonial,
 );
 router.put(
   "/testimonials",
   verifyToken,
-  testimonialsController.updateUserTestimonial
+  testimonialsController.updateUserTestimonial,
 );
 router.delete(
   "/testimonials/:testimonialId",
   verifyToken,
-  testimonialsController.deleteUserTestimonial
+  testimonialsController.deleteUserTestimonial,
 );
 
 /*

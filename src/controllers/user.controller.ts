@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
-import * as userService from "../services/user.service";
-import AppResult from "../errors/app-error";
 import { AppErrorsMessages } from "../constants";
+import AppResult from "../errors/app-error";
 import { IUser, PlansTypes } from "../models/user.models";
+import * as userService from "../services/user.service";
 import log from "../utils/logs";
 
 export const doesUserExist = async (req: Request, res: Response) => {
@@ -43,7 +43,7 @@ export const doesUserExist = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json(
-        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400)
+        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400),
       );
   }
 
@@ -113,8 +113,8 @@ export const getUser = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.NOT_AUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
+          401,
+        ),
       );
   }
 
@@ -122,7 +122,7 @@ export const getUser = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json(
-        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400)
+        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400),
       );
   }
 
@@ -238,7 +238,7 @@ export const createUser = async (req: Request, res: Response) => {
   const isAuthorized = await isUserAuthorized(
     tokenEmail,
     tokenUid,
-    user.authId
+    user.authId,
   );
   log.error(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
   if (!isAuthorized) {
@@ -267,14 +267,14 @@ export const createUser = async (req: Request, res: Response) => {
   }
 
   try {
-    let defaultPlan = 0;
+    let defaultPlan = PlansTypes.PLATINUM;
 
     if (process.env.DEFAULT_USER_PLAN)
       defaultPlan = parseInt(process.env.DEFAULT_USER_PLAN);
 
     const userPlanOverride: IUser = {
       ...user,
-      plan: defaultPlan as PlansTypes.PLATINUM,
+      plan: defaultPlan,
     };
     const userCreated = await userService.createUser(userPlanOverride);
 
@@ -327,7 +327,7 @@ export const updateUser = async (req: Request, res: Response) => {
   const isAuthorized = await isUserAuthorized(
     tokenEmail,
     tokenUid,
-    user.authId
+    user.authId,
   );
   if (!isAuthorized) {
     return res
@@ -423,7 +423,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const isUserAuthorized = async (
   tokenEmail: string | undefined,
   tokenUid: string | undefined,
-  authId?: string | undefined
+  authId?: string | undefined,
 ) => {
   if (tokenEmail && tokenUid && authId && String(authId) !== String(tokenUid)) {
     return false;

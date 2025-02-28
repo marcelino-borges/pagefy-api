@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface IUserPage {
   _id?: string;
@@ -132,7 +132,7 @@ const componentSchema = new Schema<IUserComponent>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const pageSchema = new Schema<IUserPage>(
@@ -165,7 +165,7 @@ const pageSchema = new Schema<IUserPage>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default model<IUserPage>("Pages", pageSchema);

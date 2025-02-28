@@ -54,7 +54,7 @@ export const updateUserPage = async (page: IUserPage) => {
   const updated: IUserPage = await PagesDB.findOneAndUpdate(
     { _id: page._id },
     page,
-    { new: true }
+    { new: true },
   ).lean();
 
   if (!updated) {
@@ -115,7 +115,7 @@ export const incrementUserPageViewsByUrl = async (pageUrl: string) => {
 
 export const incrementComponentClicks = async (
   pageId: string,
-  componentId: string
+  componentId: string,
 ) => {
   const foundPage = await getPageById(pageId);
 
@@ -136,7 +136,7 @@ export const incrementComponentClicks = async (
           };
         }
         return component;
-      }
+      },
     );
   }
 
@@ -155,7 +155,7 @@ export const incrementComponentClicks = async (
           };
         }
         return component;
-      }
+      },
     );
   }
 
@@ -173,7 +173,7 @@ export const incrementComponentClicks = async (
           };
         }
         return component;
-      }
+      },
     );
   }
 

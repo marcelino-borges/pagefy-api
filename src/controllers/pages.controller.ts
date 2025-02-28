@@ -1,10 +1,11 @@
-import { AppErrorsMessages, AppSuccessMessages } from "../constants";
-import { IUserPage } from "../models/pages.models";
 import { Request, Response } from "express";
+
+import { AppErrorsMessages, AppSuccessMessages } from "../constants";
 import AppResult from "../errors/app-error";
+import { IUserPage } from "../models/pages.models";
 import * as pagesService from "../services/pages.service";
-import * as userService from "../services/user.service";
 import { doesPageUrlExist } from "../services/pages.service";
+import * as userService from "../services/user.service";
 import log from "../utils/logs";
 
 export const getPageById = async (req: Request, res: Response) => {
@@ -195,8 +196,8 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.NOT_AUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
+          401,
+        ),
       );
   }
 
@@ -257,7 +258,7 @@ export const createUserPage = async (req: Request, res: Response) => {
   const isAuthorized = await isUserAuthorized(
     tokenEmail,
     tokenUid,
-    page.userId
+    page.userId,
   );
   if (!isAuthorized) {
     log.error("No auth");
@@ -267,8 +268,8 @@ export const createUserPage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.NOT_AUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
+          401,
+        ),
       );
   }
 
@@ -354,7 +355,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
   const isAuthorized = await isUserAuthorized(
     tokenEmail,
     tokenUid,
-    page.userId
+    page.userId,
   );
   if (!isAuthorized) {
     return res
@@ -363,8 +364,8 @@ export const updateUserPage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.NOT_AUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
+          401,
+        ),
       );
   }
 
@@ -442,8 +443,8 @@ export const deleteUserPage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.NOT_AUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401
-        )
+          401,
+        ),
       );
   }
 
@@ -508,13 +509,13 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
   try {
     const incrementSuccess = await pagesService.incrementComponentClicks(
       pageId,
-      componentId
+      componentId,
     );
 
     if (!incrementSuccess) {
       log.success(
         "[Controller incrementComponentClick] " +
-          AppErrorsMessages.PAGE_VIEW_INCREMENT
+          AppErrorsMessages.PAGE_VIEW_INCREMENT,
       );
     }
 
@@ -529,7 +530,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
 export const isUserAuthorized = async (
   tokenEmail: string | undefined,
   tokenUid: string | undefined,
-  userId: string | undefined
+  userId: string | undefined,
 ) => {
   if (tokenEmail && tokenUid && userId) {
     const foundUser = await userService.getUserById(userId);

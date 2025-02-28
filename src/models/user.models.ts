@@ -33,7 +33,7 @@ const authSchema = new Schema<IUser>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default model<IUser>("Users", authSchema);

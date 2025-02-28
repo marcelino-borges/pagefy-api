@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface IFaq {
   _id?: string;
@@ -17,7 +17,7 @@ const faqSchema = new Schema<IFaq>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default model<IFaq>("faq", faqSchema);

@@ -17,7 +17,7 @@ const info = (...msgs: any) => {
   console.log("");
   console.groupCollapsed(
     "\x1b[36m%s\x1b[0m",
-    `${INFO_EMOJI}  INFORMATION LOGS`
+    `${INFO_EMOJI}  INFORMATION LOGS`,
   );
   logConsole(...msgs);
   console.groupEnd();

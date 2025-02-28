@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import { ITestimonial } from "../models/testimonials.models";
@@ -73,7 +74,7 @@ export const createTestimonial = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialCreated);
@@ -117,15 +118,14 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
   }
 
   try {
-    const testimonialsFound = await TestimonialService.getUserTestimonials(
-      userId
-    );
+    const testimonialsFound =
+      await TestimonialService.getUserTestimonials(userId);
 
     if (!testimonialsFound) {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialsFound);
@@ -169,15 +169,14 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
   }
 
   try {
-    const testimonialFound = await TestimonialService.getUserLastTestimonial(
-      userId
-    );
+    const testimonialFound =
+      await TestimonialService.getUserLastTestimonial(userId);
 
     if (!testimonialFound) {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialFound);
@@ -229,7 +228,7 @@ export const queryTestimonials = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_GET_ALL_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_GET_ALL_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialFound);
@@ -273,15 +272,14 @@ export const updateUserTestimonial = async (req: Request, res: Response) => {
   }
 
   try {
-    const testimonialUpdated = await TestimonialService.updateUserTestimonial(
-      testimonial
-    );
+    const testimonialUpdated =
+      await TestimonialService.updateUserTestimonial(testimonial);
 
     if (!testimonialUpdated) {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_UPDATE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_UPDATE_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialUpdated);
@@ -325,15 +323,14 @@ export const deleteUserTestimonial = async (req: Request, res: Response) => {
   }
 
   try {
-    const testimonialDeleted = await TestimonialService.deleteUserTestimonial(
-      testimonialId
-    );
+    const testimonialDeleted =
+      await TestimonialService.deleteUserTestimonial(testimonialId);
 
     if (!testimonialDeleted) {
       return res
         .status(400)
         .json(
-          new AppResult(AppErrorsMessages.ERROR_DELETE_TESTIMONIAL, null, 400)
+          new AppResult(AppErrorsMessages.ERROR_DELETE_TESTIMONIAL, null, 400),
         );
     }
     return res.status(200).json(testimonialDeleted);

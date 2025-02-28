@@ -1,16 +1,17 @@
-import { getStorage, Storage } from "firebase-admin/storage";
 import { Request, Response } from "express";
-import AppResult from "./../errors/app-error";
+import { Storage, getStorage } from "firebase-admin/storage";
+import moment from "moment";
+
 import {
   AppErrorsMessages,
   AppSuccessMessages,
   STORAGE_BUCKETS,
 } from "../constants";
-import moment from "moment";
-import { getUserById } from "../services/user.service";
-import log from "../utils/logs";
 import { IImageDetails } from "../models/files.models";
+import { getUserById } from "../services/user.service";
 import { getImageThumbnail } from "../utils";
+import log from "../utils/logs";
+import AppResult from "./../errors/app-error";
 
 export const uploadFileToStorage = async (req: Request, res: Response) => {
   const image: any = req.file;
@@ -31,8 +32,8 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.INTERNAL_ERROR,
           "No bucket env var found",
-          500
-        )
+          500,
+        ),
       );
   }
 
@@ -57,16 +58,15 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.FILE_UPLOAD_GENERAL_ERROR,
           e.message,
-          400
-        )
+          400,
+        ),
       );
   });
 
   stream.on("finish", async () => {
     log.success("File upload successful.");
-    (
-      req as any
-    ).file.firebaseUrl = `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/${fileName}`;
+    (req as any).file.firebaseUrl =
+      `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/${fileName}`;
 
     await fileToSave.makePublic();
     return res.status(200).json(image.firebaseUrl);
@@ -85,8 +85,8 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.MISSING_PROPS,
           AppErrorsMessages.MISSING_PROPS,
-          400
-        )
+          400,
+        ),
       );
   }
 
@@ -105,8 +105,8 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
         new AppResult(
           AppErrorsMessages.INTERNAL_ERROR,
           "No bucket env var found",
-          500
-        )
+          500,
+        ),
       );
   }
 
@@ -114,13 +114,13 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
 
   const fileName = url.replace(
     `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
-    ""
+    "",
   );
 
   let thumbFileName = getImageThumbnail(url, 200);
   thumbFileName = thumbFileName.replace(
     `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
-    ""
+    "",
   );
 
   return storage
@@ -136,8 +136,8 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
             .json(
               new AppResult(
                 AppSuccessMessages.FILE_DELETE_SUCCESS,
-                AppSuccessMessages.THUMBNAIL_DELETED
-              )
+                AppSuccessMessages.THUMBNAIL_DELETED,
+              ),
             );
         })
         .catch(() => {
@@ -146,10 +146,10 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
             .json(
               new AppResult(
                 AppSuccessMessages.FILE_DELETE_SUCCESS,
-                AppErrorsMessages.THUMBNAIL_NOT_DELETED
-              )
+                AppErrorsMessages.THUMBNAIL_NOT_DELETED,
+              ),
             );
-        })
+        }),
     )
     .catch((e: any) =>
       res
@@ -158,9 +158,9 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
           new AppResult(
             AppErrorsMessages.FILE_DELETE_GENERAL_ERROR,
             e.message,
-            400
-          )
-        )
+            400,
+          ),
+        ),
     );
 };
 
@@ -172,7 +172,7 @@ export const deleteFile = async (url: string) => {
 
   const fileName = url.replace(
     `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
-    ""
+    "",
   );
 
   return storage
@@ -198,7 +198,7 @@ export const deleteAllUserFiles = async (userId: string): Promise<number> => {
 };
 
 export const getAllImagesOnBucket = async (
-  bucket: string
+  bucket: string,
 ): Promise<IImageDetails[] | null> => {
   if (!STORAGE_BUCKETS.socialbioProject) return null;
 
@@ -240,7 +240,7 @@ export const getAllImagesOnBucket = async (
 };
 
 export const getAllUserImages = async (
-  userId: string
+  userId: string,
 ): Promise<IImageDetails[] | null> => {
   const userBucket = `users/${userId}/${STORAGE_BUCKETS.userUploadedImages}/`;
 
