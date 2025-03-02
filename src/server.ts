@@ -27,7 +27,7 @@ if (canReadEnv) {
     storageBucket: JSON.parse(firebaseConfig).storageBucket,
   });
 
-  const PORT = parseInt(process.env.PORT as string, 10);
+  const PORT = parseInt((process.env.PORT || "3000") as string, 10);
   const HOST = String(process.env.HOST);
 
   const app = express();
