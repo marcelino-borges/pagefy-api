@@ -10,7 +10,7 @@ export const getLatestVersionFromChangelog = async (): Promise<any> => {
     .then((changelog) => {
       const lastVersionIndex = changelog
         .split("## Versions")[1]
-        .split("\r\n")[2]
+        .split("\n")[2]
         .split("[")[1]
         .split("]")[0];
       return lastVersionIndex;

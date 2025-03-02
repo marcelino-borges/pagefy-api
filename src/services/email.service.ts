@@ -24,11 +24,11 @@ export const sendUserContact = async (req: Request, res: Response) => {
       .sendMail({
         from: `"${name}" <${email}>`, // sender address
         to: SYSTEM_RECIPIENT_EMAIL, // list of receivers
-        subject: "Contact from Socialbio.me support page", // Subject line
+        subject: "Contact from pagefy.me support page", // Subject line
         replyTo: email,
         text: message, // plain text body
         html: `
-        <b>From Socialbio.me support page</b><br>
+        <b>From pagefy.me support page</b><br>
         <br>
         <b>FROM:</b> ${name}<br>
         <b>EMAIL:</b> ${email}<br>

@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.19.0] - 2025-03-01
+
+- Refactor: changing name from socialbio to pagefy
+
 ### [1.18.0] - 2022-11-18
 
 - Fix: Changed prop from `userId` to `user` in testimonials controller

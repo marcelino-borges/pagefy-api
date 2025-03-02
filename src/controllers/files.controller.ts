@@ -5,7 +5,6 @@ import { ALLOWED_FILE_TYPES, AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
 import { IImageDetails } from "../models/files.models";
 import * as filesService from "../services/files.service";
-import log from "../utils/logs";
 
 export const uploadImage = async (req: Request, res: Response) => {
   /* 

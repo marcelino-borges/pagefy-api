@@ -81,12 +81,12 @@ export const ALLOWED_FILE_TYPES = [
 ];
 
 export const ALLOWED_ORIGINS = [
-  "http://socialbio.me",
-  "https://socialbio.me",
-  "http://socialbio-api.onrender.com",
-  "https://socialbio-api.onrender.com",
-  "http://socialbio-frontend.onrender.com",
-  "https://socialbio-frontend.onrender.com",
+  "http://pagefy.me",
+  "https://pagefy.me",
+  "http://pagefy-api.onrender.com",
+  "https://pagefy-api.onrender.com",
+  "http://pagefy-frontend.onrender.com",
+  "https://pagefy-frontend.onrender.com",
 ];
 
 export const NOREPLY_EMAIL_SENDER = {
@@ -103,7 +103,7 @@ export const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY || "";
 
 export const STORAGE_BUCKETS = {
   baseUrl: "https://storage.googleapis.com",
-  socialbioProject: process.env.FIREBASE_STORAGE_BUCKET_URL || "",
+  appProject: process.env.FIREBASE_STORAGE_BUCKET_URL || "",
   userUploadedImages: "uploaded-images",
   buttonsTemplates: "system/images/templates/buttons",
   backgroundsTemplates: "system/images/templates/backgrounds",

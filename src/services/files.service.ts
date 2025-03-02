@@ -25,7 +25,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
       .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
   }
 
-  if (!STORAGE_BUCKETS.socialbioProject) {
+  if (!STORAGE_BUCKETS.appProject) {
     return res
       .status(500)
       .json(
@@ -66,7 +66,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   stream.on("finish", async () => {
     log.success("File upload successful.");
     (req as any).file.firebaseUrl =
-      `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/${fileName}`;
+      `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${fileName}`;
 
     await fileToSave.makePublic();
     return res.status(200).json(image.firebaseUrl);
@@ -98,7 +98,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
       .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
   }
 
-  if (!STORAGE_BUCKETS.socialbioProject) {
+  if (!STORAGE_BUCKETS.appProject) {
     return res
       .status(500)
       .json(
@@ -113,13 +113,13 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
   const storage = getStorage().bucket();
 
   const fileName = url.replace(
-    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
+    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/`,
     "",
   );
 
   let thumbFileName = getImageThumbnail(url, 200);
   thumbFileName = thumbFileName.replace(
-    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
+    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/`,
     "",
   );
 
@@ -166,12 +166,12 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
 
 // TODO: Check if can be used into `deleteFileFromStorage()`
 export const deleteFile = async (url: string) => {
-  if (!STORAGE_BUCKETS.socialbioProject) return false;
+  if (!STORAGE_BUCKETS.appProject) return false;
 
   const storage = getStorage().bucket();
 
   const fileName = url.replace(
-    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/`,
+    `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/`,
     "",
   );
 
@@ -183,7 +183,7 @@ export const deleteFile = async (url: string) => {
 };
 
 export const deleteAllUserFiles = async (userId: string): Promise<number> => {
-  if (!STORAGE_BUCKETS.socialbioProject) return 0;
+  if (!STORAGE_BUCKETS.appProject) return 0;
   const userBucketName = `users/${userId}`;
 
   const userStorage = getStorage().bucket(userBucketName);
@@ -200,7 +200,7 @@ export const deleteAllUserFiles = async (userId: string): Promise<number> => {
 export const getAllImagesOnBucket = async (
   bucket: string,
 ): Promise<IImageDetails[] | null> => {
-  if (!STORAGE_BUCKETS.socialbioProject) return null;
+  if (!STORAGE_BUCKETS.appProject) return null;
 
   const [files] = await getStorage().bucket().getFiles({
     prefix: bucket,
@@ -220,7 +220,7 @@ export const getAllImagesOnBucket = async (
       let thumbnailUrl = "";
 
       if (!(file.name as string).includes("_200x200")) {
-        originalUrl = `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.socialbioProject}/${file.name}`;
+        originalUrl = `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${file.name}`;
         thumbnailUrl = getImageThumbnail(originalUrl, 200);
       }
 

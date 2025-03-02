@@ -1,13 +1,15 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.18.0",
+    "version": "0.0.0",
     "title": "REST API",
     "description": ""
   },
-  "host": "http://socialbio-api.onrender.com",
+  "host": "http://pagefy-api.onrender.com",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": [
+    "http"
+  ],
   "securityDefinitions": {
     "bearerAuth": {
       "type": "apiKey",
@@ -18,11 +20,15 @@
       "value": "Bearer XXXXXXXXXXXXXXXXXX"
     }
   },
-  "consumes": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
   "paths": {
     "/user/exists": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Signs the user out",
         "description": "Signs the user out, ending his token",
         "parameters": [
@@ -75,7 +81,9 @@
     },
     "/user/{userId}/plan": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Gets an user",
         "description": "Gets an user",
         "parameters": [
@@ -135,7 +143,9 @@
     },
     "/user": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Gets an user by his email",
         "description": "Gets an user from database by his email",
         "parameters": [
@@ -189,7 +199,9 @@
         ]
       },
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Creates a new user",
         "description": "Creates a new user to database",
         "parameters": [
@@ -238,7 +250,9 @@
         ]
       },
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Updates an existing user",
         "description": "Updates an existing user in database",
         "parameters": [
@@ -287,7 +301,9 @@
         ]
       },
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Deletes an existing user",
         "description": "Deletes an existing user in database",
         "parameters": [
@@ -340,7 +356,9 @@
     },
     "/page/id/{pageId}": {
       "get": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Gets a page by its ID",
         "description": "Gets a page by its ID from database",
         "parameters": [
@@ -374,7 +392,9 @@
         }
       },
       "delete": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Deletes an user page",
         "description": "Deletes an user page from database",
         "parameters": [
@@ -429,7 +449,9 @@
     },
     "/page/url/{url}": {
       "get": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Gets a page by its URL",
         "description": "Gets a page by its URL from database",
         "parameters": [
@@ -465,7 +487,9 @@
     },
     "/page/url/renderer/{url}": {
       "get": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Gets a page by its URL",
         "description": "Gets a page by its URL from database",
         "parameters": [
@@ -501,7 +525,9 @@
     },
     "/page/all/user/{userId}": {
       "get": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Gets all user pages by user ID",
         "description": "Gets all pages from database by user ID",
         "parameters": [
@@ -556,7 +582,9 @@
     },
     "/page": {
       "post": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Creates an user page",
         "description": "Creates an user page in database",
         "parameters": [
@@ -605,7 +633,9 @@
         ]
       },
       "put": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Updates an user page",
         "description": "Updates an user page in database",
         "parameters": [
@@ -656,7 +686,9 @@
     },
     "/page/component-clicks": {
       "post": {
-        "tags": ["Page"],
+        "tags": [
+          "Page"
+        ],
         "summary": "Gets a page by its URL",
         "description": "Gets a page by its URL from database",
         "parameters": [
@@ -707,7 +739,9 @@
     },
     "/files": {
       "post": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Uploads an image.",
         "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
         "parameters": [
@@ -760,7 +794,9 @@
         }
       },
       "delete": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Deletes an image.",
         "description": "Deletes an image to the storage.",
         "parameters": [
@@ -807,7 +843,9 @@
     },
     "/files/user/{userId}": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Gets all user images.",
         "description": "Gets all user images.",
         "parameters": [
@@ -841,7 +879,9 @@
     },
     "/files/templates/buttons": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Gets all buttons templates.",
         "description": "Gets all buttons templates.",
         "parameters": [],
@@ -867,7 +907,9 @@
     },
     "/files/templates/backgrounds": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Gets all background templates.",
         "description": "Gets all background templates.",
         "parameters": [],
@@ -893,7 +935,9 @@
     },
     "/files/templates/user-profile": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Gets all user profile templates.",
         "description": "Gets all user profile templates.",
         "parameters": [],
@@ -919,7 +963,9 @@
     },
     "/files/templates/pages-imgs": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Gets all pages images templates.",
         "description": "Gets all pages images templates.",
         "parameters": [],
@@ -945,7 +991,9 @@
     },
     "/contact": {
       "post": {
-        "tags": ["Email"],
+        "tags": [
+          "Email"
+        ],
         "summary": "Sends a user email message for system",
         "description": "Sends a user email message for system",
         "parameters": [
@@ -1015,7 +1063,9 @@
     },
     "/verify-recaptcha": {
       "post": {
-        "tags": ["ReCAPTCHA"],
+        "tags": [
+          "ReCAPTCHA"
+        ],
         "summary": "Verifies if a given reCAPCTCHA token is validated by Google",
         "description": "Verifies if a given reCAPCTCHA token is validated by Google",
         "parameters": [
@@ -1052,7 +1102,9 @@
     },
     "/testimonials": {
       "get": {
-        "tags": ["Testimonial"],
+        "tags": [
+          "Testimonial"
+        ],
         "summary": "Query testimonials",
         "description": "Get testimonials",
         "parameters": [
@@ -1088,7 +1140,9 @@
         }
       },
       "post": {
-        "tags": ["Testimonial"],
+        "tags": [
+          "Testimonial"
+        ],
         "summary": "Creates a new testimonial",
         "description": "Creates a new testimonial",
         "parameters": [
@@ -1167,7 +1221,9 @@
         }
       },
       "put": {
-        "tags": ["testimonialId"],
+        "tags": [
+          "testimonialId"
+        ],
         "summary": "Delete a testimonial from an user",
         "description": "Delete a testimonial from an user",
         "parameters": [
@@ -1211,7 +1267,9 @@
     },
     "/testimonials/last/user/{userId}": {
       "get": {
-        "tags": ["Testimonial"],
+        "tags": [
+          "Testimonial"
+        ],
         "summary": "Get the last testimonial from an user",
         "description": "Get the last testimonial from an user",
         "parameters": [
@@ -1261,7 +1319,9 @@
     },
     "/testimonials/all/user/{userId}": {
       "get": {
-        "tags": ["Testimonial"],
+        "tags": [
+          "Testimonial"
+        ],
         "summary": "Get all testimonials from an user",
         "description": "Get all testimonials from an user",
         "parameters": [
@@ -1311,7 +1371,9 @@
     },
     "/testimonials/{testimonialId}": {
       "delete": {
-        "tags": ["testimonialId"],
+        "tags": [
+          "testimonialId"
+        ],
         "summary": "Delete a testimonial from an user",
         "description": "Delete a testimonial from an user",
         "parameters": [
@@ -1361,7 +1423,9 @@
     },
     "/faqs": {
       "get": {
-        "tags": ["FAQ"],
+        "tags": [
+          "FAQ"
+        ],
         "summary": "Get all FAQs",
         "description": "Get all FAQs",
         "parameters": [

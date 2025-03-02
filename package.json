@@ -1,11 +1,10 @@
 {
-  "name": "socialbio-api",
-  "version": "1.18.0",
-  "description": "SocialBio API",
+  "name": "pagefy-api",
+  "version": "1.19.0",
+  "description": "Pagefy API",
   "main": "src/server.js",
   "scripts": {
-    "build": "npm install",
-    "start": "env-cmd -f ./.env nodemon -x ts-node src/server.ts",
+    "start": "nodemon -x ts-node src/server.ts",
     "start:dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env.dev nodemon -x ts-node src/server.ts",
     "swagger-autogen": "ts-node ./src/config/swagger.ts",
     "update-pkg-version": "ts-node ./src/config/package-json.ts && prettier --write ./package.json",

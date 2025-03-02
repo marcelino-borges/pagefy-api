@@ -1,6 +1,6 @@
-# SocialBio API
+# Pagefy API
 
-### NodeJS
+## NodeJS
 
 - Typescript
-- Execute `npm run start-dev` to run locally
+- Execute `npm run start:dev` to run locally
