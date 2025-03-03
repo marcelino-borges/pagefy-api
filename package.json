@@ -4,7 +4,7 @@
   "description": "Pagefy API",
   "main": "src/server.js",
   "scripts": {
-    "start": "env-cmd -f ./.env.dev npx tsx src/server.ts",
+    "start": "env-cmd -f ./.env npx tsx src/server.ts",
     "start:dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env.dev nodemon -x ts-node src/server.ts",
     "swagger-autogen": "ts-node ./src/config/swagger.ts",
     "update-pkg-version": "ts-node ./src/config/package-json.ts && prettier --write ./package.json",
