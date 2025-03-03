@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenvSafe from "dotenv-safe";
 import express from "express";
-import admin from "firebase-admin";
+import firebaseAdmin from "firebase-admin";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 
@@ -19,12 +19,15 @@ const canReadEnv = String(process.env.MONGO_CONNECTION_STRING).includes(
   "mongodb+srv://",
 );
 
-if (canReadEnv) {
-  log.success(".ENV verified!");
+if (!canReadEnv) {
+  log.error(".ENV not available. API not running.");
+  process.exit(1);
+}
 
-  admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(firebaseConfig)),
-    storageBucket: JSON.parse(firebaseConfig).storageBucket,
+const startServer = () => {
+  firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert(firebaseConfig),
+    storageBucket: firebaseConfig.storageBucket,
   });
 
   const PORT = parseInt((process.env.PORT || "3000") as string, 10);
@@ -33,18 +36,6 @@ if (canReadEnv) {
   const app = express();
 
   const publicCors = cors();
-  // const privateCors = cors({
-  //   origin: (origin, callback) => {
-  //     if (!origin || ALLOWED_ORIGINS.indexOf(origin) === -1) {
-  //       log.info("Blocked access from origin: " + origin);
-  //       var msg =
-  //         "The CORS policy for this site does not " +
-  //         "allow access from the specified Origin.";
-  //       return callback(new Error(msg), false);
-  //     }
-  //     return callback(null, true);
-  //   },
-  // });
 
   connectMongo()
     .then(() => {
@@ -81,6 +72,6 @@ if (canReadEnv) {
         e,
       ),
     );
-} else {
-  log.error(".ENV not available. API not running.");
-}
+};
+
+startServer();
