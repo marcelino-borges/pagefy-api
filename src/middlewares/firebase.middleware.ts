@@ -3,7 +3,6 @@ import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 
 import { AppErrorsMessages } from "../constants";
 import AppResult from "../errors/app-error";
-import { getUserByAuthId } from "../services/user.service";
 import log from "../utils/logs";
 
 export const verifyToken = async (req: Request, res: Response, next: any) => {

@@ -102,10 +102,12 @@ export const getUser = async (req: Request, res: Response) => {
   */
   const email: string = req.query.email as string;
   const userId: string = req.query.userId as string;
+  const authId: string = req.query.authId as string;
   const tokenEmail: string = (req as any).tokenEmail as string;
   const tokenUid: string = (req as any).tokenEmail as string;
 
   const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid);
+
   if (!isAuthorized) {
     return res
       .status(401)
@@ -118,34 +120,33 @@ export const getUser = async (req: Request, res: Response) => {
       );
   }
 
-  if (!email && !userId) {
-    return res
-      .status(400)
-      .json(
-        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400),
-      );
-  }
-
   try {
     let userFound;
 
     if (userId && userId.length > 0) {
       userFound = await userService.getUserById(email);
-    }
-
-    if (!userFound && email && email.length > 0) {
+    } else if (email && email.length > 0) {
       userFound = await userService.getUserByEmail(email);
+    } else if (authId && authId.length > 0) {
+      userFound = await userService.getUserByAuthId(authId);
+    } else {
+      res
+        .status(400)
+        .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      return;
     }
 
     if (!userFound) {
-      return res
+      res
         .status(400)
         .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+      return;
     }
-    return res.status(200).json(userFound);
+
+    res.status(200).json(userFound);
   } catch (e: any) {
     log.error("[UserController.getUser] EXCEPTION: ", e);
-    return res
+    res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
   }
