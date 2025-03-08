@@ -188,8 +188,8 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
 };
 
 export const updateUserPaymentId = async (req: Request, res: Response) => {
-  const email: string = req.params.email as string;
-  const paymentId: string = req.params.paymentId as string;
+  const email: string = req.body.email as string;
+  const paymentId: string = req.body.paymentId as string;
 
   try {
     const userUpdated = await userService.updateUserPaymentId(email, paymentId);

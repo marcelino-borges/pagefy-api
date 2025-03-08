@@ -40,7 +40,7 @@ router.get(
   userController.getUserByEmailForSystem,
 );
 router.patch(
-  "/system/user/:email/payment-id/:paymentId",
+  "/system/user/payment-id",
   verifyApiKey,
   userController.updateUserPaymentId,
 );
