@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
 
 import { AppErrorsMessages } from "../constants";
@@ -149,6 +150,40 @@ export const getUser = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const getUserByEmailForSystem = async (req: Request, res: Response) => {
+  const email: string = req.params.email as string;
+
+  try {
+    const userFound = await userService.getUserByEmail(email);
+
+    if (!userFound) {
+      res
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.USER_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
+      return;
+    }
+
+    res.status(HttpStatusCode.Ok).json(userFound);
+  } catch (e: any) {
+    log.error("[UserController.getUserByEmailForSystem] EXCEPTION: ", e);
+    res
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 

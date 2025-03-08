@@ -34,7 +34,11 @@ router.put("/user", verifyToken, userController.updateUser);
 router.delete("/user", verifyToken, userController.deleteUser);
 
 // System routes
-router.get("/system/user", verifyApiKey, userController.getUser);
+router.get(
+  "/system/user/:email",
+  verifyApiKey,
+  userController.getUserByEmailForSystem,
+);
 
 /*
  * PAGES
