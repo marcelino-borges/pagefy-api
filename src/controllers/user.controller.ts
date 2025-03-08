@@ -187,6 +187,41 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
   }
 };
 
+export const updateUserPaymentId = async (req: Request, res: Response) => {
+  const email: string = req.params.email as string;
+  const paymentId: string = req.params.paymentId as string;
+
+  try {
+    const userUpdated = await userService.updateUserPaymentId(email, paymentId);
+
+    if (!userUpdated) {
+      res
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.USER_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
+      return;
+    }
+
+    res.status(HttpStatusCode.Ok).json(userUpdated);
+  } catch (e: any) {
+    log.error("[UserController.updateUserPaymentId] EXCEPTION: ", e);
+    res
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
+  }
+};
+
 export const getUserPlan = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']

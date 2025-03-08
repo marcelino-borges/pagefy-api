@@ -70,6 +70,20 @@ export const updateUser = async (user: IUser) => {
   return userUpdated;
 };
 
+export const updateUserPaymentId = async (email: string, paymentId: string) => {
+  let userUpdated = await UserDB.findOneAndUpdate(
+    { email },
+    { paymentId },
+    { new: true },
+  );
+
+  if (!userUpdated) {
+    return null;
+  }
+
+  return userUpdated;
+};
+
 export const deleteUser = async (req: Request, res: Response) => {
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;

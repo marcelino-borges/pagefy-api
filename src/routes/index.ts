@@ -39,6 +39,11 @@ router.get(
   verifyApiKey,
   userController.getUserByEmailForSystem,
 );
+router.patch(
+  "/system/user/:email/payment-id/:paymentId",
+  verifyApiKey,
+  userController.updateUserPaymentId,
+);
 
 /*
  * PAGES
