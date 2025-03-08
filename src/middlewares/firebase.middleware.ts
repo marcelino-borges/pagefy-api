@@ -30,7 +30,7 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
       return res
         .status(401)
         .json(
-          new AppResult(AppErrorsMessages.NOT_AUTHORIZED, error.message, 401),
+          new AppResult(AppErrorsMessages.UNAUTHORIZED, error.message, 401),
         );
     });
 };

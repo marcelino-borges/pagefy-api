@@ -113,7 +113,7 @@ export const getUser = async (req: Request, res: Response) => {
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.UNAUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
@@ -245,7 +245,7 @@ export const createUser = async (req: Request, res: Response) => {
   if (!isAuthorized) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
+      .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
   }
 
   if (!user) {
@@ -333,7 +333,7 @@ export const updateUser = async (req: Request, res: Response) => {
   if (!isAuthorized) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
+      .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
   }
 
   if (!user) {
@@ -409,7 +409,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     if (!isAuthorized) {
       return res
         .status(401)
-        .json(new AppResult(AppErrorsMessages.NOT_AUTHORIZED, null, 401));
+        .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
     }
 
     return await userService.deleteUser(req, res);

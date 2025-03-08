@@ -8,6 +8,7 @@ import * as pageController from "../controllers/pages.controller";
 import * as recaptchaController from "../controllers/recaptcha.controller";
 import * as testimonialsController from "../controllers/testimonials.controller";
 import * as userController from "../controllers/user.controller";
+import { verifyApiKey } from "../middlewares/api-key.middleware";
 import { verifyToken } from "../middlewares/firebase.middleware";
 import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
 
@@ -31,6 +32,9 @@ router.get("/user", verifyToken, userController.getUser);
 router.post("/user", verifyToken, userController.createUser);
 router.put("/user", verifyToken, userController.updateUser);
 router.delete("/user", verifyToken, userController.deleteUser);
+
+// System routes
+router.get("/system/user", verifyApiKey, userController.getUser);
 
 /*
  * PAGES

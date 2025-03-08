@@ -1,0 +1,2219 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.19.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "http://pagefy-api.onrender.com",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "bearerFormat": "JWT",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Provide a JWT bearer token",
+      "value": "Bearer XXXXXXXXXXXXXXXXXX"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/user/exists": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Signs the user out",
+        "description": "Signs the user out, ending his token",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "User id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "params",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}/plan": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Gets an user",
+        "description": "Gets an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Updates an existing user in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "description": "Firebase Auth UID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "description": "User updated"
+          },
+          "204": {
+            "description": "User updated"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Gets an user by his email",
+        "description": "Gets an user from database by his email",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Creates a new user",
+        "description": "Creates a new user to database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User to be created in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New user data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updates an existing user",
+        "description": "Updates an existing user in database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Updates an existing user in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Deletes an existing user",
+        "description": "Deletes an existing user in database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "description": "Firebase Auth UID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User updated"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/system/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Gets an user by his email",
+        "description": "Gets an user from database by his email",
+        "parameters": [
+          {
+            "name": "py-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/page/id/{pageId}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its ID",
+        "description": "Gets a page by its ID from database",
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its ID from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Deletes an user page",
+        "description": "Deletes an user page from database",
+        "parameters": [
+          {
+            "name": "pageId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Deletes an user page from database",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/page/url/{url}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its URL from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/page/url/renderer/{url}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets a page by its URL from database"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/page/all/user/{userId}": {
+      "get": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets all user pages by user ID",
+        "description": "Gets all pages from database by user ID",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "Gets all pages from database by user ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/page": {
+      "post": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Creates an user page",
+        "description": "Creates an user page in database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "body",
+            "description": "Creates an user page in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Updates an user page",
+        "description": "Updates an user page in database",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "body",
+            "description": "Updates an user page in database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/page/component-clicks": {
+      "post": {
+        "tags": [
+          "Page"
+        ],
+        "summary": "Gets a page by its URL",
+        "description": "Gets a page by its URL from database",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "params",
+            "description": "Gets a page by its URL from database",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pageId": {
+                  "example": "any"
+                },
+                "componentId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Uploads an image.",
+        "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "Image file to be uploaded (JPEG, PNG, GIF and WEBG)",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "userId",
+            "in": "formData",
+            "description": "ID of the user sending the file",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userFolderName",
+            "in": "formData",
+            "description": "Name of the folder inside user's folder in storage (default is 'general', when no pageId is provided)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageId",
+            "in": "formData",
+            "description": "ID of the page, if the image belongs to any page (if any, user gains a new folder, in his directory, with the ID of the page as name, and the image will go inside it - and userFolderName is not considered.)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "URL of the image stored"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Deletes an image.",
+        "description": "Deletes an image to the storage.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "body",
+            "description": "Image file to be deleted",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "ID of the user trying to delete the file",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "URL of the image stored"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/user/{userId}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all user images.",
+        "description": "Gets all user images.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "description": "ID of the user trying to get his/her files"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/buttons": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all buttons templates.",
+        "description": "Gets all buttons templates.",
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/backgrounds": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all background templates.",
+        "description": "Gets all background templates.",
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/user-profile": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all user profile templates.",
+        "description": "Gets all user profile templates.",
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/files/templates/pages-imgs": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Gets all pages images templates.",
+        "description": "Gets all pages images templates.",
+        "responses": {
+          "200": {
+            "description": "URL of the image stored",
+            "type": "string"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/contact": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Sends a user email message for system",
+        "description": "Sends a user email message for system",
+        "parameters": [
+          {
+            "name": "recaptcha-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "User name",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "email",
+            "in": "body",
+            "description": "User email",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "message",
+            "in": "body",
+            "description": "Message body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "type": "string",
+            "description": "Message sent"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/verify-recaptcha": {
+      "post": {
+        "tags": [
+          "ReCAPTCHA"
+        ],
+        "summary": "Verifies if a given reCAPCTCHA token is validated by Google",
+        "description": "Verifies if a given reCAPCTCHA token is validated by Google",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "Token returned from the client recaptcha",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "When a token is validated"
+          },
+          "401": {
+            "description": "When a token is not validated"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Query testimonials",
+        "description": "Get testimonials",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count of testimonials to retrieve",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Creates a new testimonial",
+        "description": "Creates a new testimonial",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "schema": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                }
+              }
+            },
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "name": "testimonial",
+            "in": "body",
+            "description": "User testimonial",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "pictureUrl",
+            "in": "body",
+            "description": "User picture url",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "rating",
+            "in": "body",
+            "description": "User rating",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "testimonialId"
+        ],
+        "summary": "Delete a testimonial from an user",
+        "description": "Delete a testimonial from an user",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "testimonialId",
+            "in": "body",
+            "description": "Testimonial ID",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/last/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get the last testimonial from an user",
+        "description": "Get the last testimonial from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/all/user/{userId}": {
+      "get": {
+        "tags": [
+          "Testimonial"
+        ],
+        "summary": "Get all testimonials from an user",
+        "description": "Get all testimonials from an user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "body",
+            "required": true,
+            "description": "User ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/testimonials/{testimonialId}": {
+      "delete": {
+        "tags": [
+          "testimonialId"
+        ],
+        "summary": "Delete a testimonial from an user",
+        "description": "Delete a testimonial from an user",
+        "parameters": [
+          {
+            "name": "testimonialId",
+            "in": "body",
+            "required": true,
+            "description": "Testimonial ID",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/faqs": {
+      "get": {
+        "tags": [
+          "FAQ"
+        ],
+        "summary": "Get all FAQs",
+        "description": "Get all FAQs",
+        "parameters": [
+          {
+            "name": "language",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted FAQ"
+          },
+          "400": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Message of error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "example@email.com"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "example": "https://www.url.com"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "asd12zxc2zq5q4w2eqe1czx"
+        },
+        "name": {
+          "type": "string",
+          "example": "Name"
+        },
+        "url": {
+          "type": "string",
+          "example": "/my-url"
+        },
+        "pageImageUrl": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "isPublic": {
+          "type": "boolean",
+          "example": true
+        },
+        "views": {
+          "type": "number",
+          "example": 15
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "backgroundColor": {
+              "type": "string",
+              "example": "#fff"
+            },
+            "backgroundImage": {
+              "type": "string",
+              "example": "https://www.url.com"
+            },
+            "backgroundSize": {
+              "type": "string",
+              "example": "cover"
+            },
+            "backgroundPosition": {
+              "type": "string",
+              "example": "center"
+            },
+            "color": {
+              "type": "string",
+              "example": "#fff"
+            }
+          }
+        },
+        "topComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "middleComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "bottomComponents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "asd123asd-asd12asd"
+              },
+              "text": {
+                "type": "string",
+                "example": "Text"
+              },
+              "url": {
+                "type": "string",
+                "example": "https://www.url.com"
+              },
+              "style": {
+                "type": "object",
+                "properties": {
+                  "backgroundColor": {
+                    "type": "string",
+                    "example": "#fff"
+                  },
+                  "backgroundImage": {
+                    "type": "string",
+                    "example": "https://www.url.com"
+                  },
+                  "backgroundSize": {
+                    "type": "string",
+                    "example": "cover"
+                  },
+                  "backgroundPosition": {
+                    "type": "string",
+                    "example": "center"
+                  },
+                  "color": {
+                    "type": "string",
+                    "example": "#fff"
+                  }
+                }
+              },
+              "visible": {
+                "type": "boolean",
+                "example": true
+              },
+              "clicks": {
+                "type": "number",
+                "example": 15
+              },
+              "layout": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  },
+                  "required": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              },
+              "type": {
+                "type": "number",
+                "example": 15
+              },
+              "mediaUrl": {
+                "type": "string",
+                "example": "http://www.youtube.com"
+              },
+              "iconDetails": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "rows": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "columns": {
+                        "type": "number",
+                        "example": 15
+                      }
+                    }
+                  }
+                }
+              },
+              "visibleDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "launchDate": {
+                "type": "string",
+                "example": "2022-01-01T22:11:25:000Z"
+              },
+              "animation": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "example": "bounceIn"
+                      },
+                      "startDelay": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "duration": {
+                        "type": "number",
+                        "example": 15
+                      },
+                      "infinite": {
+                        "type": "boolean",
+                        "example": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "customScripts": {
+          "type": "object",
+          "properties": {
+            "header": {
+              "type": "string",
+              "example": "let a = 1;"
+            },
+            "endBody": {
+              "type": "string",
+              "example": "let a = 1;"
+            }
+          }
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "number",
+          "example": 200
+        },
+        "errorDetails": {
+          "type": "string",
+          "example": "Details of the error (if any)"
+        },
+        "message": {
+          "type": "string",
+          "example": "Summary of the result"
+        }
+      }
+    },
+    "ImageUploadFormData": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "9as9d9vjmav9m"
+        },
+        "userFolderName": {
+          "type": "string",
+          "example": "profile"
+        },
+        "pageId": {
+          "type": "string",
+          "example": "jica98vncu1-9010incv1"
+        }
+      }
+    },
+    "Style": {
+      "type": "object",
+      "properties": {
+        "backgroundColor": {
+          "type": "string",
+          "example": "#fff"
+        },
+        "backgroundImage": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "backgroundSize": {
+          "type": "string",
+          "example": "cover"
+        },
+        "backgroundPosition": {
+          "type": "string",
+          "example": "center"
+        },
+        "color": {
+          "type": "string",
+          "example": "#fff"
+        }
+      }
+    },
+    "Component": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "text": {
+          "type": "string",
+          "example": "Text"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://www.url.com"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "backgroundColor": {
+              "type": "string",
+              "example": "#fff"
+            },
+            "backgroundImage": {
+              "type": "string",
+              "example": "https://www.url.com"
+            },
+            "backgroundSize": {
+              "type": "string",
+              "example": "cover"
+            },
+            "backgroundPosition": {
+              "type": "string",
+              "example": "center"
+            },
+            "color": {
+              "type": "string",
+              "example": "#fff"
+            }
+          }
+        },
+        "visible": {
+          "type": "boolean",
+          "example": true
+        },
+        "clicks": {
+          "type": "number",
+          "example": 15
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "rows": {
+                  "type": "number",
+                  "example": 15
+                },
+                "columns": {
+                  "type": "number",
+                  "example": 15
+                }
+              }
+            },
+            "required": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        },
+        "type": {
+          "type": "number",
+          "example": 15
+        },
+        "mediaUrl": {
+          "type": "string",
+          "example": "http://www.youtube.com"
+        },
+        "iconDetails": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "rows": {
+                  "type": "number",
+                  "example": 15
+                },
+                "columns": {
+                  "type": "number",
+                  "example": 15
+                }
+              }
+            }
+          }
+        },
+        "visibleDate": {
+          "type": "string",
+          "example": "2022-01-01T22:11:25:000Z"
+        },
+        "launchDate": {
+          "type": "string",
+          "example": "2022-01-01T22:11:25:000Z"
+        },
+        "animation": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "bounceIn"
+                },
+                "startDelay": {
+                  "type": "number",
+                  "example": 15
+                },
+                "duration": {
+                  "type": "number",
+                  "example": 15
+                },
+                "infinite": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Testimonial": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "userId": {
+          "type": "string",
+          "example": "asd123asd-asd12asd"
+        },
+        "testimonial": {
+          "type": "string",
+          "example": ""
+        },
+        "pictureUrl": {
+          "type": "string",
+          "example": ""
+        },
+        "videoUrl": {
+          "type": "string",
+          "example": ""
+        },
+        "rating": {
+          "type": "number",
+          "example": 0
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2022-11-02T20:26:06.397Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2022-11-02T20:26:06.397Z"
+        }
+      }
+    }
+  }
+}

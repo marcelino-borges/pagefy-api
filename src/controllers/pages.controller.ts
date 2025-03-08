@@ -194,7 +194,7 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.UNAUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
@@ -266,7 +266,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.UNAUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
@@ -362,7 +362,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.UNAUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
@@ -441,7 +441,7 @@ export const deleteUserPage = async (req: Request, res: Response) => {
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.NOT_AUTHORIZED,
+          AppErrorsMessages.UNAUTHORIZED,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
