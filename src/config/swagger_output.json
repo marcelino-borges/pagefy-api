@@ -359,13 +359,32 @@
         ]
       }
     },
-    "/system/user": {
+    "/system/user/{email}": {
       "get": {
-        "tags": [
-          "User"
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "py-api-key",
+            "in": "header",
+            "type": "string"
+          }
         ],
-        "summary": "Gets an user by his email",
-        "description": "Gets an user from database by his email",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/system/user/payment-id": {
+      "patch": {
+        "description": "",
         "parameters": [
           {
             "name": "py-api-key",
@@ -373,53 +392,26 @@
             "type": "string"
           },
           {
-            "name": "userId",
-            "in": "query",
-            "description": "User ID",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "description": "User email",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authId",
-            "in": "query",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "paymentId": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "User data",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Message of error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+          "default": {
+            "description": ""
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
     "/page/id/{pageId}": {

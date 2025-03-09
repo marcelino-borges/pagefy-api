@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import { Request, Response } from "express";
 
 import { AppErrorsMessages, AppSuccessMessages } from "../constants";
@@ -36,8 +37,14 @@ export const getPageById = async (req: Request, res: Response) => {
 
   if (!pageId) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_ID_MISSING, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_ID_MISSING,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -45,15 +52,27 @@ export const getPageById = async (req: Request, res: Response) => {
 
     if (!pageFound) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_NOT_FOUND, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
-    return res.status(200).json(pageFound);
+    return res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -85,8 +104,14 @@ export const getPageByUrl = async (req: Request, res: Response) => {
 
   if (!url) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.URL_MISSING_IN_PARAMS, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.URL_MISSING_IN_PARAMS,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -94,15 +119,27 @@ export const getPageByUrl = async (req: Request, res: Response) => {
 
     if (!pageFound) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_NOT_FOUND, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
-    return res.status(200).json(pageFound);
+    return res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -134,8 +171,14 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
 
   if (!url) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.URL_MISSING_IN_PARAMS, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.URL_MISSING_IN_PARAMS,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -143,17 +186,29 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
 
     if (!pageFound) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_NOT_FOUND, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
     pagesService.incrementUserPageViewsByUrl(url);
 
-    return res.status(200).json(pageFound);
+    return res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -189,22 +244,29 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
   const tokenUid: string = (req as any).tokenUid as string;
 
   const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, userId);
+
   if (!isAuthorized) {
     return res
-      .status(401)
+      .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
+          AppErrorsMessages.FORBIDDEN,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401,
+          HttpStatusCode.Forbidden,
         ),
       );
   }
 
   if (!userId) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.USER_ID_MISSING,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -212,15 +274,27 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
 
     if (!pageFound) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_HAS_NO_PAGES, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.USER_HAS_NO_PAGES,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
-    return res.status(200).json(pageFound);
+    return res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -260,23 +334,29 @@ export const createUserPage = async (req: Request, res: Response) => {
     tokenUid,
     page.userId,
   );
+
   if (!isAuthorized) {
-    log.error("No auth");
     return res
-      .status(401)
+      .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
+          AppErrorsMessages.FORBIDDEN,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401,
+          HttpStatusCode.Forbidden,
         ),
       );
   }
 
   if (!page) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_REQUIRED, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_REQUIRED,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   if (
@@ -288,8 +368,14 @@ export const createUserPage = async (req: Request, res: Response) => {
     page.views === undefined
   ) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_INVALID, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_INVALID,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   if (page.url[0] === "/") {
@@ -300,8 +386,14 @@ export const createUserPage = async (req: Request, res: Response) => {
 
   if (urlExist) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_URL_ALREADY_EXIST, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_URL_ALREADY_EXIST,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -309,15 +401,27 @@ export const createUserPage = async (req: Request, res: Response) => {
 
     if (!pageCreated) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_CREATING, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_CREATING,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
-    return res.status(200).json(pageCreated);
+    return res.status(HttpStatusCode.Ok).json(pageCreated);
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -359,20 +463,26 @@ export const updateUserPage = async (req: Request, res: Response) => {
   );
   if (!isAuthorized) {
     return res
-      .status(401)
+      .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
+          AppErrorsMessages.FORBIDDEN,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401,
+          HttpStatusCode.Forbidden,
         ),
       );
   }
 
   if (!page) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_REQUIRED, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_REQUIRED,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   if (
@@ -384,8 +494,14 @@ export const updateUserPage = async (req: Request, res: Response) => {
     page.views === undefined
   ) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_INVALID, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_INVALID,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -393,16 +509,28 @@ export const updateUserPage = async (req: Request, res: Response) => {
 
     if (!pageUpdated) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_UPDATING, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_UPDATING,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
-    return res.status(200).json(pageUpdated);
+    return res.status(HttpStatusCode.Ok).json(pageUpdated);
   } catch (e: any) {
     log.error("[PageController.updateUserPage] EXCEPTION: ", e);
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -438,20 +566,26 @@ export const deleteUserPage = async (req: Request, res: Response) => {
 
   if (tokenEmail.length < 5 || tokenUid.length < 5) {
     return res
-      .status(401)
+      .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
+          AppErrorsMessages.FORBIDDEN,
           AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
-          401,
+          HttpStatusCode.Forbidden,
         ),
       );
   }
 
   if (!pageId) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.PAGE_REQUIRED, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.PAGE_REQUIRED,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -459,17 +593,31 @@ export const deleteUserPage = async (req: Request, res: Response) => {
 
     if (!success) {
       return res
-        .status(400)
-        .json(new AppResult(AppErrorsMessages.PAGE_DELETING, null, 400));
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            AppErrorsMessages.PAGE_DELETING,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
     }
 
     return res
-      .status(200)
-      .json(new AppResult(AppSuccessMessages.PAGE_DELETED, null, 200));
+      .status(HttpStatusCode.Ok)
+      .json(
+        new AppResult(AppSuccessMessages.PAGE_DELETED, null, HttpStatusCode.Ok),
+      );
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 
@@ -502,8 +650,14 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
 
   if (!pageId || !componentId) {
     return res
-      .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .status(HttpStatusCode.BadRequest)
+      .json(
+        new AppResult(
+          AppErrorsMessages.MISSING_PROPS,
+          null,
+          HttpStatusCode.BadRequest,
+        ),
+      );
   }
 
   try {
@@ -519,11 +673,17 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
       );
     }
 
-    return res.status(200).json();
+    return res.status(HttpStatusCode.Ok).json();
   } catch (e: any) {
     return res
-      .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          AppErrorsMessages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 

@@ -4,6 +4,7 @@ export enum AppErrorsMessages {
   INVALID_CREDENTIALS = "Invalid credentials.",
   INVALID_REFRESH_TOKEN = "Invalid refresh token.",
   UNAUTHORIZED = "Not authorized.",
+  FORBIDDEN = "Forbidden.",
   NO_TOKEN_PROVIDED = "No token provided.",
   NO_API_KEY_PROVIDED = "No api key provided.",
   NO_RECAPTCHA_PROVIDED = "No reCAPTCHA provided.",
