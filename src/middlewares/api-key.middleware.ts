@@ -1,11 +1,17 @@
 import { HttpStatusCode } from "axios";
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import log from "../utils/logs";
+import { ERROR_MESSAGES } from "@/constants/messages";
+import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
+import AppResult from "@/errors/app-error";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
 
-export const verifyApiKey = async (req: Request, res: Response, next: any) => {
+export const verifyApiKey = async (
+  req: CustomRequest,
+  res: Response,
+  next: any,
+) => {
   const systemApiKey = process.env.SYSTEM_API_KEY;
 
   if (!systemApiKey) {
@@ -14,13 +20,18 @@ export const verifyApiKey = async (req: Request, res: Response, next: any) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          ERROR_MESSAGES_EN.INTERNAL_ERROR,
           null,
           HttpStatusCode.InternalServerError,
         ),
       );
     return;
   }
+
+  const lang = req.headers["lang"] as string;
+
+  if (lang && ERROR_MESSAGES[lang]) req.messages = ERROR_MESSAGES[lang];
+  else req.messages = ERROR_MESSAGES_EN;
 
   const apiKey = req.headers["py-api-key"] as string;
 
@@ -29,7 +40,7 @@ export const verifyApiKey = async (req: Request, res: Response, next: any) => {
       .status(HttpStatusCode.Unauthorized)
       .json(
         new AppResult(
-          AppErrorsMessages.NO_API_KEY_PROVIDED,
+          ERROR_MESSAGES_EN.NO_API_KEY_PROVIDED,
           null,
           HttpStatusCode.Unauthorized,
         ),
@@ -42,7 +53,7 @@ export const verifyApiKey = async (req: Request, res: Response, next: any) => {
       .status(HttpStatusCode.Unauthorized)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
+          ERROR_MESSAGES_EN.UNAUTHORIZED,
           null,
           HttpStatusCode.Unauthorized,
         ),

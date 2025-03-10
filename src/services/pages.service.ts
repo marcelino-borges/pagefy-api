@@ -1,5 +1,6 @@
-import PagesDB, { IUserComponent } from "../models/pages.models";
-import { IUserPage } from "./../models/pages.models";
+import PagesDB, { IUserComponent } from "@/models/pages.models";
+import { IUserPage } from "@/models/pages.models";
+
 import { deleteFile } from "./files.service";
 
 export const getPageById = async (pageId: string) => {

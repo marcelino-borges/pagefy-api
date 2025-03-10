@@ -1,18 +1,18 @@
-import * as express from "express";
+import { Router } from "express";
 import initializeMulter, { memoryStorage } from "multer";
 
-import * as emailController from "../controllers/email.controller";
-import * as faqController from "../controllers/faq.controller";
-import * as filesController from "../controllers/files.controller";
-import * as pageController from "../controllers/pages.controller";
-import * as recaptchaController from "../controllers/recaptcha.controller";
-import * as testimonialsController from "../controllers/testimonials.controller";
-import * as userController from "../controllers/user.controller";
-import { verifyApiKey } from "../middlewares/api-key.middleware";
-import { verifyToken } from "../middlewares/firebase.middleware";
-import { verifyRecaptcha } from "../middlewares/recaptcha.middleware";
+import * as emailController from "@/controllers/email.controller";
+import * as faqController from "@/controllers/faq.controller";
+import * as filesController from "@/controllers/files.controller";
+import * as pageController from "@/controllers/pages.controller";
+import * as recaptchaController from "@/controllers/recaptcha.controller";
+import * as testimonialsController from "@/controllers/testimonials.controller";
+import * as userController from "@/controllers/user.controller";
+import { verifyApiKey } from "@/middlewares/api-key.middleware";
+import { verifyToken } from "@/middlewares/firebase.middleware";
+import { verifyRecaptcha } from "@/middlewares/recaptcha.middleware";
 
-const router = express.Router();
+const router = Router();
 
 const multer = initializeMulter({
   storage: memoryStorage(),

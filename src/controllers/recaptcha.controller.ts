@@ -1,11 +1,12 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages, AppSuccessMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import * as recaptchaService from "../services/recaptcha.service";
-import { IRecaptchaResult } from "./../models/recaptcha.models";
+import { AppSuccessMessages } from "@/constants";
+import AppResult from "@/errors/app-error";
+import { IRecaptchaResult } from "@/models/recaptcha.models";
+import * as recaptchaService from "@/services/recaptcha.service";
+import { CustomRequest } from "@/types/express-request";
 
-export const verifyRecaptcha = async (req: Request, res: Response) => {
+export const verifyRecaptcha = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['ReCAPTCHA']
     #swagger.summary = 'Verifies if a given reCAPCTCHA token is validated by Google'
@@ -32,7 +33,7 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
   if (!token) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.NO_RECAPTCHA_PROVIDED, null, 401));
+      .json(new AppResult(req.messages.NO_RECAPTCHA_PROVIDED, null, 401));
   }
 
   try {
@@ -44,7 +45,7 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
         .status(401)
         .json(
           new AppResult(
-            AppErrorsMessages.RECAPTCHA_NOT_VALIDATED,
+            req.messages.RECAPTCHA_NOT_VALIDATED,
             result["error-codes"],
             401,
           ),
@@ -57,6 +58,6 @@ export const verifyRecaptcha = async (req: Request, res: Response) => {
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };

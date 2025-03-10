@@ -1,4 +1,5 @@
-import { runSwaggerAutogen } from "./../swagger/index";
+import { runSwaggerAutogen } from "@/swagger/index";
+
 import { getLatestVersionFromChangelog } from "./changelog";
 
 const updateSwagger = async () => {

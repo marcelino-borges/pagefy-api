@@ -1,12 +1,13 @@
 import { Request } from "express";
 import { Response } from "express";
 
-import { ALLOWED_FILE_TYPES, AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IImageDetails } from "../models/files.models";
-import * as filesService from "../services/files.service";
+import { ALLOWED_FILE_TYPES } from "@/constants";
+import AppResult from "@/errors/app-error";
+import { IImageDetails } from "@/models/files.models";
+import * as filesService from "@/services/files.service";
+import { CustomRequest } from "@/types/express-request";
 
-export const uploadImage = async (req: Request, res: Response) => {
+export const uploadImage = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Uploads an image.'
@@ -54,23 +55,23 @@ export const uploadImage = async (req: Request, res: Response) => {
     if (!ALLOWED_FILE_TYPES.includes(file.mimetype)) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.FILE_TYPE, null, 400));
+        .json(new AppResult(req.messages.FILE_TYPE, null, 400));
     }
 
     if (!file) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.FILE_REQUIRED, null, 400));
+        .json(new AppResult(req.messages.FILE_REQUIRED, null, 400));
     }
     return filesService.uploadFileToStorage(req, res);
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const deleteImage = async (req: Request, res: Response) => {
+export const deleteImage = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Deletes an image.'
@@ -105,11 +106,11 @@ export const deleteImage = async (req: Request, res: Response) => {
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getAllUserImages = async (req: Request, res: Response) => {
+export const getAllUserImages = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all user images.'
@@ -139,7 +140,7 @@ export const getAllUserImages = async (req: Request, res: Response) => {
     if (!userId) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, undefined, 400));
+        .json(new AppResult(req.messages.USER_ID_MISSING, undefined, 400));
     }
 
     const images: IImageDetails[] | null =
@@ -151,15 +152,18 @@ export const getAllUserImages = async (req: Request, res: Response) => {
 
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+      .json(new AppResult(req.messages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getAllButtonsTemplates = async (req: Request, res: Response) => {
+export const getAllButtonsTemplates = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all buttons templates.'
@@ -187,16 +191,16 @@ export const getAllButtonsTemplates = async (req: Request, res: Response) => {
 
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+      .json(new AppResult(req.messages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
 export const getAllBackgroundsTemplates = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
 ) => {
   /* 
@@ -226,16 +230,16 @@ export const getAllBackgroundsTemplates = async (
 
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+      .json(new AppResult(req.messages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
 export const getAllUserProfileTemplates = async (
-  req: Request,
+  req: CustomRequest,
   res: Response,
 ) => {
   /* 
@@ -265,15 +269,18 @@ export const getAllUserProfileTemplates = async (
 
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+      .json(new AppResult(req.messages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getAllPagesImgsTemplates = async (req: Request, res: Response) => {
+export const getAllPagesImgsTemplates = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all pages images templates.'
@@ -301,10 +308,10 @@ export const getAllPagesImgsTemplates = async (req: Request, res: Response) => {
 
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.IMAGES_NOT_FOUND, undefined, 400));
+      .json(new AppResult(req.messages.IMAGES_NOT_FOUND, undefined, 400));
   } catch (e: any) {
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };

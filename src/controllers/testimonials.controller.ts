@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { ITestimonial } from "../models/testimonials.models";
-import * as TestimonialService from "../services/testimonials.service";
-import log from "../utils/logs";
+import AppResult from "@/errors/app-error";
+import { ITestimonial } from "@/models/testimonials.models";
+import * as TestimonialService from "@/services/testimonials.service";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
 
-export const createTestimonial = async (req: Request, res: Response) => {
+export const createTestimonial = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Creates a new testimonial'
@@ -53,7 +53,7 @@ export const createTestimonial = async (req: Request, res: Response) => {
   if (!user || !testimonial || !pictureUrl || !rating) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -73,20 +73,21 @@ export const createTestimonial = async (req: Request, res: Response) => {
     if (!testimonialCreated) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_CREATE_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialCreated);
   } catch (e: any) {
     log.error("[TestimonialsController.createTestimonial] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getUserTestimonials = async (req: Request, res: Response) => {
+export const getUserTestimonials = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get all testimonials from an user'
@@ -114,7 +115,7 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
   if (!userId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -124,20 +125,21 @@ export const getUserTestimonials = async (req: Request, res: Response) => {
     if (!testimonialsFound) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_CREATE_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialsFound);
   } catch (e: any) {
     log.error("[TestimonialsController.getUserTestimonials] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getUserLastTestimonial = async (req: Request, res: Response) => {
+export const getUserLastTestimonial = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get the last testimonial from an user'
@@ -165,7 +167,7 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
   if (!userId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -175,20 +177,18 @@ export const getUserLastTestimonial = async (req: Request, res: Response) => {
     if (!testimonialFound) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_CREATE_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_CREATE_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialFound);
   } catch (e: any) {
     log.error("[TestimonialsController.getUserLastTestimonial] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const queryTestimonials = async (req: Request, res: Response) => {
+export const queryTestimonials = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Query testimonials'
@@ -227,20 +227,21 @@ export const queryTestimonials = async (req: Request, res: Response) => {
     if (!testimonialFound) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_GET_ALL_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_GET_ALL_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialFound);
   } catch (e: any) {
     log.error("[TestimonialsController.queryTestimonials] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const updateUserTestimonial = async (req: Request, res: Response) => {
+export const updateUserTestimonial = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['testimonialId']
     #swagger.summary = 'Delete a testimonial from an user'
@@ -268,7 +269,7 @@ export const updateUserTestimonial = async (req: Request, res: Response) => {
   if (!testimonial) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -278,20 +279,21 @@ export const updateUserTestimonial = async (req: Request, res: Response) => {
     if (!testimonialUpdated) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_UPDATE_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_UPDATE_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialUpdated);
   } catch (e: any) {
     log.error("[TestimonialsController.updateUserTestimonial] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const deleteUserTestimonial = async (req: Request, res: Response) => {
+export const deleteUserTestimonial = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['testimonialId']
     #swagger.summary = 'Delete a testimonial from an user'
@@ -319,7 +321,7 @@ export const deleteUserTestimonial = async (req: Request, res: Response) => {
   if (!testimonialId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -329,15 +331,13 @@ export const deleteUserTestimonial = async (req: Request, res: Response) => {
     if (!testimonialDeleted) {
       return res
         .status(400)
-        .json(
-          new AppResult(AppErrorsMessages.ERROR_DELETE_TESTIMONIAL, null, 400),
-        );
+        .json(new AppResult(req.messages.ERROR_DELETE_TESTIMONIAL, null, 400));
     }
     return res.status(200).json(testimonialDeleted);
   } catch (e: any) {
     log.error("[TestimonialsController.deleteUserTestimonial] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };

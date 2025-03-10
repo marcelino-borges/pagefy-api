@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 
-import log from "../utils/logs";
+import log from "@/utils/logs";
+
 import { getLatestVersionFromChangelog } from "./changelog";
 
 const PACKAGE_JSON_PATH = "./package.json";

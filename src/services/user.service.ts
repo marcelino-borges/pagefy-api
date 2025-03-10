@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { getAuth } from "firebase-admin/auth";
 
-import { AppErrorsMessages } from "../constants";
-import UserDB from "../models/user.models";
-import AppResult from "./../errors/app-error";
-import { IUser } from "./../models/user.models";
+import AppResult from "@/errors/app-error";
+import UserDB from "@/models/user.models";
+import { IUser } from "@/models/user.models";
+import { CustomRequest } from "@/types/express-request";
+
 import { deleteAllUserFiles } from "./files.service";
 import { deleteAllUserPages } from "./pages.service";
 
@@ -84,14 +85,14 @@ export const updateUserPaymentId = async (email: string, paymentId: string) => {
   return userUpdated;
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: CustomRequest, res: Response) => {
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
 
   if (!userId || !authId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.INVALID_REQUEST, null, 400));
+      .json(new AppResult(req.messages.INVALID_REQUEST, null, 400));
   }
 
   const firebaseAuth = getAuth();
@@ -121,10 +122,16 @@ export const deleteUser = async (req: Request, res: Response) => {
         .status(400)
         .json(
           new AppResult(
-            AppErrorsMessages.USER_NOT_DELETED_FROM_FIREBASE,
+            req.messages.USER_NOT_DELETED_FROM_FIREBASE,
             error,
             400,
           ),
         );
     });
+};
+
+export const getUserPagesCount = async (userId: string) => {
+  const count = await UserDB.find({ userId }).count();
+
+  return count;
 };

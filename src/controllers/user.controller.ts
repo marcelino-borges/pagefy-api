@@ -1,13 +1,13 @@
 import { HttpStatusCode } from "axios";
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IUser, PlansTypes } from "../models/user.models";
-import * as userService from "../services/user.service";
-import log from "../utils/logs";
+import AppResult from "@/errors/app-error";
+import { IUser, PlansTypes } from "@/models/user.models";
+import * as userService from "@/services/user.service";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
 
-export const doesUserExist = async (req: Request, res: Response) => {
+export const doesUserExist = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Signs the user out'
@@ -43,9 +43,7 @@ export const doesUserExist = async (req: Request, res: Response) => {
   if (!email && !userId) {
     return res
       .status(400)
-      .json(
-        new AppResult(AppErrorsMessages.USERID_OR_EMAIL_REQUIRED, null, 400),
-      );
+      .json(new AppResult(req.messages.USERID_OR_EMAIL_REQUIRED, null, 400));
   }
 
   try {
@@ -64,11 +62,11 @@ export const doesUserExist = async (req: Request, res: Response) => {
     log.error("[UserController.doesUserExist] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Gets an user by his email'
@@ -104,18 +102,18 @@ export const getUser = async (req: Request, res: Response) => {
   const email: string = req.query.email as string;
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenEmail as string;
+  const userEmail: string = req.userEmail as string;
+  const userAuthId: string = req.userEmail as string;
 
-  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid);
+  const isAuthorized = await isUserAuthorized(userEmail, userAuthId);
 
   if (!isAuthorized) {
     return res
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.UNAUTHORIZED,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.UNAUTHORIZED,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
           401,
         ),
       );
@@ -133,14 +131,14 @@ export const getUser = async (req: Request, res: Response) => {
     } else {
       res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+        .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
       return;
     }
 
     if (!userFound) {
       res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+        .json(new AppResult(req.messages.USER_NOT_FOUND, null, 400));
       return;
     }
 
@@ -149,11 +147,14 @@ export const getUser = async (req: Request, res: Response) => {
     log.error("[UserController.getUser] EXCEPTION: ", e);
     res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getUserByEmailForSystem = async (req: Request, res: Response) => {
+export const getUserByEmailForSystem = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   const email: string = req.params.email as string;
 
   try {
@@ -164,7 +165,7 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.USER_NOT_FOUND,
+            req.messages.USER_NOT_FOUND,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -179,7 +180,7 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -187,7 +188,10 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserPaymentId = async (req: Request, res: Response) => {
+export const updateUserPaymentId = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   const email: string = req.body.email as string;
   const paymentId: string = req.body.paymentId as string;
 
@@ -199,7 +203,7 @@ export const updateUserPaymentId = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.USER_NOT_FOUND,
+            req.messages.USER_NOT_FOUND,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -214,7 +218,7 @@ export const updateUserPaymentId = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -222,7 +226,7 @@ export const updateUserPaymentId = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserPlan = async (req: Request, res: Response) => {
+export const getUserPlan = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Gets an user's plan
@@ -251,7 +255,7 @@ export const getUserPlan = async (req: Request, res: Response) => {
   if (!userId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_ID_MISSING, null, 400));
+      .json(new AppResult(req.messages.USER_ID_MISSING, null, 400));
   }
 
   try {
@@ -264,18 +268,18 @@ export const getUserPlan = async (req: Request, res: Response) => {
     if (!userFound) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+        .json(new AppResult(req.messages.USER_NOT_FOUND, null, 400));
     }
     return res.status(200).json(userFound.plan);
   } catch (e: any) {
     log.error("[UserController.getUserPlan] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Creates a new user'
@@ -303,25 +307,25 @@ export const createUser = async (req: Request, res: Response) => {
     }
   */
   const user: IUser = req.body;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userEmail: string = req.userEmail as string;
+  const userAuthId: string = req.userAuthId as string;
 
   const isAuthorized = await isUserAuthorized(
-    tokenEmail,
-    tokenUid,
+    userEmail,
+    userAuthId,
     user.authId,
   );
   log.error(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
   if (!isAuthorized) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
+      .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
   }
 
   if (!user) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_REQUIRED, null, 400));
+      .json(new AppResult(req.messages.USER_REQUIRED, null, 400));
   }
 
   if (
@@ -334,7 +338,7 @@ export const createUser = async (req: Request, res: Response) => {
   ) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_INVALID, null, 400));
+      .json(new AppResult(req.messages.USER_INVALID, null, 400));
   }
 
   try {
@@ -352,7 +356,7 @@ export const createUser = async (req: Request, res: Response) => {
     if (!userCreated) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_CREATING, null, 400));
+        .json(new AppResult(req.messages.USER_CREATING, null, 400));
     }
 
     return res.status(200).json(userCreated);
@@ -360,11 +364,11 @@ export const createUser = async (req: Request, res: Response) => {
     log.error("[UserController.createUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Updates an existing user'
@@ -392,24 +396,24 @@ export const updateUser = async (req: Request, res: Response) => {
     }
   */
   const user: IUser = req.body;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userEmail: string = req.userEmail as string;
+  const userAuthId: string = req.userAuthId as string;
 
   const isAuthorized = await isUserAuthorized(
-    tokenEmail,
-    tokenUid,
+    userEmail,
+    userAuthId,
     user.authId,
   );
   if (!isAuthorized) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
+      .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
   }
 
   if (!user) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_REQUIRED, null, 400));
+      .json(new AppResult(req.messages.USER_REQUIRED, null, 400));
   }
 
   try {
@@ -418,7 +422,7 @@ export const updateUser = async (req: Request, res: Response) => {
     if (!userUpdated) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.USER_UPDATING, null, 400));
+        .json(new AppResult(req.messages.USER_UPDATING, null, 400));
     }
 
     return res.status(200).json(userUpdated);
@@ -426,11 +430,11 @@ export const updateUser = async (req: Request, res: Response) => {
     log.error("[UserController.updateUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Deletes an existing user'
@@ -464,22 +468,22 @@ export const deleteUser = async (req: Request, res: Response) => {
   */
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userEmail: string = req.userEmail as string;
+  const userAuthId: string = req.userAuthId as string;
 
   if (!userId || !authId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.INVALID_REQUEST, null, 400));
+      .json(new AppResult(req.messages.INVALID_REQUEST, null, 400));
   }
 
   try {
-    const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, authId);
+    const isAuthorized = await isUserAuthorized(userEmail, userAuthId, authId);
 
     if (!isAuthorized) {
       return res
         .status(401)
-        .json(new AppResult(AppErrorsMessages.UNAUTHORIZED, null, 401));
+        .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
     }
 
     return await userService.deleteUser(req, res);
@@ -487,16 +491,21 @@ export const deleteUser = async (req: Request, res: Response) => {
     log.error("[UserController.deleteUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
 export const isUserAuthorized = async (
-  tokenEmail: string | undefined,
-  tokenUid: string | undefined,
+  userEmail: string | undefined,
+  userAuthId: string | undefined,
   authId?: string | undefined,
 ) => {
-  if (tokenEmail && tokenUid && authId && String(authId) !== String(tokenUid)) {
+  if (
+    userEmail &&
+    userAuthId &&
+    authId &&
+    String(authId) !== String(userAuthId)
+  ) {
     return false;
   }
   return true;

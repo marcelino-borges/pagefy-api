@@ -1,15 +1,17 @@
 import { HttpStatusCode } from "axios";
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages, AppSuccessMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IUserPage } from "../models/pages.models";
-import * as pagesService from "../services/pages.service";
-import { doesPageUrlExist } from "../services/pages.service";
-import * as userService from "../services/user.service";
-import log from "../utils/logs";
+import { AppSuccessMessages } from "@/constants";
+import AppResult from "@/errors/app-error";
+import { IUserPage } from "@/models/pages.models";
+import * as pagesService from "@/services/pages.service";
+import { doesPageUrlExist } from "@/services/pages.service";
+import * as userService from "@/services/user.service";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
+import { canUserCreatePage } from "@/utils/user-plan";
 
-export const getPageById = async (req: Request, res: Response) => {
+export const getPageById = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its ID'
@@ -40,7 +42,7 @@ export const getPageById = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_ID_MISSING,
+          req.messages.PAGE_ID_MISSING,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -55,7 +57,7 @@ export const getPageById = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_NOT_FOUND,
+            req.messages.PAGE_NOT_FOUND,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -68,7 +70,7 @@ export const getPageById = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -76,7 +78,7 @@ export const getPageById = async (req: Request, res: Response) => {
   }
 };
 
-export const getPageByUrl = async (req: Request, res: Response) => {
+export const getPageByUrl = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -107,7 +109,7 @@ export const getPageByUrl = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.URL_MISSING_IN_PARAMS,
+          req.messages.URL_MISSING_IN_PARAMS,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -122,7 +124,7 @@ export const getPageByUrl = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_NOT_FOUND,
+            req.messages.PAGE_NOT_FOUND,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -135,7 +137,7 @@ export const getPageByUrl = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -143,7 +145,10 @@ export const getPageByUrl = async (req: Request, res: Response) => {
   }
 };
 
-export const getRendererPageByUrl = async (req: Request, res: Response) => {
+export const getRendererPageByUrl = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -174,7 +179,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.URL_MISSING_IN_PARAMS,
+          req.messages.URL_MISSING_IN_PARAMS,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -189,7 +194,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_NOT_FOUND,
+            req.messages.PAGE_NOT_FOUND,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -204,7 +209,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -212,7 +217,10 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
+export const getAllUserPagesByUserId = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets all user pages by user ID'
@@ -240,18 +248,17 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
     }
   */
   const userId: string = req.params.userId;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userIdToken: string = req.userId as string;
 
-  const isAuthorized = await isUserAuthorized(tokenEmail, tokenUid, userId);
+  const isSameUser = userId === userIdToken;
 
-  if (!isAuthorized) {
+  if (!isSameUser) {
     return res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.FORBIDDEN,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
           HttpStatusCode.Forbidden,
         ),
       );
@@ -262,7 +269,7 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.USER_ID_MISSING,
+          req.messages.USER_ID_MISSING,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -277,7 +284,7 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.USER_HAS_NO_PAGES,
+            req.messages.USER_HAS_NO_PAGES,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -290,7 +297,7 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -298,7 +305,7 @@ export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
   }
 };
 
-export const createUserPage = async (req: Request, res: Response) => {
+export const createUserPage = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Creates an user page'
@@ -326,22 +333,31 @@ export const createUserPage = async (req: Request, res: Response) => {
     }
   */
   const page: IUserPage = req.body;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userId: string = req.userId as string;
 
-  const isAuthorized = await isUserAuthorized(
-    tokenEmail,
-    tokenUid,
-    page.userId,
-  );
+  const isSameUser = userId === page.userId;
 
-  if (!isAuthorized) {
+  if (!isSameUser) {
     return res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.FORBIDDEN,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
+          HttpStatusCode.Forbidden,
+        ),
+      );
+  }
+
+  const canCreate = await canUserCreatePage(userId, req.userPlan);
+
+  if (!canCreate) {
+    return res
+      .status(HttpStatusCode.Forbidden)
+      .json(
+        new AppResult(
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
           HttpStatusCode.Forbidden,
         ),
       );
@@ -352,7 +368,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_REQUIRED,
+          req.messages.PAGE_REQUIRED,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -371,7 +387,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_INVALID,
+          req.messages.PAGE_INVALID,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -389,7 +405,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_URL_ALREADY_EXIST,
+          req.messages.PAGE_URL_ALREADY_EXIST,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -404,7 +420,7 @@ export const createUserPage = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_CREATING,
+            req.messages.PAGE_CREATING,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -417,7 +433,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -425,7 +441,7 @@ export const createUserPage = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserPage = async (req: Request, res: Response) => {
+export const updateUserPage = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Updates an user page'
@@ -453,21 +469,17 @@ export const updateUserPage = async (req: Request, res: Response) => {
     }
   */
   const page: IUserPage = req.body;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userId: string = req.userId as string;
 
-  const isAuthorized = await isUserAuthorized(
-    tokenEmail,
-    tokenUid,
-    page.userId,
-  );
-  if (!isAuthorized) {
+  const isSameUser = userId === page.userId;
+
+  if (!isSameUser) {
     return res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.FORBIDDEN,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
           HttpStatusCode.Forbidden,
         ),
       );
@@ -478,7 +490,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_REQUIRED,
+          req.messages.PAGE_REQUIRED,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -497,7 +509,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_INVALID,
+          req.messages.PAGE_INVALID,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -512,7 +524,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_UPDATING,
+            req.messages.PAGE_UPDATING,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -526,7 +538,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -534,7 +546,7 @@ export const updateUserPage = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUserPage = async (req: Request, res: Response) => {
+export const deleteUserPage = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Deletes an user page'
@@ -561,16 +573,16 @@ export const deleteUserPage = async (req: Request, res: Response) => {
     }
   */
   const pageId: string = req.params.pageId;
-  const tokenEmail: string = (req as any).tokenEmail as string;
-  const tokenUid: string = (req as any).tokenUid as string;
+  const userEmail: string = req.userEmail as string;
+  const userAuthId: string = req.userAuthId as string;
 
-  if (tokenEmail.length < 5 || tokenUid.length < 5) {
+  if (userEmail.length < 5 || userAuthId.length < 5) {
     return res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
-          AppErrorsMessages.FORBIDDEN,
-          AppErrorsMessages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
           HttpStatusCode.Forbidden,
         ),
       );
@@ -581,7 +593,7 @@ export const deleteUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.PAGE_REQUIRED,
+          req.messages.PAGE_REQUIRED,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -596,7 +608,7 @@ export const deleteUserPage = async (req: Request, res: Response) => {
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
-            AppErrorsMessages.PAGE_DELETING,
+            req.messages.PAGE_DELETING,
             null,
             HttpStatusCode.BadRequest,
           ),
@@ -613,7 +625,7 @@ export const deleteUserPage = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
@@ -621,7 +633,10 @@ export const deleteUserPage = async (req: Request, res: Response) => {
   }
 };
 
-export const incrementComponentClicks = async (req: Request, res: Response) => {
+export const incrementComponentClicks = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -653,7 +668,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
-          AppErrorsMessages.MISSING_PROPS,
+          req.messages.MISSING_PROPS,
           null,
           HttpStatusCode.BadRequest,
         ),
@@ -669,7 +684,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
     if (!incrementSuccess) {
       log.success(
         "[Controller incrementComponentClick] " +
-          AppErrorsMessages.PAGE_VIEW_INCREMENT,
+          req.messages.PAGE_VIEW_INCREMENT,
       );
     }
 
@@ -679,24 +694,10 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           e.message,
           HttpStatusCode.InternalServerError,
         ),
       );
   }
-};
-
-export const isUserAuthorized = async (
-  tokenEmail: string | undefined,
-  tokenUid: string | undefined,
-  userId: string | undefined,
-) => {
-  if (tokenEmail && tokenUid && userId) {
-    const foundUser = await userService.getUserById(userId);
-    if (foundUser) {
-      if (foundUser.authId === tokenUid) return true;
-    }
-  }
-  return false;
 };

@@ -1,36 +1,90 @@
-import { Request, Response } from "express";
+import { HttpStatusCode } from "axios";
+import { Response } from "express";
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import log from "../utils/logs";
+import { ERROR_MESSAGES } from "@/constants/messages";
+import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
+import AppResult from "@/errors/app-error";
+import {
+  getPlansFeatures,
+  getUserSubscription,
+} from "@/services/payments.service";
+import { getUserByAuthId } from "@/services/user.service";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
 
-export const verifyToken = async (req: Request, res: Response, next: any) => {
+export const verifyToken = async (
+  req: CustomRequest,
+  res: Response,
+  next: any,
+) => {
   const bearer = req.headers["authorization"] as string;
+  const lang = req.headers["lang"] as string;
+
+  if (lang && ERROR_MESSAGES[lang]) req.messages = ERROR_MESSAGES[lang];
+  else req.messages = ERROR_MESSAGES_EN;
 
   if (!bearer) {
     return res
-      .status(401)
-      .json(new AppResult(AppErrorsMessages.NO_TOKEN_PROVIDED, null, 401));
+      .status(HttpStatusCode.Unauthorized)
+      .json(
+        new AppResult(
+          req.messages.NO_TOKEN_PROVIDED,
+          null,
+          HttpStatusCode.Unauthorized,
+        ),
+      );
   }
 
   const token = bearer.replace("Bearer ", "");
 
-  getAuth()
-    .verifyIdToken(token)
-    .then(async (decodedToken: DecodedIdToken) => {
-      const { uid, email } = decodedToken;
-      (req as any).tokenEmail = email;
-      (req as any).tokenUid = uid;
+  try {
+    const decodedToken: DecodedIdToken = await getAuth().verifyIdToken(token);
 
-      next();
-    })
-    .catch((error) => {
-      log.error("[verifyToken] EXCEPTION: " + JSON.stringify(error));
-      return res
-        .status(401)
+    const { uid, email } = decodedToken;
+
+    const userPromise = getUserByAuthId(uid);
+    const plansFeaturesPromise = getPlansFeatures();
+
+    const [userFound, plansFeatures] = await Promise.all([
+      userPromise,
+      plansFeaturesPromise,
+    ]);
+
+    if (!userFound?._id) {
+      res
+        .status(HttpStatusCode.Unauthorized)
         .json(
-          new AppResult(AppErrorsMessages.UNAUTHORIZED, error.message, 401),
+          new AppResult(
+            req.messages.UNAUTHORIZED,
+            req.messages.USER_NOT_FOUND,
+            HttpStatusCode.Unauthorized,
+          ),
         );
-    });
+      return;
+    }
+
+    const userSubscription = await getUserSubscription(userFound._id);
+
+    const userPlan = plansFeatures.find(
+      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+    );
+    req.userEmail = email;
+    req.userAuthId = uid;
+    req.userId = userFound._id;
+    req.userPlan = userPlan;
+
+    next();
+  } catch (error) {
+    log.error("[verifyToken] EXCEPTION: " + JSON.stringify(error));
+    return res
+      .status(HttpStatusCode.Unauthorized)
+      .json(
+        new AppResult(
+          req.messages.UNAUTHORIZED,
+          (error as Error).message,
+          HttpStatusCode.Unauthorized,
+        ),
+      );
+  }
 };

@@ -1,4 +1,4 @@
-import FaqDB, { IFaq } from "../models/faq.models";
+import FaqDB, { IFaq } from "@/models/faq.models";
 
 export const createFaq = async (faq: IFaq): Promise<IFaq | null> => {
   const faqCreated = (await FaqDB.create(faq)).toObject();

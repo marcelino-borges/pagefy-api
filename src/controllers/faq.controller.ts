@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IFaq } from "../models/faq.models";
-import * as FaqService from "../services/faq.service";
-import log from "../utils/logs";
+import AppResult from "@/errors/app-error";
+import { IFaq } from "@/models/faq.models";
+import * as FaqService from "@/services/faq.service";
+import { CustomRequest } from "@/types/express-request";
+import log from "@/utils/logs";
 
-export const createFaq = async (req: Request, res: Response) => {
+export const createFaq = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Creates a new FAQ'
@@ -46,7 +46,7 @@ export const createFaq = async (req: Request, res: Response) => {
   if (!question || !answer || !language) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -57,18 +57,18 @@ export const createFaq = async (req: Request, res: Response) => {
     if (!faqCreated) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.ERROR_CREATE_FAQ, null, 400));
+        .json(new AppResult(req.messages.ERROR_CREATE_FAQ, null, 400));
     }
     return res.status(200).json(faqCreated);
   } catch (e: any) {
     log.error("[UserController.getUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const updateFaq = async (req: Request, res: Response) => {
+export const updateFaq = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Update FAQ'
@@ -132,7 +132,7 @@ export const updateFaq = async (req: Request, res: Response) => {
   if (!faq) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -141,18 +141,18 @@ export const updateFaq = async (req: Request, res: Response) => {
     if (!faqUpdated) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.ERROR_UPDATE_FAQ, null, 400));
+        .json(new AppResult(req.messages.ERROR_UPDATE_FAQ, null, 400));
     }
     return res.status(200).json(faqUpdated);
   } catch (e: any) {
     log.error("[UserController.getUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const deleteFaq = async (req: Request, res: Response) => {
+export const deleteFaq = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Delete FAQ'
@@ -180,7 +180,7 @@ export const deleteFaq = async (req: Request, res: Response) => {
   if (!faqId) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.MISSING_PROPS, null, 400));
+      .json(new AppResult(req.messages.MISSING_PROPS, null, 400));
   }
 
   try {
@@ -189,18 +189,18 @@ export const deleteFaq = async (req: Request, res: Response) => {
     if (!faqDeleted) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.ERROR_DELETE_FAQ, null, 400));
+        .json(new AppResult(req.messages.ERROR_DELETE_FAQ, null, 400));
     }
     return res.status(200).json(faqDeleted);
   } catch (e: any) {
     log.error("[UserController.getUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };
 
-export const getAllFaqs = async (req: Request, res: Response) => {
+export const getAllFaqs = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Get all FAQs'
@@ -225,13 +225,13 @@ export const getAllFaqs = async (req: Request, res: Response) => {
     if (!faqsFound) {
       return res
         .status(400)
-        .json(new AppResult(AppErrorsMessages.ERROR_GET_ALL_FAQS, null, 400));
+        .json(new AppResult(req.messages.ERROR_GET_ALL_FAQS, null, 400));
     }
     return res.status(200).json(faqsFound);
   } catch (e: any) {
     log.error("[UserController.getUser] EXCEPTION: ", e);
     return res
       .status(500)
-      .json(new AppResult(AppErrorsMessages.INTERNAL_ERROR, e.message, 500));
+      .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
 };

@@ -1,4 +1,4 @@
-import TestimonialDB, { ITestimonial } from "../models/testimonials.models";
+import TestimonialDB, { ITestimonial } from "@/models/testimonials.models";
 
 export const createTestimonial = async (testimonial: ITestimonial) => {
   const testimonialCreated = (

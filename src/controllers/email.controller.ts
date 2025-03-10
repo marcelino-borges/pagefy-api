@@ -1,15 +1,11 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 
-import {
-  AppErrorsMessages,
-  NOREPLY_EMAIL_SENDER,
-  SYSTEM_RECIPIENT_EMAIL,
-} from "../constants";
-import AppResult from "../errors/app-error";
-import * as emailService from "../services/email.service";
-import { IUserContact } from "./../models/email.models";
+import AppResult from "@/errors/app-error";
+import { IUserContact } from "@/models/email.models";
+import * as emailService from "@/services/email.service";
+import { CustomRequest } from "@/types/express-request";
 
-export const sendUserContact = async (req: Request, res: Response) => {
+export const sendUserContact = async (req: CustomRequest, res: Response) => {
   /* 
     #swagger.tags = ['Email']
     #swagger.summary = 'Sends a user email message for system's email'
@@ -55,11 +51,7 @@ export const sendUserContact = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json(
-          new AppResult(
-            AppErrorsMessages.FIELDS_REQUIRED_EMAIL_CONTACT,
-            null,
-            400,
-          ),
+          new AppResult(req.messages.FIELDS_REQUIRED_EMAIL_CONTACT, null, 400),
         );
     }
 

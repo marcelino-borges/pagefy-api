@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import log from "../utils/logs";
+import log from "@/utils/logs";
 
 const connect = async () => {
   if (!process.env.MONGO_CONNECTION_STRING) return;

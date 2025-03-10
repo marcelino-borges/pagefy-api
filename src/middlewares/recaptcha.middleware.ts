@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
-import { AppErrorsMessages } from "../constants";
-import AppResult from "../errors/app-error";
-import { IRecaptchaResult } from "../models/recaptcha.models";
-import * as recaptchaService from "../services/recaptcha.service";
+import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
+import AppResult from "@/errors/app-error";
+import { IRecaptchaResult } from "@/models/recaptcha.models";
+import * as recaptchaService from "@/services/recaptcha.service";
 
 export const verifyRecaptcha = async (
   req: Request,
@@ -15,7 +15,7 @@ export const verifyRecaptcha = async (
   if (!recaptchaToken) {
     return res
       .status(401)
-      .json(new AppResult(AppErrorsMessages.NO_RECAPTCHA_PROVIDED, null, 401));
+      .json(new AppResult(ERROR_MESSAGES_EN.NO_RECAPTCHA_PROVIDED, null, 401));
   }
 
   const result: IRecaptchaResult =
@@ -26,7 +26,7 @@ export const verifyRecaptcha = async (
       .status(401)
       .json(
         new AppResult(
-          AppErrorsMessages.RECAPTCHA_NOT_VALIDATED,
+          ERROR_MESSAGES_EN.RECAPTCHA_NOT_VALIDATED,
           result["error-codes"],
           401,
         ),

@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
-import { Storage, getStorage } from "firebase-admin/storage";
+import { Response } from "express";
+import { getStorage } from "firebase-admin/storage";
 import moment from "moment";
 
-import {
-  AppErrorsMessages,
-  AppSuccessMessages,
-  STORAGE_BUCKETS,
-} from "../constants";
-import { IImageDetails } from "../models/files.models";
-import { getUserById } from "../services/user.service";
-import { getImageThumbnail } from "../utils";
-import log from "../utils/logs";
-import AppResult from "./../errors/app-error";
+import { AppSuccessMessages, STORAGE_BUCKETS } from "@/constants";
+import AppResult from "@/errors/app-error";
+import { IImageDetails } from "@/models/files.models";
+import { getUserById } from "@/services/user.service";
+import { CustomRequest } from "@/types/express-request";
+import { getImageThumbnail } from "@/utils";
+import log from "@/utils/logs";
 
-export const uploadFileToStorage = async (req: Request, res: Response) => {
+export const uploadFileToStorage = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   const image: any = req.file;
   const { userId, userFolderName } = req.body;
 
@@ -22,7 +22,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   if (!userFound) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+      .json(new AppResult(req.messages.USER_NOT_FOUND, null, 400));
   }
 
   if (!STORAGE_BUCKETS.appProject) {
@@ -30,7 +30,7 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
       .status(500)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           "No bucket env var found",
           500,
         ),
@@ -55,18 +55,16 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
     return res
       .status(400)
       .json(
-        new AppResult(
-          AppErrorsMessages.FILE_UPLOAD_GENERAL_ERROR,
-          e.message,
-          400,
-        ),
+        new AppResult(req.messages.FILE_UPLOAD_GENERAL_ERROR, e.message, 400),
       );
   });
 
   stream.on("finish", async () => {
     log.success("File upload successful.");
-    (req as any).file.firebaseUrl =
-      `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${fileName}`;
+    req.file = {
+      ...(req.file ?? {}),
+      firebaseUrl: `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${fileName}`,
+    } as any;
 
     await fileToSave.makePublic();
     return res.status(200).json(image.firebaseUrl);
@@ -75,7 +73,10 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   stream.end(image.buffer);
 };
 
-export const deleteFileFromStorage = async (req: Request, res: Response) => {
+export const deleteFileFromStorage = async (
+  req: CustomRequest,
+  res: Response,
+) => {
   const { url, userId } = req.body;
 
   if (!url || !userId) {
@@ -83,8 +84,8 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
       .status(400)
       .json(
         new AppResult(
-          AppErrorsMessages.MISSING_PROPS,
-          AppErrorsMessages.MISSING_PROPS,
+          req.messages.MISSING_PROPS,
+          req.messages.MISSING_PROPS,
           400,
         ),
       );
@@ -95,7 +96,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
   if (!userFound) {
     return res
       .status(400)
-      .json(new AppResult(AppErrorsMessages.USER_NOT_FOUND, null, 400));
+      .json(new AppResult(req.messages.USER_NOT_FOUND, null, 400));
   }
 
   if (!STORAGE_BUCKETS.appProject) {
@@ -103,7 +104,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
       .status(500)
       .json(
         new AppResult(
-          AppErrorsMessages.INTERNAL_ERROR,
+          req.messages.INTERNAL_ERROR,
           "No bucket env var found",
           500,
         ),
@@ -146,7 +147,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
             .json(
               new AppResult(
                 AppSuccessMessages.FILE_DELETE_SUCCESS,
-                AppErrorsMessages.THUMBNAIL_NOT_DELETED,
+                req.messages.THUMBNAIL_NOT_DELETED,
               ),
             );
         }),
@@ -155,11 +156,7 @@ export const deleteFileFromStorage = async (req: Request, res: Response) => {
       res
         .status(400)
         .json(
-          new AppResult(
-            AppErrorsMessages.FILE_DELETE_GENERAL_ERROR,
-            e.message,
-            400,
-          ),
+          new AppResult(req.messages.FILE_DELETE_GENERAL_ERROR, e.message, 400),
         ),
     );
 };
