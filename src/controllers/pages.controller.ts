@@ -1,17 +1,25 @@
 import { HttpStatusCode } from "axios";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import { AppSuccessMessages } from "@/constants";
 import AppResult from "@/errors/app-error";
 import { IUserPage } from "@/models/pages.models";
 import * as pagesService from "@/services/pages.service";
 import { doesPageUrlExist } from "@/services/pages.service";
-import * as userService from "@/services/user.service";
-import { CustomRequest } from "@/types/express-request";
+import {
+  getPlansFeatures,
+  getUserSubscription,
+} from "@/services/payments.service";
 import log from "@/utils/logs";
-import { canUserCreatePage } from "@/utils/user-plan";
+import {
+  hasAnalyticsInPlan,
+  isUserPagesCountOk,
+  removeAnimationsIfNotInPlan,
+  removeComponentsLaunchDateIfNotInPlan,
+  removeCustomJsIfNotInPlan,
+} from "@/utils/user-plan";
 
-export const getPageById = async (req: CustomRequest, res: Response) => {
+export const getPageById = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its ID'
@@ -38,7 +46,7 @@ export const getPageById = async (req: CustomRequest, res: Response) => {
   const pageId: string = req.params.pageId;
 
   if (!pageId) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -47,13 +55,14 @@ export const getPageById = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
     const pageFound = await pagesService.getPageById(pageId);
 
     if (!pageFound) {
-      return res
+      res
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
@@ -62,11 +71,12 @@ export const getPageById = async (req: CustomRequest, res: Response) => {
             HttpStatusCode.BadRequest,
           ),
         );
+      return;
     }
 
-    return res.status(HttpStatusCode.Ok).json(pageFound);
+    res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -78,7 +88,7 @@ export const getPageById = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getPageByUrl = async (req: CustomRequest, res: Response) => {
+export const getPageByUrl = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -105,7 +115,7 @@ export const getPageByUrl = async (req: CustomRequest, res: Response) => {
   const url: string = req.params.url;
 
   if (!url) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -114,13 +124,14 @@ export const getPageByUrl = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
-    const pageFound = await pagesService.getPageByUrl(url);
+    const pageFound = await pagesService.getPageByUrl(url, false);
 
     if (!pageFound) {
-      return res
+      res
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
@@ -129,11 +140,12 @@ export const getPageByUrl = async (req: CustomRequest, res: Response) => {
             HttpStatusCode.BadRequest,
           ),
         );
+      return;
     }
 
-    return res.status(HttpStatusCode.Ok).json(pageFound);
+    res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -145,10 +157,7 @@ export const getPageByUrl = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getRendererPageByUrl = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getRendererPageByUrl = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -175,7 +184,7 @@ export const getRendererPageByUrl = async (
   const url: string = req.params.url;
 
   if (!url) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -184,10 +193,17 @@ export const getRendererPageByUrl = async (
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
-    const pageFound = await pagesService.getPageByUrl(url);
+    const pagePromise = pagesService.getPageByUrl(url, false);
+    const plansFeaturesPromise = getPlansFeatures();
+
+    const [pageFound, plansFeatures] = await Promise.all([
+      pagePromise,
+      plansFeaturesPromise,
+    ]);
 
     if (!pageFound) {
       return res
@@ -201,11 +217,19 @@ export const getRendererPageByUrl = async (
         );
     }
 
-    pagesService.incrementUserPageViewsByUrl(url);
+    const userSubscription = await getUserSubscription(pageFound.userId);
 
-    return res.status(HttpStatusCode.Ok).json(pageFound);
+    const userPlan = plansFeatures.find(
+      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+    );
+
+    const shouldIncrementViews = hasAnalyticsInPlan(userPlan);
+
+    if (shouldIncrementViews) pagesService.incrementUserPageViewsByUrl(url);
+
+    res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -217,10 +241,7 @@ export const getRendererPageByUrl = async (
   }
 };
 
-export const getAllUserPagesByUserId = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getAllUserPagesByUserId = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets all user pages by user ID'
@@ -253,7 +274,7 @@ export const getAllUserPagesByUserId = async (
   const isSameUser = userId === userIdToken;
 
   if (!isSameUser) {
-    return res
+    res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
@@ -262,10 +283,11 @@ export const getAllUserPagesByUserId = async (
           HttpStatusCode.Forbidden,
         ),
       );
+    return;
   }
 
   if (!userId) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -274,13 +296,14 @@ export const getAllUserPagesByUserId = async (
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
     const pageFound = await pagesService.getAllUserPagesByUserId(userId);
 
     if (!pageFound) {
-      return res
+      res
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
@@ -289,11 +312,12 @@ export const getAllUserPagesByUserId = async (
             HttpStatusCode.BadRequest,
           ),
         );
+      return;
     }
 
-    return res.status(HttpStatusCode.Ok).json(pageFound);
+    res.status(HttpStatusCode.Ok).json(pageFound);
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -305,7 +329,7 @@ export const getAllUserPagesByUserId = async (
   }
 };
 
-export const createUserPage = async (req: CustomRequest, res: Response) => {
+export const createUserPage = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Creates an user page'
@@ -332,7 +356,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
       description: 'Message of error'
     }
   */
-  const page: IUserPage = req.body;
+  let page: IUserPage = req.body;
   const userId: string = req.userId as string;
 
   const isSameUser = userId === page.userId;
@@ -349,7 +373,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
       );
   }
 
-  const canCreate = await canUserCreatePage(userId, req.userPlan);
+  const canCreate = await isUserPagesCountOk(userId, req.userPlan);
 
   if (!canCreate) {
     return res
@@ -363,8 +387,12 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
       );
   }
 
+  page = removeAnimationsIfNotInPlan(page, req.userPlan);
+  page = removeComponentsLaunchDateIfNotInPlan(page, req.userPlan);
+  page = removeCustomJsIfNotInPlan(page, req.userPlan);
+
   if (!page) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -373,6 +401,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   if (
@@ -383,7 +412,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
     page.isPublic === undefined ||
     page.views === undefined
   ) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -392,6 +421,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   if (page.url[0] === "/") {
@@ -401,7 +431,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
   const urlExist = await doesPageUrlExist(page.url);
 
   if (urlExist) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -410,13 +440,14 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
     const pageCreated = await pagesService.createUserPage(page, page.userId);
 
     if (!pageCreated) {
-      return res
+      res
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
@@ -425,11 +456,12 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
             HttpStatusCode.BadRequest,
           ),
         );
+      return;
     }
 
-    return res.status(HttpStatusCode.Ok).json(pageCreated);
+    res.status(HttpStatusCode.Ok).json(pageCreated);
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -441,7 +473,7 @@ export const createUserPage = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const updateUserPage = async (req: CustomRequest, res: Response) => {
+export const updateUserPage = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Updates an user page'
@@ -468,13 +500,13 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
       description: 'Message of error'
     }
   */
-  const page: IUserPage = req.body;
+  let page: IUserPage = req.body;
   const userId: string = req.userId as string;
 
   const isSameUser = userId === page.userId;
 
   if (!isSameUser) {
-    return res
+    res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
@@ -483,10 +515,11 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.Forbidden,
         ),
       );
+    return;
   }
 
   if (!page) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -495,7 +528,12 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
+
+  page = removeAnimationsIfNotInPlan(page, req.userPlan);
+  page = removeComponentsLaunchDateIfNotInPlan(page, req.userPlan);
+  page = removeCustomJsIfNotInPlan(page, req.userPlan);
 
   if (
     !page.name ||
@@ -505,7 +543,7 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
     page.isPublic === undefined ||
     page.views === undefined
   ) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -514,13 +552,14 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
     const pageUpdated = await pagesService.updateUserPage(page);
 
     if (!pageUpdated) {
-      return res
+      res
         .status(HttpStatusCode.BadRequest)
         .json(
           new AppResult(
@@ -529,12 +568,13 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
             HttpStatusCode.BadRequest,
           ),
         );
+      return;
     }
 
-    return res.status(HttpStatusCode.Ok).json(pageUpdated);
+    res.status(HttpStatusCode.Ok).json(pageUpdated);
   } catch (e: any) {
     log.error("[PageController.updateUserPage] EXCEPTION: ", e);
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -546,7 +586,7 @@ export const updateUserPage = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const deleteUserPage = async (req: CustomRequest, res: Response) => {
+export const deleteUserPage = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Deletes an user page'
@@ -577,7 +617,7 @@ export const deleteUserPage = async (req: CustomRequest, res: Response) => {
   const userAuthId: string = req.userAuthId as string;
 
   if (userEmail.length < 5 || userAuthId.length < 5) {
-    return res
+    res
       .status(HttpStatusCode.Forbidden)
       .json(
         new AppResult(
@@ -586,10 +626,11 @@ export const deleteUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.Forbidden,
         ),
       );
+    return;
   }
 
   if (!pageId) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -598,6 +639,7 @@ export const deleteUserPage = async (req: CustomRequest, res: Response) => {
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
@@ -615,13 +657,13 @@ export const deleteUserPage = async (req: CustomRequest, res: Response) => {
         );
     }
 
-    return res
+    res
       .status(HttpStatusCode.Ok)
       .json(
         new AppResult(AppSuccessMessages.PAGE_DELETED, null, HttpStatusCode.Ok),
       );
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(
@@ -633,10 +675,7 @@ export const deleteUserPage = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const incrementComponentClicks = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const incrementComponentClicks = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Page']
     #swagger.summary = 'Gets a page by its URL'
@@ -664,7 +703,7 @@ export const incrementComponentClicks = async (
   const componentId: string = req.body.componentId;
 
   if (!pageId || !componentId) {
-    return res
+    res
       .status(HttpStatusCode.BadRequest)
       .json(
         new AppResult(
@@ -673,9 +712,50 @@ export const incrementComponentClicks = async (
           HttpStatusCode.BadRequest,
         ),
       );
+    return;
   }
 
   try {
+    const pagePromise = pagesService.getPageById(pageId);
+    const plansFeaturesPromise = getPlansFeatures();
+
+    const [page, plansFeatures] = await Promise.all([
+      pagePromise,
+      plansFeaturesPromise,
+    ]);
+
+    if (!page) {
+      res
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            req.messages.PAGE_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
+      return;
+    }
+
+    const userSubscription = await getUserSubscription(page.userId);
+
+    const userPlan = plansFeatures.find(
+      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+    );
+
+    if (!hasAnalyticsInPlan(userPlan)) {
+      res
+        .status(HttpStatusCode.Forbidden)
+        .json(
+          new AppResult(
+            req.messages.USER_ANALYTICS_NOT_IN_PLAN,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
+      return;
+    }
+
     const incrementSuccess = await pagesService.incrementComponentClicks(
       pageId,
       componentId,
@@ -688,9 +768,9 @@ export const incrementComponentClicks = async (
       );
     }
 
-    return res.status(HttpStatusCode.Ok).json();
+    res.status(HttpStatusCode.Ok).json();
   } catch (e: any) {
-    return res
+    res
       .status(HttpStatusCode.InternalServerError)
       .json(
         new AppResult(

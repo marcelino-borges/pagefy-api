@@ -5,9 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "env-cmd -f ./.env npx tsx src/server.ts",
-    "start:dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env.dev nodemon -x ts-node src/server.ts",
-    "swagger-autogen": "ts-node ./src/config/swagger.ts",
-    "update-pkg-version": "ts-node ./src/config/package-json.ts && prettier --write ./package.json",
+    "start:dev": "npm run swagger-autogen && npm run update-pkg-version && env-cmd -f ./.env.dev nodemon -x npx tsx src/server.ts",
+    "swagger-autogen": "npx tsx ./src/config/swagger.ts",
+    "update-pkg-version": "npx tsx ./src/config/package-json.ts && prettier --write ./package.json",
     "deploy-main": "git checkout main && git merge develop && git push origin main && git checkout develop",
     "build": "webpack"
   },

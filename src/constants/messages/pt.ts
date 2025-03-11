@@ -23,7 +23,7 @@ export const ERROR_MESSAGES_PT = {
   USER_CREATING: "Erro ao criar usuário.",
   USER_UPDATING: "Erro ao atualizar usuário.",
   USER_ID_MISSING: "User ID não encontrado.",
-  USER_ASSOCIATED_TO_PAGE_NOT_FOUND: "Usuário a página não existe.",
+  USER_ASSOCIATED_TO_PAGE_NOT_FOUND: "Usuário da página não existe.",
   USERID_OR_EMAIL_REQUIRED: "ID ou e-mail do usuário obrigatório.",
   USER_HAS_NO_PAGES: "Usuário não possui páginas.",
   USER_NOT_DELETED_FROM_MONGO: "Usuário não removido do banco de dados.",
@@ -65,4 +65,6 @@ export const ERROR_MESSAGES_PT = {
   ERROR_DELETE_FAQ: "Erro ao remover FAQ.",
   ERROR_GET_ALL_FAQS: "Erro ao buscar FAQs.",
   USER_MAX_PAGE_LIMIT: "Limite de páginas do plano atingido.",
+  USER_ANALYTICS_NOT_IN_PLAN:
+    "O plano do usuário não possui a funcionalidade de analytics.",
 };

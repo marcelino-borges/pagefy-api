@@ -1,12 +1,11 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import AppResult from "@/errors/app-error";
 import { IFaq } from "@/models/faq.models";
 import * as FaqService from "@/services/faq.service";
-import { CustomRequest } from "@/types/express-request";
 import log from "@/utils/logs";
 
-export const createFaq = async (req: CustomRequest, res: Response) => {
+export const createFaq = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Creates a new FAQ'
@@ -68,7 +67,7 @@ export const createFaq = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const updateFaq = async (req: CustomRequest, res: Response) => {
+export const updateFaq = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Update FAQ'
@@ -152,7 +151,7 @@ export const updateFaq = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const deleteFaq = async (req: CustomRequest, res: Response) => {
+export const deleteFaq = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Delete FAQ'
@@ -200,7 +199,7 @@ export const deleteFaq = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getAllFaqs = async (req: CustomRequest, res: Response) => {
+export const getAllFaqs = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['FAQ']
     #swagger.summary = 'Get all FAQs'

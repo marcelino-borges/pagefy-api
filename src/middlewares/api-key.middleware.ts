@@ -1,17 +1,11 @@
 import { HttpStatusCode } from "axios";
-import { Response } from "express";
+import { Request, Response } from "express";
 
-import { ERROR_MESSAGES } from "@/constants/messages";
 import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
 import AppResult from "@/errors/app-error";
-import { CustomRequest } from "@/types/express-request";
 import log from "@/utils/logs";
 
-export const verifyApiKey = async (
-  req: CustomRequest,
-  res: Response,
-  next: any,
-) => {
+export const verifyApiKey = async (req: Request, res: Response, next: any) => {
   const systemApiKey = process.env.SYSTEM_API_KEY;
 
   if (!systemApiKey) {
@@ -27,11 +21,6 @@ export const verifyApiKey = async (
       );
     return;
   }
-
-  const lang = req.headers["lang"] as string;
-
-  if (lang && ERROR_MESSAGES[lang]) req.messages = ERROR_MESSAGES[lang];
-  else req.messages = ERROR_MESSAGES_EN;
 
   const apiKey = req.headers["py-api-key"] as string;
 

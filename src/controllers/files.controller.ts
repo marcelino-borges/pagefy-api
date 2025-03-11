@@ -1,13 +1,11 @@
-import { Request } from "express";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import { ALLOWED_FILE_TYPES } from "@/constants";
 import AppResult from "@/errors/app-error";
 import { IImageDetails } from "@/models/files.models";
 import * as filesService from "@/services/files.service";
-import { CustomRequest } from "@/types/express-request";
 
-export const uploadImage = async (req: CustomRequest, res: Response) => {
+export const uploadImage = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Uploads an image.'
@@ -71,7 +69,7 @@ export const uploadImage = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const deleteImage = async (req: CustomRequest, res: Response) => {
+export const deleteImage = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Deletes an image.'
@@ -110,7 +108,7 @@ export const deleteImage = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getAllUserImages = async (req: CustomRequest, res: Response) => {
+export const getAllUserImages = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all user images.'
@@ -160,10 +158,7 @@ export const getAllUserImages = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getAllButtonsTemplates = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getAllButtonsTemplates = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all buttons templates.'
@@ -200,7 +195,7 @@ export const getAllButtonsTemplates = async (
 };
 
 export const getAllBackgroundsTemplates = async (
-  req: CustomRequest,
+  req: Request,
   res: Response,
 ) => {
   /* 
@@ -239,7 +234,7 @@ export const getAllBackgroundsTemplates = async (
 };
 
 export const getAllUserProfileTemplates = async (
-  req: CustomRequest,
+  req: Request,
   res: Response,
 ) => {
   /* 
@@ -277,10 +272,7 @@ export const getAllUserProfileTemplates = async (
   }
 };
 
-export const getAllPagesImgsTemplates = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getAllPagesImgsTemplates = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Files']
     #swagger.summary = 'Gets all pages images templates.'

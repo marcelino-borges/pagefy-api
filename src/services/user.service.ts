@@ -1,10 +1,9 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { getAuth } from "firebase-admin/auth";
 
 import AppResult from "@/errors/app-error";
 import UserDB from "@/models/user.models";
 import { IUser } from "@/models/user.models";
-import { CustomRequest } from "@/types/express-request";
 
 import { deleteAllUserFiles } from "./files.service";
 import { deleteAllUserPages } from "./pages.service";
@@ -85,7 +84,7 @@ export const updateUserPaymentId = async (email: string, paymentId: string) => {
   return userUpdated;
 };
 
-export const deleteUser = async (req: CustomRequest, res: Response) => {
+export const deleteUser = async (req: Request, res: Response) => {
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
 

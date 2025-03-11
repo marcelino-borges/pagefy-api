@@ -1,28 +1,17 @@
 import { HttpStatusCode } from "axios";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 
-import { ERROR_MESSAGES } from "@/constants/messages";
-import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
 import AppResult from "@/errors/app-error";
 import {
   getPlansFeatures,
   getUserSubscription,
 } from "@/services/payments.service";
 import { getUserByAuthId } from "@/services/user.service";
-import { CustomRequest } from "@/types/express-request";
 import log from "@/utils/logs";
 
-export const verifyToken = async (
-  req: CustomRequest,
-  res: Response,
-  next: any,
-) => {
+export const verifyToken = async (req: Request, res: Response, next: any) => {
   const bearer = req.headers["authorization"] as string;
-  const lang = req.headers["lang"] as string;
-
-  if (lang && ERROR_MESSAGES[lang]) req.messages = ERROR_MESSAGES[lang];
-  else req.messages = ERROR_MESSAGES_EN;
 
   if (!bearer) {
     return res

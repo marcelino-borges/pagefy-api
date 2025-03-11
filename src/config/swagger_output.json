@@ -33,6 +33,11 @@
         "description": "Signs the user out, ending his token",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "id",
             "in": "params",
             "description": "User id",
@@ -95,6 +100,11 @@
             "description": "User ID"
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "user",
             "in": "body",
             "description": "Updates an existing user in database",
@@ -149,6 +159,11 @@
         "summary": "Gets an user by his email",
         "description": "Gets an user from database by his email",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -211,6 +226,11 @@
         "description": "Creates a new user to database",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -262,6 +282,11 @@
         "description": "Updates an existing user in database",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -312,6 +337,11 @@
         "summary": "Deletes an existing user",
         "description": "Deletes an existing user in database",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -370,6 +400,11 @@
             "type": "string"
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "py-api-key",
             "in": "header",
             "type": "string"
@@ -386,6 +421,11 @@
       "patch": {
         "description": "",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "py-api-key",
             "in": "header",
@@ -428,26 +468,31 @@
             "required": true,
             "type": "string",
             "description": "Gets a page by its ID from database"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         }
       },
@@ -469,6 +514,11 @@
             }
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -479,19 +529,16 @@
             "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -515,26 +562,31 @@
             "required": true,
             "type": "string",
             "description": "Gets a page by its URL from database"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         }
       }
@@ -553,26 +605,31 @@
             "required": true,
             "type": "string",
             "description": "Gets a page by its URL from database"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         }
       }
@@ -593,6 +650,11 @@
             "description": "Gets all pages from database by user ID"
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -600,25 +662,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -637,6 +696,11 @@
         "description": "Creates an user page in database",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -653,25 +717,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -687,6 +748,11 @@
         "summary": "Updates an user page",
         "description": "Updates an user page in database",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -704,25 +770,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -740,6 +803,11 @@
         "summary": "Gets a page by its URL",
         "description": "Gets a page by its URL from database",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "url",
             "in": "params",
@@ -765,22 +833,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/Page"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         }
       }
@@ -793,6 +861,11 @@
         "summary": "Uploads an image.",
         "description": "Uploads an image to the storage. The original name is not considered and a new url/name/path is created with following rule: https://storage.googleapis.com/users/ + ${userId}/${pageId ? \"pages\" : `${userFolderName || \"general\"}}/ + ${pageId ? pageId + \"/\" : \"\"} + ${fileName}",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "file",
             "in": "formData",
@@ -849,6 +922,11 @@
         "description": "Deletes an image to the storage.",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "url",
             "in": "body",
             "description": "Image file to be deleted",
@@ -903,6 +981,11 @@
             "required": true,
             "type": "string",
             "description": "ID of the user trying to get his/her files"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -932,6 +1015,13 @@
         ],
         "summary": "Gets all buttons templates.",
         "description": "Gets all buttons templates.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "URL of the image stored",
@@ -959,6 +1049,13 @@
         ],
         "summary": "Gets all background templates.",
         "description": "Gets all background templates.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "URL of the image stored",
@@ -986,6 +1083,13 @@
         ],
         "summary": "Gets all user profile templates.",
         "description": "Gets all user profile templates.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "URL of the image stored",
@@ -1013,6 +1117,13 @@
         ],
         "summary": "Gets all pages images templates.",
         "description": "Gets all pages images templates.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "URL of the image stored",
@@ -1041,6 +1152,11 @@
         "summary": "Sends a user email message for system",
         "description": "Sends a user email message for system",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "recaptcha-token",
             "in": "header",
@@ -1114,6 +1230,11 @@
         "description": "Verifies if a given reCAPCTCHA token is validated by Google",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "token",
             "in": "body",
             "schema": {
@@ -1153,6 +1274,11 @@
         "description": "Get testimonials",
         "parameters": [
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "count",
             "in": "query",
             "description": "Count of testimonials to retrieve",
@@ -1190,6 +1316,11 @@
         "summary": "Creates a new testimonial",
         "description": "Creates a new testimonial",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -1253,9 +1384,6 @@
               "$ref": "#/definitions/Error"
             }
           },
-          "401": {
-            "description": "Unauthorized"
-          },
           "500": {
             "description": "Message of error",
             "schema": {
@@ -1271,6 +1399,11 @@
         "summary": "Delete a testimonial from an user",
         "description": "Delete a testimonial from an user",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -1296,9 +1429,6 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",
@@ -1328,6 +1458,11 @@
             }
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -1342,9 +1477,6 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",
@@ -1374,6 +1506,11 @@
             }
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -1388,9 +1525,6 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",
@@ -1420,6 +1554,11 @@
             }
           },
           {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "authorization",
             "in": "header",
             "type": "string"
@@ -1434,9 +1573,6 @@
             "schema": {
               "$ref": "#/definitions/Error"
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           },
           "500": {
             "description": "Message of error",
@@ -1455,6 +1591,11 @@
         "summary": "Get all FAQs",
         "description": "Get all FAQs",
         "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "language",
             "in": "query",

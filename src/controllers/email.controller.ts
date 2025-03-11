@@ -1,11 +1,10 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import AppResult from "@/errors/app-error";
 import { IUserContact } from "@/models/email.models";
 import * as emailService from "@/services/email.service";
-import { CustomRequest } from "@/types/express-request";
 
-export const sendUserContact = async (req: CustomRequest, res: Response) => {
+export const sendUserContact = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Email']
     #swagger.summary = 'Sends a user email message for system's email'

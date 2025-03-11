@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { getStorage } from "firebase-admin/storage";
 import moment from "moment";
 
@@ -10,10 +10,7 @@ import { CustomRequest } from "@/types/express-request";
 import { getImageThumbnail } from "@/utils";
 import log from "@/utils/logs";
 
-export const uploadFileToStorage = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const uploadFileToStorage = async (req: Request, res: Response) => {
   const image: any = req.file;
   const { userId, userFolderName } = req.body;
 
@@ -73,10 +70,7 @@ export const uploadFileToStorage = async (
   stream.end(image.buffer);
 };
 
-export const deleteFileFromStorage = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const deleteFileFromStorage = async (req: Request, res: Response) => {
   const { url, userId } = req.body;
 
   if (!url || !userId) {

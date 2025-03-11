@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Application, Router } from "express";
 import initializeMulter, { memoryStorage } from "multer";
 
 import * as emailController from "@/controllers/email.controller";
@@ -10,6 +10,7 @@ import * as testimonialsController from "@/controllers/testimonials.controller";
 import * as userController from "@/controllers/user.controller";
 import { verifyApiKey } from "@/middlewares/api-key.middleware";
 import { verifyToken } from "@/middlewares/firebase.middleware";
+import { handleLocalizedMessages } from "@/middlewares/lang.middleware";
 import { verifyRecaptcha } from "@/middlewares/recaptcha.middleware";
 
 const router = Router();
@@ -24,23 +25,53 @@ const multer = initializeMulter({
  */
 
 // Public routes
-router.get("/user/exists", userController.doesUserExist);
-router.get("/user/:userId/plan", userController.getUserPlan);
+router.get(
+  "/user/exists",
+  handleLocalizedMessages,
+  userController.doesUserExist,
+);
+router.get(
+  "/user/:userId/plan",
+  handleLocalizedMessages,
+  userController.getUserPlan,
+);
 
 // Private routes
-router.get("/user", verifyToken, userController.getUser);
-router.post("/user", verifyToken, userController.createUser);
-router.put("/user", verifyToken, userController.updateUser);
-router.delete("/user", verifyToken, userController.deleteUser);
+router.get(
+  "/user",
+  handleLocalizedMessages,
+  verifyToken,
+  userController.getUser,
+);
+router.post(
+  "/user",
+  handleLocalizedMessages,
+  verifyToken,
+  userController.createUser,
+);
+router.put(
+  "/user",
+  handleLocalizedMessages,
+  verifyToken,
+  userController.updateUser,
+);
+router.delete(
+  "/user",
+  handleLocalizedMessages,
+  verifyToken,
+  userController.deleteUser,
+);
 
 // System routes
 router.get(
   "/system/user/:email",
+  handleLocalizedMessages,
   verifyApiKey,
   userController.getUserByEmailForSystem,
 );
 router.patch(
   "/system/user/payment-id",
+  handleLocalizedMessages,
   verifyApiKey,
   userController.updateUserPaymentId,
 );
@@ -50,20 +81,52 @@ router.patch(
  */
 
 // Public routes
-router.get("/page/id/:pageId", pageController.getPageById);
-router.get("/page/url/:url", pageController.getPageByUrl);
-router.get("/page/url/renderer/:url", pageController.getRendererPageByUrl);
+router.get(
+  "/page/id/:pageId",
+  handleLocalizedMessages,
+  pageController.getPageById,
+);
+router.get(
+  "/page/url/:url",
+  handleLocalizedMessages,
+  pageController.getPageByUrl,
+);
+router.get(
+  "/page/url/renderer/:url",
+  handleLocalizedMessages,
+  pageController.getRendererPageByUrl,
+);
 
 // Private routes
 router.get(
   "/page/all/user/:userId",
+  handleLocalizedMessages,
   verifyToken,
   pageController.getAllUserPagesByUserId,
 );
-router.post("/page", verifyToken, pageController.createUserPage);
-router.post("/page/component-clicks", pageController.incrementComponentClicks);
-router.put("/page", verifyToken, pageController.updateUserPage);
-router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
+router.post(
+  "/page",
+  handleLocalizedMessages,
+  verifyToken,
+  pageController.createUserPage,
+);
+router.post(
+  "/page/component-clicks",
+  handleLocalizedMessages,
+  pageController.incrementComponentClicks,
+);
+router.put(
+  "/page",
+  handleLocalizedMessages,
+  verifyToken,
+  pageController.updateUserPage,
+);
+router.delete(
+  "/page/id/:pageId",
+  handleLocalizedMessages,
+  verifyToken,
+  pageController.deleteUserPage,
+);
 
 /*
  * IMAGES
@@ -71,28 +134,38 @@ router.delete("/page/id/:pageId", verifyToken, pageController.deleteUserPage);
 
 router.post(
   "/files",
+  handleLocalizedMessages,
   multer.single("image") /*, verifyToken*/,
   filesController.uploadImage,
 );
-router.delete("/files" /*, verifyToken*/, filesController.deleteImage);
+router.delete(
+  "/files" /*, verifyToken*/,
+  handleLocalizedMessages,
+  filesController.deleteImage,
+);
 router.get(
   "/files/user/:userId" /*, verifyToken*/,
+  handleLocalizedMessages,
   filesController.getAllUserImages,
 );
 router.get(
   "/files/templates/buttons" /*, verifyToken*/,
+  handleLocalizedMessages,
   filesController.getAllButtonsTemplates,
 );
 router.get(
   "/files/templates/backgrounds" /*, verifyToken*/,
+  handleLocalizedMessages,
   filesController.getAllBackgroundsTemplates,
 );
 router.get(
   "/files/templates/user-profile" /*, verifyToken*/,
+  handleLocalizedMessages,
   filesController.getAllUserProfileTemplates,
 );
 router.get(
   "/files/templates/pages-imgs" /*, verifyToken*/,
+  handleLocalizedMessages,
   filesController.getAllPagesImgsTemplates,
 );
 
@@ -101,45 +174,63 @@ router.get(
  */
 
 // Public routes
-router.post("/contact", verifyRecaptcha, emailController.sendUserContact);
+router.post(
+  "/contact",
+  handleLocalizedMessages,
+  verifyRecaptcha,
+  emailController.sendUserContact,
+);
 
 /*
  * VERIFY RECAPTCHA
  */
 
 // Public routes
-router.post("/verify-recaptcha", recaptchaController.verifyRecaptcha);
+router.post(
+  "/verify-recaptcha",
+  handleLocalizedMessages,
+  recaptchaController.verifyRecaptcha,
+);
 
 /*
  * TESTIMONIALS
  */
 
 // Public routes
-router.get("/testimonials", testimonialsController.queryTestimonials);
+router.get(
+  "/testimonials",
+  handleLocalizedMessages,
+  testimonialsController.queryTestimonials,
+);
 
 // Private routes
 router.get(
   "/testimonials/last/user/:userId",
+  handleLocalizedMessages,
   verifyToken,
   testimonialsController.getUserLastTestimonial,
 );
 router.get(
   "/testimonials/all/user/:userId",
+  handleLocalizedMessages,
   verifyToken,
   testimonialsController.getUserTestimonials,
 );
 router.post(
   "/testimonials",
+  handleLocalizedMessages,
   verifyToken,
   testimonialsController.createTestimonial,
 );
 router.put(
   "/testimonials",
+  handleLocalizedMessages,
   verifyToken,
   testimonialsController.updateUserTestimonial,
 );
 router.delete(
   "/testimonials/:testimonialId",
+  handleLocalizedMessages,
   verifyToken,
   testimonialsController.deleteUserTestimonial,
 );
@@ -149,7 +240,7 @@ router.delete(
  */
 
 // Public routes
-router.get("/faqs", faqController.getAllFaqs);
+router.get("/faqs", handleLocalizedMessages, faqController.getAllFaqs);
 // router.post("/faqs", faqController.createFaq);
 // router.patch("/faqs", faqController.updateFaq);
 // router.delete("/faqs/:id", faqController.deleteFaq);

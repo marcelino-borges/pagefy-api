@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import { AppSuccessMessages } from "@/constants";
 import AppResult from "@/errors/app-error";
@@ -6,7 +6,7 @@ import { IRecaptchaResult } from "@/models/recaptcha.models";
 import * as recaptchaService from "@/services/recaptcha.service";
 import { CustomRequest } from "@/types/express-request";
 
-export const verifyRecaptcha = async (req: CustomRequest, res: Response) => {
+export const verifyRecaptcha = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['ReCAPTCHA']
     #swagger.summary = 'Verifies if a given reCAPCTCHA token is validated by Google'

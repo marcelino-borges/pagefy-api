@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 
 import AppResult from "@/errors/app-error";
 import { ITestimonial } from "@/models/testimonials.models";
@@ -6,7 +6,7 @@ import * as TestimonialService from "@/services/testimonials.service";
 import { CustomRequest } from "@/types/express-request";
 import log from "@/utils/logs";
 
-export const createTestimonial = async (req: CustomRequest, res: Response) => {
+export const createTestimonial = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Creates a new testimonial'
@@ -84,10 +84,7 @@ export const createTestimonial = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getUserTestimonials = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getUserTestimonials = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get all testimonials from an user'
@@ -136,10 +133,7 @@ export const getUserTestimonials = async (
   }
 };
 
-export const getUserLastTestimonial = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getUserLastTestimonial = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Get the last testimonial from an user'
@@ -188,7 +182,7 @@ export const getUserLastTestimonial = async (
   }
 };
 
-export const queryTestimonials = async (req: CustomRequest, res: Response) => {
+export const queryTestimonials = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['Testimonial']
     #swagger.summary = 'Query testimonials'
@@ -238,10 +232,7 @@ export const queryTestimonials = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const updateUserTestimonial = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const updateUserTestimonial = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['testimonialId']
     #swagger.summary = 'Delete a testimonial from an user'
@@ -290,10 +281,7 @@ export const updateUserTestimonial = async (
   }
 };
 
-export const deleteUserTestimonial = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const deleteUserTestimonial = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['testimonialId']
     #swagger.summary = 'Delete a testimonial from an user'

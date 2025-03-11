@@ -13,8 +13,18 @@ export const getPageById = async (pageId: string) => {
   return found;
 };
 
-export const getPageByUrl = async (url: string) => {
-  const found: IUserPage = await PagesDB.findOne({ url }).lean();
+export const getPageByUrl = async (
+  url: string,
+  shouldIncrementViews: boolean,
+) => {
+  const found: IUserPage = await PagesDB.findOneAndUpdate(
+    { url },
+    {
+      $inc: {
+        views: shouldIncrementViews ? 1 : 0,
+      },
+    },
+  ).lean();
 
   if (!found) {
     return null;
@@ -98,20 +108,9 @@ export const deleteUserPage = async (pageId: string) => {
 };
 
 export const incrementUserPageViewsByUrl = async (pageUrl: string) => {
-  const found = await getPageByUrl(pageUrl);
+  const found = await getPageByUrl(pageUrl, true);
 
-  if (!found) {
-    return false;
-  }
-
-  found.views = found.views + 1;
-  const updated = await updateUserPage(found);
-
-  if (!updated) {
-    return false;
-  }
-
-  return true;
+  return !!found;
 };
 
 export const incrementComponentClicks = async (

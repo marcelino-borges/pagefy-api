@@ -65,4 +65,5 @@ export const ERROR_MESSAGES_EN = {
   ERROR_DELETE_FAQ: "Error deleting the FAQ.",
   ERROR_GET_ALL_FAQS: "Error to get all FAQs.",
   USER_MAX_PAGE_LIMIT: "Limit of pages for the plan has been reached.",
+  USER_ANALYTICS_NOT_IN_PLAN: "User's plan doesn't have analytics feature.",
 };

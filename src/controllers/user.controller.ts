@@ -1,13 +1,13 @@
 import { HttpStatusCode } from "axios";
-import { Response } from "express";
+import { Request, Response } from "express";
 
+import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
 import AppResult from "@/errors/app-error";
 import { IUser, PlansTypes } from "@/models/user.models";
 import * as userService from "@/services/user.service";
-import { CustomRequest } from "@/types/express-request";
 import log from "@/utils/logs";
 
-export const doesUserExist = async (req: CustomRequest, res: Response) => {
+export const doesUserExist = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Signs the user out'
@@ -43,7 +43,9 @@ export const doesUserExist = async (req: CustomRequest, res: Response) => {
   if (!email && !userId) {
     return res
       .status(400)
-      .json(new AppResult(req.messages.USERID_OR_EMAIL_REQUIRED, null, 400));
+      .json(
+        new AppResult(ERROR_MESSAGES_EN.USERID_OR_EMAIL_REQUIRED, null, 400),
+      );
   }
 
   try {
@@ -66,7 +68,7 @@ export const doesUserExist = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getUser = async (req: CustomRequest, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Gets an user by his email'
@@ -151,10 +153,7 @@ export const getUser = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const getUserByEmailForSystem = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const getUserByEmailForSystem = async (req: Request, res: Response) => {
   const email: string = req.params.email as string;
 
   try {
@@ -188,10 +187,7 @@ export const getUserByEmailForSystem = async (
   }
 };
 
-export const updateUserPaymentId = async (
-  req: CustomRequest,
-  res: Response,
-) => {
+export const updateUserPaymentId = async (req: Request, res: Response) => {
   const email: string = req.body.email as string;
   const paymentId: string = req.body.paymentId as string;
 
@@ -226,7 +222,7 @@ export const updateUserPaymentId = async (
   }
 };
 
-export const getUserPlan = async (req: CustomRequest, res: Response) => {
+export const getUserPlan = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Gets an user's plan
@@ -279,7 +275,7 @@ export const getUserPlan = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const createUser = async (req: CustomRequest, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Creates a new user'
@@ -368,7 +364,7 @@ export const createUser = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const updateUser = async (req: CustomRequest, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Updates an existing user'
@@ -434,7 +430,7 @@ export const updateUser = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const deleteUser = async (req: CustomRequest, res: Response) => {
+export const deleteUser = async (req: Request, res: Response) => {
   /* 
     #swagger.tags = ['User']
     #swagger.summary = 'Deletes an existing user'
