@@ -16,6 +16,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.20.0] - 2025-03-11
+
+- Feature: added validations for user's plan:
+  - Utils for plan validations
+  - Analytics events for click and view;
+  - Removal of custom js on create page if user doesn't have this feature in the plan
+  - Removal of components launch date on create and update page if user doesn't have this feature in the plan
+  - Removal of animations on create and update page if user doesn't have this feature in the plan
+  - Validating if user has already created the max number of pages allowed by his plan
+- Feature: preparation to receive "lang" in headers to decide which will be the language of the message returned by the API
+- Refactor: imports using path aliases
+- Refactor: module augmentation for Express Request
+
 ### [1.19.0] - 2025-03-01
 
 - Refactor: changing name from socialbio to pagefy
