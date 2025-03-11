@@ -1,7 +1,9 @@
 import PagesDB, { IUserComponent } from "@/models/pages.models";
 import { IUserPage } from "@/models/pages.models";
+import { PlanFeatures } from "@/models/plans-features.models";
 
 import { deleteFile } from "./files.service";
+import { getUserPagesCount } from "./user.service";
 
 export const getPageById = async (pageId: string) => {
   const found: IUserPage = await PagesDB.findOne({ _id: pageId }).lean();
@@ -190,4 +192,22 @@ export const deleteAllUserPages = async (userId: string): Promise<number> => {
   const deletedCount = (await PagesDB.deleteMany({ userId })).deletedCount;
 
   return deletedCount || 0;
+};
+
+export const isUserPagesCountOk = async (
+  userId: string,
+  userPlan?: PlanFeatures,
+) => {
+  try {
+    const userPagesCount = await getUserPagesCount(userId);
+
+    if (!userPlan) {
+      return userPagesCount === 0;
+    }
+
+    return userPagesCount < userPlan.maxPages;
+  } catch (error) {
+    console.log(`Error checking if user ${userId} can create page: `, error);
+    return false;
+  }
 };

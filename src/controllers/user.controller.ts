@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
 import AppResult from "@/errors/app-error";
 import { IUser, PlansTypes } from "@/models/user.models";
+import { isUserPagesCountOk } from "@/services/pages.service";
 import * as userService from "@/services/user.service";
 import log from "@/utils/logs";
 
@@ -105,7 +106,7 @@ export const getUser = async (req: Request, res: Response) => {
   const userId: string = req.query.userId as string;
   const authId: string = req.query.authId as string;
   const userEmail: string = req.userEmail as string;
-  const userAuthId: string = req.userEmail as string;
+  const userAuthId: string = req.userAuthId as string;
 
   const isAuthorized = await isUserAuthorized(userEmail, userAuthId);
 
@@ -150,6 +151,68 @@ export const getUser = async (req: Request, res: Response) => {
     res
       .status(500)
       .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
+  }
+};
+
+export const canUserCreatePage = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['User']
+    #swagger.summary = 'Gets whether the user can create a page'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+    #swagger.description  = 'Gets whether the user can create a page'
+    #swagger.parameters['userId'] = {
+      in: 'query',
+      description: 'User ID',
+      required: true,
+      type: 'string'
+    }
+    #swagger.responses[200] = {
+      description: 'true/false'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const userId: string = req.query.userId as string;
+  const userIdToken: string = req.userId as string;
+
+  const isAuthorized = userId === userIdToken;
+
+  if (!isAuthorized) {
+    return res
+      .status(HttpStatusCode.Forbidden)
+      .json(
+        new AppResult(
+          req.messages.FORBIDDEN,
+          req.messages.TOKEN_FROM_ANOTHER_USER,
+          HttpStatusCode.Forbidden,
+        ),
+      );
+  }
+
+  try {
+    const pagesCountOk = await isUserPagesCountOk(userId);
+
+    res.status(HttpStatusCode.Ok).json(pagesCountOk);
+  } catch (e: any) {
+    log.error("[UserController.canUserCreatePage] EXCEPTION: ", e);
+
+    res
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          req.messages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
   }
 };
 

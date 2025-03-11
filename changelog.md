@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.21.0] - 2025-03-11
+
+- Feature: endpoint to get whether the user can create a page
+
 ### [1.20.0] - 2025-03-11
 
 - Feature: added validations for user's plan:

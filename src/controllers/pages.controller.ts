@@ -5,7 +5,7 @@ import { AppSuccessMessages } from "@/constants";
 import AppResult from "@/errors/app-error";
 import { IUserPage } from "@/models/pages.models";
 import * as pagesService from "@/services/pages.service";
-import { doesPageUrlExist } from "@/services/pages.service";
+import { doesPageUrlExist, isUserPagesCountOk } from "@/services/pages.service";
 import {
   getPlansFeatures,
   getUserSubscription,
@@ -13,7 +13,6 @@ import {
 import log from "@/utils/logs";
 import {
   hasAnalyticsInPlan,
-  isUserPagesCountOk,
   removeAnimationsIfNotInPlan,
   removeComponentsLaunchDateIfNotInPlan,
   removeCustomJsIfNotInPlan,

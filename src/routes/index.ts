@@ -35,6 +35,12 @@ router.get(
   handleLocalizedMessages,
   userController.getUserPlan,
 );
+router.get(
+  "user/:userId/can-create-page",
+  handleLocalizedMessages,
+  verifyToken,
+  userController.canUserCreatePage,
+);
 
 // Private routes
 router.get(

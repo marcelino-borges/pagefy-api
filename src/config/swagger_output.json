@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.20.0",
+    "version": "1.21.0",
     "title": "REST API",
     "description": ""
   },
@@ -130,6 +130,56 @@
           },
           "204": {
             "description": "User updated"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "user/{userId}/can-create-page": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Gets whether the user can create a page",
+        "description": "Gets whether the user can create a page",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "User ID"
+          },
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true/false"
           },
           "400": {
             "schema": {
