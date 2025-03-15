@@ -35,14 +35,14 @@ router.get(
   handleLocalizedMessages,
   userController.getUserPlan,
 );
+
+// Private routes
 router.get(
-  "user/:userId/can-create-page",
+  "/user/:userId/can-create-page",
   handleLocalizedMessages,
   verifyToken,
   userController.canUserCreatePage,
 );
-
-// Private routes
 router.get(
   "/user",
   handleLocalizedMessages,
@@ -103,7 +103,6 @@ router.get(
   pageController.getRendererPageByUrl,
 );
 
-// Private routes
 router.get(
   "/page/all/user/:userId",
   handleLocalizedMessages,

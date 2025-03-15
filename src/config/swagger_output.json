@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.21.0",
+    "version": "1.21.1",
     "title": "REST API",
     "description": ""
   },
@@ -151,7 +151,7 @@
         ]
       }
     },
-    "user/{userId}/can-create-page": {
+    "/user/{userId}/can-create-page": {
       "get": {
         "tags": [
           "User"

@@ -67,4 +67,5 @@ export const ERROR_MESSAGES_PT = {
   USER_MAX_PAGE_LIMIT: "Limite de páginas do plano atingido.",
   USER_ANALYTICS_NOT_IN_PLAN:
     "O plano do usuário não possui a funcionalidade de analytics.",
+  USER_MAX_PAGES_REACHED: "Usuário atingiu limite de páginas do plano.",
 };

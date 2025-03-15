@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getAuth } from "firebase-admin/auth";
+import { Types } from "mongoose";
 
 import AppResult from "@/errors/app-error";
 import UserDB from "@/models/user.models";
@@ -127,10 +128,4 @@ export const deleteUser = async (req: Request, res: Response) => {
           ),
         );
     });
-};
-
-export const getUserPagesCount = async (userId: string) => {
-  const count = await UserDB.find({ userId }).count();
-
-  return count;
 };

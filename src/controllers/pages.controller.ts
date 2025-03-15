@@ -219,7 +219,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
     const userSubscription = await getUserSubscription(pageFound.userId);
 
     const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
     );
 
     const shouldIncrementViews = hasAnalyticsInPlan(userPlan);
@@ -380,7 +380,7 @@ export const createUserPage = async (req: Request, res: Response) => {
       .json(
         new AppResult(
           req.messages.FORBIDDEN,
-          req.messages.TOKEN_FROM_ANOTHER_USER,
+          req.messages.USER_MAX_PAGES_REACHED,
           HttpStatusCode.Forbidden,
         ),
       );
@@ -739,7 +739,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
     const userSubscription = await getUserSubscription(page.userId);
 
     const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
     );
 
     if (!hasAnalyticsInPlan(userPlan)) {

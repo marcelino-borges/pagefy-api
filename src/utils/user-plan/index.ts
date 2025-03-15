@@ -34,15 +34,18 @@ export const removeComponentsLaunchDateIfNotInPlan = (
       ...page,
       bottomComponents: page.bottomComponents?.map((comp) => ({
         ...comp,
-        launchDate: undefined,
+        visibleDate: undefined,
+        visible: true,
       })),
       middleComponents: page.middleComponents?.map((comp) => ({
         ...comp,
-        launchDate: undefined,
+        visibleDate: undefined,
+        visible: true,
       })),
       topComponents: page.topComponents?.map((comp) => ({
         ...comp,
-        launchDate: undefined,
+        visibleDate: undefined,
+        visible: true,
       })),
     };
 

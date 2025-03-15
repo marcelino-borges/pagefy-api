@@ -1,23 +1,5 @@
 import { Schema, model } from "mongoose";
 
-export interface IUserPage {
-  _id?: string;
-  userId: string;
-  name: string;
-  url: string;
-  pageImageUrl?: string;
-  isPublic: boolean;
-  views: number;
-  style?: IComponentStyle;
-  topComponents?: IUserComponent[];
-  middleComponents?: IUserComponent[];
-  bottomComponents?: IUserComponent[];
-  customScripts?: {
-    header?: string;
-    endBody?: string;
-  };
-}
-
 export interface IUserComponent {
   _id?: string;
   text?: string;
@@ -34,6 +16,24 @@ export interface IUserComponent {
   animation?: IComponentAnimation;
   progressValue?: number;
   counters?: ICounter[];
+}
+
+export interface IUserPage {
+  _id?: string;
+  userId: string;
+  name: string;
+  url: string;
+  pageImageUrl?: string;
+  isPublic: boolean;
+  views: number;
+  style?: IComponentStyle;
+  topComponents?: IUserComponent[];
+  middleComponents?: IUserComponent[];
+  bottomComponents?: IUserComponent[];
+  customScripts?: {
+    header?: string;
+    endBody?: string;
+  };
 }
 
 export interface IComponentAnimation {
@@ -168,4 +168,4 @@ const pageSchema = new Schema<IUserPage>(
   },
 );
 
-export default model<IUserPage>("Pages", pageSchema);
+export const pagesModel = model<IUserPage>("Pages", pageSchema);

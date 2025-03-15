@@ -56,11 +56,11 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
     const userSubscription = await getUserSubscription(userFound._id);
 
     const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription.stripeProductId,
+      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
     );
     req.userEmail = email;
     req.userAuthId = uid;
-    req.userId = userFound._id;
+    req.userId = String(userFound._id);
     req.userPlan = userPlan;
 
     next();

@@ -180,7 +180,7 @@ export const canUserCreatePage = async (req: Request, res: Response) => {
       description: 'Message of error'
     }
   */
-  const userId: string = req.query.userId as string;
+  const userId: string = req.params.userId as string;
   const userIdToken: string = req.userId as string;
 
   const isAuthorized = userId === userIdToken;
@@ -197,8 +197,10 @@ export const canUserCreatePage = async (req: Request, res: Response) => {
       );
   }
 
+  console.log("--- req.userPlan:", req.userPlan);
+
   try {
-    const pagesCountOk = await isUserPagesCountOk(userId);
+    const pagesCountOk = await isUserPagesCountOk(userId, req.userPlan);
 
     res.status(HttpStatusCode.Ok).json(pagesCountOk);
   } catch (e: any) {

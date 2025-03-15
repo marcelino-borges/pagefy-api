@@ -1,12 +1,11 @@
-import PagesDB, { IUserComponent } from "@/models/pages.models";
+import { IUserComponent, pagesModel } from "@/models/pages.models";
 import { IUserPage } from "@/models/pages.models";
 import { PlanFeatures } from "@/models/plans-features.models";
 
 import { deleteFile } from "./files.service";
-import { getUserPagesCount } from "./user.service";
 
 export const getPageById = async (pageId: string) => {
-  const found: IUserPage = await PagesDB.findOne({ _id: pageId }).lean();
+  const found: IUserPage = await pagesModel.findOne({ _id: pageId }).lean();
 
   if (!found) {
     return null;
@@ -19,14 +18,16 @@ export const getPageByUrl = async (
   url: string,
   shouldIncrementViews: boolean,
 ) => {
-  const found: IUserPage = await PagesDB.findOneAndUpdate(
-    { url },
-    {
-      $inc: {
-        views: shouldIncrementViews ? 1 : 0,
+  const found: IUserPage = await pagesModel
+    .findOneAndUpdate(
+      { url },
+      {
+        $inc: {
+          views: shouldIncrementViews ? 1 : 0,
+        },
       },
-    },
-  ).lean();
+    )
+    .lean();
 
   if (!found) {
     return null;
@@ -36,7 +37,7 @@ export const getPageByUrl = async (
 };
 
 export const getAllUserPagesByUserId = async (userId: string) => {
-  const found: IUserPage[] = await PagesDB.find({ userId: userId }).lean();
+  const found: IUserPage[] = await pagesModel.find({ userId: userId }).lean();
 
   if (!found) {
     return null;
@@ -46,14 +47,14 @@ export const getAllUserPagesByUserId = async (userId: string) => {
 };
 
 export const doesPageUrlExist = async (url: string) => {
-  const urlFound: any = await PagesDB.findOne({ url });
+  const urlFound: any = await pagesModel.findOne({ url });
 
   return !!urlFound;
 };
 
 export const createUserPage = async (page: IUserPage, userId: string) => {
   const created: IUserPage = (
-    await PagesDB.create({ ...page, userId })
+    await pagesModel.create({ ...page, userId })
   ).toObject();
 
   if (!created) {
@@ -64,11 +65,9 @@ export const createUserPage = async (page: IUserPage, userId: string) => {
 };
 
 export const updateUserPage = async (page: IUserPage) => {
-  const updated: IUserPage = await PagesDB.findOneAndUpdate(
-    { _id: page._id },
-    page,
-    { new: true },
-  ).lean();
+  const updated: IUserPage = await pagesModel
+    .findOneAndUpdate({ _id: page._id }, page, { new: true })
+    .lean();
 
   if (!updated) {
     return null;
@@ -78,7 +77,7 @@ export const updateUserPage = async (page: IUserPage) => {
 };
 
 export const deleteUserPage = async (pageId: string) => {
-  const pageFound = await PagesDB.findOne({ _id: pageId }).lean();
+  const pageFound = await pagesModel.findOne({ _id: pageId }).lean();
 
   if (pageFound) {
     if (pageFound.middleComponents && pageFound.middleComponents.length > 0) {
@@ -97,9 +96,10 @@ export const deleteUserPage = async (pageId: string) => {
       pageFound.middleComponents.forEach((component: IUserComponent) => {});
     }
 
-    return PagesDB.findOneAndDelete({
-      _id: pageId,
-    })
+    return pagesModel
+      .findOneAndDelete({
+        _id: pageId,
+      })
       .then(() => {
         return true;
       })
@@ -189,9 +189,19 @@ export const incrementComponentClicks = async (
 };
 
 export const deleteAllUserPages = async (userId: string): Promise<number> => {
-  const deletedCount = (await PagesDB.deleteMany({ userId })).deletedCount;
+  const deletedCount = (await pagesModel.deleteMany({ userId })).deletedCount;
 
   return deletedCount || 0;
+};
+
+export const getUserPagesCount = async (userId: string) => {
+  const count = await pagesModel
+    .find({
+      userId,
+    })
+    .count();
+
+  return count;
 };
 
 export const isUserPagesCountOk = async (
