@@ -371,22 +371,21 @@ export const createUser = async (req: Request, res: Response) => {
   const userEmail: string = req.userEmail as string;
   const userAuthId: string = req.userAuthId as string;
 
+  console.log("------------- user received: ", JSON.stringify(user));
   const isAuthorized = await isUserAuthorized(
     userEmail,
     userAuthId,
     user.authId,
   );
-  log.error(`[isUserAuthorized] isAuthorized: ${isAuthorized}`);
+
   if (!isAuthorized) {
-    return res
-      .status(401)
-      .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+    res.status(401).json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+    return;
   }
 
   if (!user) {
-    return res
-      .status(400)
-      .json(new AppResult(req.messages.USER_REQUIRED, null, 400));
+    res.status(400).json(new AppResult(req.messages.USER_REQUIRED, null, 400));
+    return;
   }
 
   if (
@@ -397,9 +396,8 @@ export const createUser = async (req: Request, res: Response) => {
     !user.lastName ||
     user.lastName.length < 1
   ) {
-    return res
-      .status(400)
-      .json(new AppResult(req.messages.USER_INVALID, null, 400));
+    res.status(400).json(new AppResult(req.messages.USER_INVALID, null, 400));
+    return;
   }
 
   try {
@@ -413,17 +411,19 @@ export const createUser = async (req: Request, res: Response) => {
       plan: defaultPlan,
     };
     const userCreated = await userService.createUser(userPlanOverride);
+    console.log("------------- userCreated: ", JSON.stringify(userCreated));
 
     if (!userCreated) {
-      return res
+      res
         .status(400)
         .json(new AppResult(req.messages.USER_CREATING, null, 400));
+      return;
     }
 
-    return res.status(200).json(userCreated);
+    res.status(200).json(userCreated);
   } catch (e: any) {
     log.error("[UserController.createUser] EXCEPTION: ", e);
-    return res
+    res
       .status(500)
       .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
@@ -466,30 +466,29 @@ export const updateUser = async (req: Request, res: Response) => {
     user.authId,
   );
   if (!isAuthorized) {
-    return res
-      .status(401)
-      .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+    res.status(401).json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+    return;
   }
 
   if (!user) {
-    return res
-      .status(400)
-      .json(new AppResult(req.messages.USER_REQUIRED, null, 400));
+    res.status(400).json(new AppResult(req.messages.USER_REQUIRED, null, 400));
+    return;
   }
 
   try {
     const userUpdated = await userService.updateUser(user);
 
     if (!userUpdated) {
-      return res
+      res
         .status(400)
         .json(new AppResult(req.messages.USER_UPDATING, null, 400));
+      return;
     }
 
-    return res.status(200).json(userUpdated);
+    res.status(200).json(userUpdated);
   } catch (e: any) {
     log.error("[UserController.updateUser] EXCEPTION: ", e);
-    return res
+    res
       .status(500)
       .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }
@@ -533,24 +532,26 @@ export const deleteUser = async (req: Request, res: Response) => {
   const userAuthId: string = req.userAuthId as string;
 
   if (!userId || !authId) {
-    return res
+    res
       .status(400)
       .json(new AppResult(req.messages.INVALID_REQUEST, null, 400));
+    return;
   }
 
   try {
     const isAuthorized = await isUserAuthorized(userEmail, userAuthId, authId);
 
     if (!isAuthorized) {
-      return res
-        .status(401)
-        .json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+      res.status(401).json(new AppResult(req.messages.UNAUTHORIZED, null, 401));
+      return;
     }
 
-    return await userService.deleteUser(req, res);
+    await userService.deleteUser(req, res);
+
+    res.status(200);
   } catch (e: any) {
     log.error("[UserController.deleteUser] EXCEPTION: ", e);
-    return res
+    res
       .status(500)
       .json(new AppResult(req.messages.INTERNAL_ERROR, e.message, 500));
   }

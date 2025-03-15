@@ -49,12 +49,7 @@ router.get(
   verifyToken,
   userController.getUser,
 );
-router.post(
-  "/user",
-  handleLocalizedMessages,
-  verifyToken,
-  userController.createUser,
-);
+router.post("/user", handleLocalizedMessages, userController.createUser);
 router.put(
   "/user",
   handleLocalizedMessages,
