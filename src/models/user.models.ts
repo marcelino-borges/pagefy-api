@@ -1,5 +1,14 @@
 import { Schema, model } from "mongoose";
 
+export interface UserOnboardings {
+  userPages?: boolean;
+  pageEditor?: {
+    general?: boolean;
+    createDialog?: boolean;
+    createButton?: boolean;
+  };
+}
+
 export interface IUser {
   _id?: string;
   authId?: string;
@@ -10,14 +19,7 @@ export interface IUser {
   email: string;
   agreePrivacy: boolean;
   receiveCommunications: boolean;
-  onboardings?: {
-    userPages?: boolean;
-    pageEditor?: {
-      general?: boolean;
-      createDialog?: boolean;
-      createButton?: boolean;
-    };
-  };
+  onboardings?: UserOnboardings;
 }
 
 const authSchema = new Schema<IUser>(

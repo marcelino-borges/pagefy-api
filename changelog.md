@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.22.0] - 2025-03-16
+
+- Feat: onboardings with specific endpoints
+
 ### [1.21.1] - 2025-03-16
 
 - Feat: user model with onboardings flags

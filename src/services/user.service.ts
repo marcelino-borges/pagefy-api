@@ -3,7 +3,7 @@ import { getAuth } from "firebase-admin/auth";
 import { Types } from "mongoose";
 
 import AppResult from "@/errors/app-error";
-import UserDB from "@/models/user.models";
+import UserDB, { UserOnboardings } from "@/models/user.models";
 import { IUser } from "@/models/user.models";
 
 import { deleteAllUserFiles } from "./files.service";
@@ -75,6 +75,23 @@ export const updateUserPaymentId = async (email: string, paymentId: string) => {
   let userUpdated = await UserDB.findOneAndUpdate(
     { email },
     { paymentId },
+    { new: true },
+  );
+
+  if (!userUpdated) {
+    return null;
+  }
+
+  return userUpdated;
+};
+
+export const updateOnboardingEvent = async (
+  onboardings: UserOnboardings,
+  userId: string,
+) => {
+  let userUpdated = await UserDB.findOneAndUpdate(
+    { id: userId },
+    { onboardings: onboardings },
     { new: true },
   );
 

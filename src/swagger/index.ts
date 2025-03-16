@@ -5,6 +5,7 @@ import {
   componentModel,
   errorModel,
   fileUploadFormDataModel,
+  onboardingFlagsModel,
   pageModel,
   styleModel,
   userModel,
@@ -32,6 +33,7 @@ export const runSwaggerAutogen = async (apiVersion: string) => {
       Style: styleModel,
       Component: componentModel,
       Testimonial: userTestimonialModel,
+      OnboardingsFlags: onboardingFlagsModel,
     },
     securityDefinitions: {
       bearerAuth: {

@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 import { ERROR_MESSAGES_EN } from "@/constants/messages/en";
 import AppResult from "@/errors/app-error";
-import { IUser } from "@/models/user.models";
+import { IUser, UserOnboardings } from "@/models/user.models";
 import { isUserPagesCountOk } from "@/services/pages.service";
 import * as userService from "@/services/user.service";
 import log from "@/utils/logs";
@@ -225,8 +225,6 @@ export const canUserCreatePage = async (req: Request, res: Response) => {
       );
   }
 
-  console.log("--- req.userPlan:", req.userPlan);
-
   try {
     const pagesCountOk = await isUserPagesCountOk(userId, req.userPlan);
 
@@ -280,7 +278,10 @@ export const getUserByEmailForSystem = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserPaymentId = async (req: Request, res: Response) => {
+export const updateUserPaymentIdForSystem = async (
+  req: Request,
+  res: Response,
+) => {
   const email: string = req.body.email as string;
   const paymentId: string = req.body.paymentId as string;
 
@@ -303,6 +304,79 @@ export const updateUserPaymentId = async (req: Request, res: Response) => {
     res.status(HttpStatusCode.Ok).json(userUpdated);
   } catch (e: any) {
     log.error("[UserController.updateUserPaymentId] EXCEPTION: ", e);
+    res
+      .status(HttpStatusCode.InternalServerError)
+      .json(
+        new AppResult(
+          req.messages.INTERNAL_ERROR,
+          e.message,
+          HttpStatusCode.InternalServerError,
+        ),
+      );
+  }
+};
+
+export const updateOnboardingEvent = async (req: Request, res: Response) => {
+  /* 
+    #swagger.tags = ['User']
+    #swagger.summary = 'Updates the onboarding flags on an User'
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+    #swagger.description  = 'Updates the onboarding flags on an User'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Flags representing each onboarding shown (or not) for the user',
+      required: true,
+      schema: { $ref: "#/definitions/OnboardingFlags" },
+    }
+    #swagger.responses[200] = {
+      description: 'true/false'
+    }
+    #swagger.responses[400] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+    #swagger.responses[500] = {
+      schema: { $ref: "#/definitions/Error" },
+      description: 'Message of error'
+    }
+  */
+  const onboardings = req.body as UserOnboardings;
+  const userId = req.userId;
+  const messages = req.messages;
+
+  if (!userId) {
+    res
+      .status(HttpStatusCode.Unauthorized)
+      .json(
+        new AppResult(messages.UNAUTHORIZED, null, HttpStatusCode.Unauthorized),
+      );
+    return;
+  }
+
+  try {
+    const userUpdated = await userService.updateOnboardingEvent(
+      onboardings,
+      userId,
+    );
+
+    if (!userUpdated) {
+      res
+        .status(HttpStatusCode.BadRequest)
+        .json(
+          new AppResult(
+            req.messages.USER_NOT_FOUND,
+            null,
+            HttpStatusCode.BadRequest,
+          ),
+        );
+      return;
+    }
+
+    res.status(HttpStatusCode.Ok).json(userUpdated);
+  } catch (e: any) {
+    log.error("[UserController.updateOnboardingEvent] EXCEPTION: ", e);
     res
       .status(HttpStatusCode.InternalServerError)
       .json(

@@ -87,3 +87,12 @@ export const userModel = {
   email: "example@email.com",
   profileImageUrl: "https://www.url.com",
 };
+
+export const onboardingFlagsModel = {
+  userPages: true,
+  pageEditor: {
+    general: true,
+    createDialog: true,
+    createButton: true,
+  },
+};

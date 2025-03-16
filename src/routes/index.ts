@@ -57,6 +57,12 @@ router.delete(
   verifyToken,
   userController.deleteUser,
 );
+router.patch(
+  "/user/onboardings",
+  handleLocalizedMessages,
+  verifyApiKey,
+  userController.updateOnboardingEvent,
+);
 
 // System routes
 router.get(
@@ -69,7 +75,7 @@ router.patch(
   "/system/user/payment-id",
   handleLocalizedMessages,
   verifyApiKey,
-  userController.updateUserPaymentId,
+  userController.updateUserPaymentIdForSystem,
 );
 
 /*

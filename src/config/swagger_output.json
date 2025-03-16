@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.21.1",
+    "version": "1.22.0",
     "title": "REST API",
     "description": ""
   },
@@ -334,6 +334,58 @@
         "responses": {
           "204": {
             "description": "User updated"
+          },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          },
+          "500": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "Message of error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/onboardings": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Updates the onboarding flags on an User",
+        "description": "Updates the onboarding flags on an User",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "py-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Flags representing each onboarding shown (or not) for the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OnboardingFlags"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "true/false"
           },
           "400": {
             "schema": {
@@ -2311,6 +2363,32 @@
         "updatedAt": {
           "type": "string",
           "example": "2022-11-02T20:26:06.397Z"
+        }
+      }
+    },
+    "OnboardingsFlags": {
+      "type": "object",
+      "properties": {
+        "userPages": {
+          "type": "boolean",
+          "example": true
+        },
+        "pageEditor": {
+          "type": "object",
+          "properties": {
+            "general": {
+              "type": "boolean",
+              "example": true
+            },
+            "createDialog": {
+              "type": "boolean",
+              "example": true
+            },
+            "createButton": {
+              "type": "boolean",
+              "example": true
+            }
+          }
         }
       }
     }
