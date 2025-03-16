@@ -10,13 +10,14 @@ export interface IUser {
   email: string;
   agreePrivacy: boolean;
   receiveCommunications: boolean;
-  plan: PlansTypes;
-}
-
-export enum PlansTypes {
-  FREE = 0,
-  VIP = 1,
-  PLATINUM = 2,
+  onboardings?: {
+    userPages?: boolean;
+    pageEditor?: {
+      general?: boolean;
+      createDialog?: boolean;
+      createButton?: boolean;
+    };
+  };
 }
 
 const authSchema = new Schema<IUser>(
@@ -29,7 +30,20 @@ const authSchema = new Schema<IUser>(
     profileImageUrl: { type: String },
     agreePrivacy: { type: Boolean, required: true },
     receiveCommunications: { type: Boolean, required: true },
-    plan: { type: Number, required: true },
+    onboardings: {
+      type: {
+        userPages: { type: Boolean, required: false, default: false },
+        pageEditor: {
+          type: {
+            general: { type: Boolean, required: false, default: false },
+            createDialog: { type: Boolean, required: false, default: false },
+            createButton: { type: Boolean, required: false, default: false },
+          },
+          required: false,
+        },
+      },
+      required: false,
+    },
   },
   {
     timestamps: true,

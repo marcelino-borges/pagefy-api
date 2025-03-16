@@ -16,6 +16,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Versions
 
+### [1.21.1] - 2025-03-16
+
+- Feat: user model with onboardings flags
+
 ### [1.21.1] - 2025-03-15
 
 - Fix: various fixes

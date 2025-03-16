@@ -64,91 +64,24 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/User"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         }
-      }
-    },
-    "/user/{userId}/plan": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "summary": "Gets an user",
-        "description": "Gets an user",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "description": "User ID"
-          },
-          {
-            "name": "lang",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "user",
-            "in": "body",
-            "description": "Updates an existing user in database",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          {
-            "name": "authId",
-            "in": "query",
-            "description": "Firebase Auth UID",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "$ref": "#/definitions/User"
-            },
-            "description": "User updated"
-          },
-          "204": {
-            "description": "User updated"
-          },
-          "400": {
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "description": "Message of error"
-          },
-          "500": {
-            "schema": {
-              "$ref": "#/definitions/Error"
-            },
-            "description": "Message of error"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
       }
     },
     "/user/{userId}/can-create-page": {
@@ -241,25 +174,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User data",
             "schema": {
               "$ref": "#/definitions/User"
-            }
+            },
+            "description": "User data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -281,11 +211,6 @@
             "type": "string"
           },
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "user",
             "in": "body",
             "description": "User to be created in database",
@@ -297,25 +222,22 @@
         ],
         "responses": {
           "200": {
-            "description": "New user data",
             "schema": {
               "$ref": "#/definitions/User"
-            }
+            },
+            "description": "New user data"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -353,25 +275,22 @@
         ],
         "responses": {
           "200": {
-            "description": "User updated",
             "schema": {
               "$ref": "#/definitions/User"
-            }
+            },
+            "description": "User updated"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [
@@ -417,19 +336,16 @@
             "description": "User updated"
           },
           "400": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
+            },
+            "description": "Message of error"
           },
           "500": {
-            "description": "Message of error",
             "schema": {
               "$ref": "#/definitions/Error"
-            }
+            },
+            "description": "Message of error"
           }
         },
         "security": [

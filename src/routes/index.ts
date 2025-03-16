@@ -30,11 +30,6 @@ router.get(
   handleLocalizedMessages,
   userController.doesUserExist,
 );
-router.get(
-  "/user/:userId/plan",
-  handleLocalizedMessages,
-  userController.getUserPlan,
-);
 
 // Private routes
 router.get(
