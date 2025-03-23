@@ -6,7 +6,6 @@ import { AppSuccessMessages, STORAGE_BUCKETS } from "@/constants";
 import AppResult from "@/errors/app-error";
 import { IImageDetails } from "@/models/files.models";
 import { getUserById } from "@/services/user.service";
-import { CustomRequest } from "@/types/express-request";
 import { getImageThumbnail } from "@/utils";
 import log from "@/utils/logs";
 
@@ -44,6 +43,8 @@ export const uploadFileToStorage = async (req: Request, res: Response) => {
   const stream = fileToSave.createWriteStream({
     metadata: {
       contentType: image.mimetype,
+      authId: userFound.authId,
+      userid: userFound._id,
     },
   });
 
@@ -205,13 +206,13 @@ export const getAllImagesOnBucket = async (
       file &&
       file.name &&
       (file.name as string).length > 0 &&
-      file.name.length > bucket.length // Preventing an case that GCloud returned an empty file
+      file.name.length > bucket.length // Preventing a case that GCloud returned an empty file
     ) {
       let originalUrl = "";
       let thumbnailUrl = "";
 
       if (!(file.name as string).includes("_200x200")) {
-        originalUrl = `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${file.name}`;
+        originalUrl = `${STORAGE_BUCKETS.baseUrl}/${STORAGE_BUCKETS.appProject}/${encodeURIComponent(file.name)}`;
         thumbnailUrl = getImageThumbnail(originalUrl, 200);
       }
 
