@@ -14,6 +14,7 @@ declare global {
         firebaseUrl?: string;
       };
       messages: typeof ERROR_MESSAGES_EN;
+      token?: string;
     }
   }
 }

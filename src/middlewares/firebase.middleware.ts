@@ -3,10 +3,7 @@ import { Request, Response } from "express";
 import { DecodedIdToken, getAuth } from "firebase-admin/auth";
 
 import AppResult from "@/errors/app-error";
-import {
-  getPlansFeatures,
-  getUserSubscription,
-} from "@/services/payments.service";
+import { getUserActiveSubscription } from "@/services/payments.service";
 import { getUserByAuthId } from "@/services/user.service";
 import log from "@/utils/logs";
 
@@ -32,13 +29,7 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
 
     const { uid, email } = decodedToken;
 
-    const userPromise = getUserByAuthId(uid);
-    const plansFeaturesPromise = getPlansFeatures();
-
-    const [userFound, plansFeatures] = await Promise.all([
-      userPromise,
-      plansFeaturesPromise,
-    ]);
+    const userFound = await getUserByAuthId(uid);
 
     if (!userFound?._id) {
       res
@@ -53,15 +44,16 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
       return;
     }
 
-    const userSubscription = await getUserSubscription(userFound._id);
-
-    const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
+    const userSubscription = await getUserActiveSubscription(
+      userFound._id,
+      token,
     );
+
     req.userEmail = email;
     req.userAuthId = uid;
     req.userId = String(userFound._id);
-    req.userPlan = userPlan;
+    req.userPlan = userSubscription?.features;
+    req.token = token;
 
     next();
   } catch (error) {

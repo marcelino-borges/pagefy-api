@@ -8,7 +8,7 @@ import * as pagesService from "@/services/pages.service";
 import { doesPageUrlExist, isUserPagesCountOk } from "@/services/pages.service";
 import {
   getPlansFeatures,
-  getUserSubscription,
+  getUserActiveSubscription,
 } from "@/services/payments.service";
 import log from "@/utils/logs";
 import {
@@ -182,6 +182,19 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
   */
   const url: string = req.params.url;
 
+  if (!req.token) {
+    res
+      .status(HttpStatusCode.Unauthorized)
+      .json(
+        new AppResult(
+          req.messages.UNAUTHORIZED,
+          null,
+          HttpStatusCode.Unauthorized,
+        ),
+      );
+    return;
+  }
+
   if (!url) {
     res
       .status(HttpStatusCode.BadRequest)
@@ -216,11 +229,12 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
         );
     }
 
-    const userSubscription = await getUserSubscription(pageFound.userId);
-
-    const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
+    const userSubscription = await getUserActiveSubscription(
+      pageFound.userId,
+      req.token,
     );
+
+    const userPlan = userSubscription?.features;
 
     const shouldIncrementViews = hasAnalyticsInPlan(userPlan);
 
@@ -701,6 +715,19 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
   const pageId: string = req.body.pageId;
   const componentId: string = req.body.componentId;
 
+  if (!req.token) {
+    res
+      .status(HttpStatusCode.Unauthorized)
+      .json(
+        new AppResult(
+          req.messages.UNAUTHORIZED,
+          null,
+          HttpStatusCode.Unauthorized,
+        ),
+      );
+    return;
+  }
+
   if (!pageId || !componentId) {
     res
       .status(HttpStatusCode.BadRequest)
@@ -736,13 +763,12 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
       return;
     }
 
-    const userSubscription = await getUserSubscription(page.userId);
-
-    const userPlan = plansFeatures.find(
-      (plan) => plan.stripeProductId === userSubscription?.stripeProductId,
+    const userSubscription = await getUserActiveSubscription(
+      page.userId,
+      req.token,
     );
 
-    if (!hasAnalyticsInPlan(userPlan)) {
+    if (!hasAnalyticsInPlan(userSubscription?.features)) {
       res
         .status(HttpStatusCode.Forbidden)
         .json(
