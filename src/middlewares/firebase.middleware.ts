@@ -47,6 +47,7 @@ export const verifyToken = async (req: Request, res: Response, next: any) => {
     const userSubscription = await getUserActiveSubscription(
       userFound._id,
       token,
+      uid,
     );
 
     req.userEmail = email;

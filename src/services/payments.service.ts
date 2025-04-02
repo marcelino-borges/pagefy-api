@@ -20,11 +20,13 @@ export const getPlansFeatures = async () => {
 export const getUserActiveSubscription = async (
   userId: string,
   accessToken: string,
+  uid: string,
 ) => {
   try {
     const res = await paymentsApi.get(`/subscription/active/user/${userId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        authId: uid,
       },
     });
 
