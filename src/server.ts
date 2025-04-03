@@ -3,7 +3,6 @@ import dotenvSafe from "dotenv-safe";
 import express from "express";
 import firebaseAdmin from "firebase-admin";
 import helmet from "helmet";
-import "newrelic";
 import swaggerUi from "swagger-ui-express";
 
 import swaggerFile from "../swagger_output.json";

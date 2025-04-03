@@ -17,18 +17,16 @@ export const getPlansFeatures = async () => {
   }
 };
 
-export const getUserActiveSubscription = async (
-  userId: string,
-  accessToken: string,
-  uid: string,
-) => {
+export const getUserActiveSubscription = async (userId: string) => {
   try {
-    const res = await paymentsApi.get(`/subscription/active/user/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        authId: uid,
+    const res = await paymentsApi.get(
+      `/system/subscription/active/user/${userId}`,
+      {
+        headers: {
+          "py-api-key": process.env.PAYMENTS_API_KEY,
+        },
       },
-    });
+    );
 
     return res.data as UserSubAndFeatures;
   } catch (error) {
