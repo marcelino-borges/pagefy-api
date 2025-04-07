@@ -36,22 +36,22 @@ pagesRouter.delete(
 // PUBLIC
 
 pagesRouter.get(
-  "/page/id/:pageId",
+  "/id/:pageId",
   handleLocalizedMessages,
   pageController.getPageById,
 );
 pagesRouter.get(
-  "/page/url/:url",
+  "/url/:url",
   handleLocalizedMessages,
   pageController.getPageByUrl,
 );
 pagesRouter.get(
-  "/page/url/renderer/:url",
+  "/url/renderer/:url",
   handleLocalizedMessages,
   pageController.getRendererPageByUrl,
 );
 pagesRouter.post(
-  "/page/component-clicks",
+  "/component-clicks",
   handleLocalizedMessages,
   pageController.incrementComponentClicks,
 );
