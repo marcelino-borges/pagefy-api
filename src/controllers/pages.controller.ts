@@ -182,19 +182,6 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
   */
   const url: string = req.params.url;
 
-  if (!req.token) {
-    res
-      .status(HttpStatusCode.Unauthorized)
-      .json(
-        new AppResult(
-          req.messages.UNAUTHORIZED,
-          null,
-          HttpStatusCode.Unauthorized,
-        ),
-      );
-    return;
-  }
-
   if (!url) {
     res
       .status(HttpStatusCode.BadRequest)
@@ -229,10 +216,7 @@ export const getRendererPageByUrl = async (req: Request, res: Response) => {
         );
     }
 
-    const userSubscription = await getUserActiveSubscription(
-      pageFound.userId,
-      req.token,
-    );
+    const userSubscription = await getUserActiveSubscription(pageFound.userId);
 
     const userPlan = userSubscription?.features;
 
@@ -715,19 +699,6 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
   const pageId: string = req.body.pageId;
   const componentId: string = req.body.componentId;
 
-  if (!req.token) {
-    res
-      .status(HttpStatusCode.Unauthorized)
-      .json(
-        new AppResult(
-          req.messages.UNAUTHORIZED,
-          null,
-          HttpStatusCode.Unauthorized,
-        ),
-      );
-    return;
-  }
-
   if (!pageId || !componentId) {
     res
       .status(HttpStatusCode.BadRequest)
@@ -763,10 +734,7 @@ export const incrementComponentClicks = async (req: Request, res: Response) => {
       return;
     }
 
-    const userSubscription = await getUserActiveSubscription(
-      page.userId,
-      req.token,
-    );
+    const userSubscription = await getUserActiveSubscription(page.userId);
 
     if (!hasAnalyticsInPlan(userSubscription?.features)) {
       res
